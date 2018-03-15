@@ -80,7 +80,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Data modules
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.use_data_netmgrd=true \
-    persist.data.netmgrd.qos.enable=true \
     persist.vendor.data.mode=concurrent
 
 # Default pd_enable value
@@ -188,18 +187,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.radio.NETWORK_SWITCH=1 \
     persist.vendor.radio.add_power_save=1 \
     persist.sys.fflag.override.settings_network_and_internet_v2=true
-
-# RmNet Data
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.rmnet.data.enable=true \
-    persist.data.wda.enable=true \
-    persist.data.df.dl_mode=5 \
-    persist.data.df.ul_mode=5 \
-    persist.data.df.agg.dl_pkt=10 \
-    persist.data.df.agg.dl_size=4096 \
-    persist.data.df.mux_count=8 \
-    persist.data.df.iwlan_mux=9 \
-    persist.data.df.dev_name=rmnet_usb0
 
 # Sensors
 PRODUCT_PROPERTY_OVERRIDES += \
