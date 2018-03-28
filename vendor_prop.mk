@@ -77,10 +77,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Data modules
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.use_data_netmgrd=true \
     ro.vendor.use_data_netmgrd=true \
     persist.data.netmgrd.qos.enable=true \
-    persist.data.mode=concurrent
+    persist.vendor.data.mode=concurrent
 
 # Default pd_enable value
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -175,7 +174,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.baseband.arch=msm \
     ro.telephony.call_ring.multiple=false \
     ro.ril.telephony.mqanelements=5 \
-    persist.radio.apm_sim_not_pwdn=0 \
+    persist.vendor.radio.apm_sim_not_pwdn=0 \
     persist.vendor.radio.apm_mdm_not_pwdn=1 \
     persist.vendor.radio.cs_srv_type=1 \
     persist.vendor.radio.snapshot_timer=0 \
