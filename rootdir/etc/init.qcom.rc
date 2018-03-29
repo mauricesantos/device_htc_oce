@@ -648,6 +648,15 @@ service ppd /vendor/bin/mm-pp-dpps
     writepid /dev/cpuset/foreground/tasks
     disabled
 
+on property:init.svc.vendor.hwcomposer-2-1=stopped
+    stop ppd
+
+on property:init.svc.vendor.hwcomposer-2-1=running
+    start ppd
+
+on property:init.svc.vendor.hwcomposer-2-1=restarting
+    stop ppd
+
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
     class main
     user camera
