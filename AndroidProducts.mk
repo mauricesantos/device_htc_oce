@@ -16,3 +16,8 @@
 
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/aicp_oce.mk
+
+COMMON_LUNCH_CHOICES := \
+    aicp_oce-user \
+    aicp_oce-userdebug \
+    aicp_oce-eng
