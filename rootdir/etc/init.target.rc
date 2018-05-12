@@ -53,8 +53,13 @@ on early-init
     write /proc/sys/vm/page-cluster 0
 
 on init
+    # QSEE rpmb listener need symlink for bootdevice
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+
+    # Start qseecomd early as we mount /system early
+    # vold needs keymaster which needs qseecomd
+    start qseecomd
 
 on early-boot
     # SSR setup
