@@ -837,7 +837,6 @@ vendor/lib64/libconnctrl.so
 vendor/lib64/libQtiTether.so
 
 # Perf - from op3 - PKQ1.181203.001
-vendor/bin/energy-awareness|3f1aa4d518ff361aa3ed9e41ace3e16d36cf0bbe
 vendor/bin/hw/vendor.qti.hardware.perf@1.0-service|7a38f7ef085ddb1a5cd8731e9d2fc1540c3e85ad
 vendor/etc/init/vendor.qti.hardware.perf@1.0-service.rc|b50182aadab2e31409df61c523d0fb914a394e43
 vendor/etc/perf/commonresourceconfigs.xml|73fc37a6fa498a98758b5a91ebacb87ef0ffdcdf
