@@ -290,7 +290,6 @@ PRODUCT_PACKAGES += \
     init.qcom.sh \
     init.htc.fp.sh \
     init.qcom.early_boot.sh \
-    init.qcom.post_boot.sh \
     init.recovery.qcom.rc \
     init.target.rc \
     init.oce.rc \
