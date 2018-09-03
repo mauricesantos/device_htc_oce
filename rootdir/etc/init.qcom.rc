@@ -553,12 +553,6 @@ service ssr_setup /system/vendor/bin/ssr_setup
     oneshot
     disabled
 
-service qcom-post-boot /system/vendor/bin/init.qcom.post_boot.sh
-    class late_start
-    user root
-    disabled
-    oneshot
-
 service vendor.tftp_server /system/vendor/bin/tftp_server
     class core
     user root
