@@ -42,7 +42,6 @@ on fs
     restorecon_recursive /mnt/vendor/persist
 
 on early-init
-    symlink /data/tombstones /tombstones
     mkdir /dev/radio 0770 radio radio
     chown system system /firmware/image
 
