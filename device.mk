@@ -470,7 +470,9 @@ PRODUCT_PACKAGES += \
     qti_telephony_hidl_wrapper.xml \
     libshim_ims \
     RcsService \
-    PresencePolling
+    PresencePolling \
+    qti-telephony-utils \
+    qti_telephony_utils.xml
 
 #PRODUCT_BOOT_JARS += \
 #    telephony-ext
