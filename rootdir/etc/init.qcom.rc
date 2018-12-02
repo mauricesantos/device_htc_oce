@@ -50,6 +50,8 @@ on early-init
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules msm_11ad_proxy
 
 on init
+    mount none /system/etc/audio_effects.xml /vendor/etc/audio_effects.xml bind
+    mount none /system/lib/soundfx/libjamesdsp.so /vendor/lib/soundfx/libjamesdsp.so bind
 
     # Create cgroup mount point for memory
     mkdir /sys/fs/cgroup/memory/bg 0750 root system
