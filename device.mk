@@ -279,6 +279,7 @@ PRODUCT_PACKAGES += \
     charger.fstab.qcom \
     fstab.qcom \
     init.qcom.rc \
+    init.jamesdsp.sh \
     init.qcom.power.rc \
     init.qcom.usb.rc \
     init.htc_multisim.rc \

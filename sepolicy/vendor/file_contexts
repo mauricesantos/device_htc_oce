@@ -7,9 +7,6 @@
 # CMHW
 /sys/devices/virtual/timed_output/vibrator/voltage_level u:object_r:vibeamp_sysfs:s0
 
-# Custom Equilizer (JamesDSP)
-/system/lib/soundfx/libjamesdsp\.so    u:object_r:vendor_file:s0 
-
 # Encryption
 /dev/block/bootdevice/by-name/extra         u:object_r:metadata_block_device:s0
 /dev/block/platform/soc/624000\.ufshc/by-name/extra u:object_r:metadata_block_device:s0
