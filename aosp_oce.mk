@@ -21,12 +21,12 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_n.mk)
 
-# Inherit some common RR stuff.
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+# Inherit some common AospExtended stuff.
+$(call inherit-product, vendor/aosp/common.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := oce
-PRODUCT_NAME := lineage_oce
+PRODUCT_NAME := aosp_oce
 PRODUCT_BRAND := htc
 PRODUCT_MODEL := U Ultra
 PRODUCT_MANUFACTURER := HTC
