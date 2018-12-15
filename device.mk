@@ -242,7 +242,6 @@ PRODUCT_PACKAGES += \
     android.hardware.gnss@1.0-service-qti \
     libcurl \
     libgnss \
-    libloc_pla \
     libgnsspps
 
 PRODUCT_COPY_FILES += \
