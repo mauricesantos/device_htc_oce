@@ -1,6 +1,6 @@
 #! /vendor/bin/sh
 
-# Copyright (c) 2012-2013,2016 The Linux Foundation. All rights reserved.
+# Copyright (c) 2012-2013,2016,2018 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -386,15 +386,10 @@ fi
 
 boot_reason=`cat /proc/sys/kernel/boot_reason`
 reboot_reason=`getprop ro.boot.alarmboot`
-power_off_alarm_file=`cat /persist/alarm/powerOffAlarmSet`
 if [ "$boot_reason" = "3" ] || [ "$reboot_reason" = "true" ]; then
-    if [ "$power_off_alarm_file" = "1" ]
-    then
-        setprop ro.alarm_boot true
-        setprop debug.sf.nobootanimation 1
-    fi
+    setprop ro.vendor.alarm_boot true
 else
-    setprop ro.alarm_boot false
+    setprop ro.vendor.alarm_boot false
 fi
 
 # copy GPU frequencies to system property
