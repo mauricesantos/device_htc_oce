@@ -1885,4 +1885,52 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <item value="3,11,9,10,15" />
         </string-array>
     </carrier_config>
+
+    <carrier_config mcc="404" mnc="02">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+    
+    <carrier_config mcc="404" mnc="03">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+    
+    <carrier_config mcc="404" mnc="10">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+    
+    <carrier_config mcc="404" mnc="16">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+    
+    <carrier_config mcc="404" mnc="61">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+
+    <carrier_config mcc="404" mnc="70">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+    
+    <carrier_config mcc="404" mnc="94">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+
+    <carrier_config mcc="404" mnc="95">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+
+    <carrier_config mcc="404" mnc="96">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+
+    <carrier_config mcc="404" mnc="97">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+
+    <carrier_config mcc="404" mnc="98">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
+
+    <carrier_config mcc="405" mnc="51,52,53,54,55,56">
+        <boolean name="carrier_volte_available_bool" value="true" />
+    </carrier_config>
 </carrier_config_list>
