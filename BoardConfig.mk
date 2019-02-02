@@ -41,6 +41,7 @@ TARGET_2ND_CPU_VARIANT := kryo
 
 TARGET_USES_64_BIT_BINDER := true
 BUILD_BROKEN_DUP_RULES := true
+BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 
 # Use Snapdragon LLVM, if available
 TARGET_USE_SDCLANG := true
@@ -56,7 +57,8 @@ TARGET_NO_BOOTLOADER := true
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
-BOARD_KERNEL_CMDLINE := user_debug=31 ehci-hcd.park=3 cma=32M@0-0xffffffff androidboot.hardware=qcom loop.max_part=7 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 user_debug=31 ehci-hcd.park=3 cma=32M@0-0xffffffff printk.devkmsg=on androidboot.hardware=qcom androidkey.dummy=1 loop.max_part=7 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE += skip_initramfs rootwait ro init=/init root=/dev/dm-0 dm=\"system none ro,0 1 android-verity /dev/sda15\"
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
