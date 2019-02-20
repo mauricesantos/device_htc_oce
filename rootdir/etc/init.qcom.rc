@@ -513,6 +513,9 @@ on property:persist.sys.pd_enable=0
 on property:vendor.ims.QMI_DAEMON_STATUS=1
     start vendor.imsdatadaemon
 
+on property:vold.decrypt=trigger_restart_framework
+    restart vendor.camera-provider-2-4
+
 service vendor.ims_rtp_daemon /vendor/bin/ims_rtp_daemon
     class main
     user system
