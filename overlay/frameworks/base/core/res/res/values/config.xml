@@ -426,5 +426,8 @@
     <string-array name="config_deviceKeyHandlerClasses" translatable="false">
         <item>org.lineageos.settings.device.KeyHandler</item>
     </string-array>
-    
+
+    <!-- Audio panel view placement. Is left side enabled -->
+    <bool name="config_audioPanelOnLeftSide">true</bool>
+
 </resources>
