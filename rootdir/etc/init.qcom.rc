@@ -507,12 +507,6 @@ service charger /sbin/charger
     group system graphics input
     writepid /dev/cpuset/system-background/tasks
 
-service vendor.cnd /vendor/bin/cnd
-    class main
-    user system
-    group system wifi inet radio wakelock net_admin
-    writepid /dev/cpuset/system-background/tasks
-    
 service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
     class main
     user root
@@ -571,12 +565,7 @@ service vendor.imsrcsservice /vendor/bin/imsrcsd
 on property:vendor.ims.DATA_DAEMON_STATUS=1
     restart vendor.ims_rtp_daemon
 
-service dpmQmiMgr /vendor/bin/dpmQmiMgr
-    class main
-    user system
-    group radio system
-
-service irsc_util /vendor/bin/irsc_util "/system/vendor/etc/sec_config"
+service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class core
     user root
     oneshot
