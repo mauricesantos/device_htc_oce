@@ -104,6 +104,10 @@ on boot
     write /sys/class/android_usb/android0/f_ffs/aliases adb
     setprop vendor.usb.controller ${sys.usb.controller}
 
+on fs
+    setprop persist.adb.nonblocking_ffs 0
+    setprop ro.adb.nonblocking_ffs 0
+
 on load_persist_props_action
     enable vendor.qcom-usb-sh
 
