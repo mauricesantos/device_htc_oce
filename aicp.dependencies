@@ -1,0 +1,12 @@
+[
+  {
+    "repository": "Siluxsept/android_kernel_htc_oce",
+    "target_path":"kernel/htc/oce",
+    "branch":     "p9.0"
+  },
+  {
+    "repository": "Siluxsept/proprietary_vendor_htc",
+    "target_path":"vendor/htc",
+    "branch":     "p9.0"
+  },
+]
