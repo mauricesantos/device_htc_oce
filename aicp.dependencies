@@ -9,4 +9,9 @@
     "target_path":"vendor/htc",
     "branch":     "p9.0"
   },
+  {
+    "repository": "LineageOS/android_packages_resources_devicesettings",
+    "target_path": "packages/resources/devicesettings",
+    "branch":      "lineage-16.0"
+  }
 ]
