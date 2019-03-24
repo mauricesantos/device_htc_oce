@@ -37,3 +37,7 @@ $(call inherit-product-if-exists, vendor/htc/oce/oce-vendor.mk)
 
 # Device Fingerprint
 BUILD_FINGERPRINT := htc/ocedugl_00400/htc_ocedugl:8.0.0/OPR1.170623.032/1026541.1:user/release-keys
+
+# AICP Device Maintainers
+PRODUCT_BUILD_PROP_OVERRIDES += \
+DEVICE_MAINTAINERS="Ron H. (Siluxsept)"
