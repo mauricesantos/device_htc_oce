@@ -183,7 +183,7 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-service \
     com.qualcomm.qti.camera \
     libmm-qcamera \
-    Snap \
+    SnapdragonCamera \
     libshim_camera \
     libshim_stillmore \
     libion
