@@ -1,12 +1,4 @@
 allow mm-qcamerad default_prop:property_service set;
+allow mm-qcamerad sysfs:file { getattr open read };
+allow mm-qcamerad vfat:dir { search };
 allow mm-qcamerad fwk_sensor_hwservice:hwservice_manager find;
-allow mm-qcamerad sysfs_graphics:dir search;
-
-# For text relocations in /system/vendor/lib/libmmcamera_faceproc.so
-allow mm-qcamerad vendor_file:file execmod;
-allow mm-qcamerad sysfs_camera:dir { search };
-allow mm-qcamerad sysfs_camera:file { open read write };
-allow mm-qcamerad sysfs_camera:lnk_file read;
-
-typeattribute mm-qcamerad binder_in_vendor_violators;
-binder_use(mm-qcamerad);

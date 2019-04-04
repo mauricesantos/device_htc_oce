@@ -1,5 +1,0 @@
-allow toolbox init:fifo_file { getattr write };
-allow toolbox init:unix_stream_socket connectto;
-allow toolbox proc_meminfo:file { open read };
-allow toolbox property_socket:sock_file write;
-allow toolbox system_prop:property_service set; 

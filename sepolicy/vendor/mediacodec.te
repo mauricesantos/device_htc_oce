@@ -1,4 +1,1 @@
-allow mediacodec system_data_file:sock_file write; 
-allow mediacodec init:unix_stream_socket connectto;
-allow mediacodec mpctl_socket:dir search;
-allow mediacodec mpctl_socket:sock_file write;
+allow mediacodec system_data_file:sock_file write;

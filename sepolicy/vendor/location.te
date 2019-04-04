@@ -1,3 +1,2 @@
 allow location sysfs:file { open read };
-allow location self:capability { net_raw };
-set_prop(location, diag_prop)
+allow location wifi_prop:file { getattr open read };

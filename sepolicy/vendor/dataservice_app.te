@@ -1,2 +1,1 @@
-allow dataservice_app runtime_event_log_tags_file:file { open read };
-allow dataservice_app hal_dataservice_hwservice:hwservice_manager find;
+allow dataservice_app default_android_hwservice:hwservice_manager find;

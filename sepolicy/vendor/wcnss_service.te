@@ -1,3 +1,0 @@
-allow wcnss_service wifi_data_file:dir create_dir_perms;
-allow wcnss_service wifi_data_file:file create_file_perms;
-allow wcnss_service self:capability { setgid setuid };

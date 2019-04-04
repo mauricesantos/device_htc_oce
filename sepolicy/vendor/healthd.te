@@ -1,9 +1,1 @@
-allow healthd sysfs:file { r_file_perms }; 
-allow healthd device:dir { r_dir_perms };
-allow healthd proc_stat:file { getattr open read };
-allow healthd properties_device:dir { open read };
-allow healthd sysfs_leds:file { open read write };
-allow healthd sysfs_leds:lnk_file { read };
-allow healthd vendor_charger_exec:file { entrypoint read };
-
-dontaudit healthd self:capability net_admin;
+allow healthd sysfs:file { getattr open read };

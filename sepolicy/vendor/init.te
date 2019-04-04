@@ -1,52 +1,15 @@
-allow init adbd:process noatsecure;
-allow init servicemanager:binder { call };
-allow init proc:file { r_file_perms };
-allow init proc:lnk_file { setattr };
-allow init proc_touchpanel:dir { rw_dir_perms setattr };
-allow init vendor_file:file execute_no_trans;
-allow init system_data_file:lnk_file r_file_perms;
 allow init hwservicemanager:binder { call transfer };
+allow init hal_light_hwservice:hwservice_manager add;
 allow init hal_power_hwservice:hwservice_manager add;
-allow init functionfs:dir mounton;
-allow init property_socket:sock_file write;
-allow init sysfs:dir { r_dir_perms write };
-allow init sysfs:file { r_file_perms write };
-allow init sysfs_devices_system_cpu:file write;
-allow init sysfs_graphics:file write;
-allow init sysfs_graphics:lnk_file { r_file_perms };
-allow init sysfs_leds:file { r_file_perms };
-allow init sysfs_leds:lnk_file { r_file_perms };
-allow init sysfs_msm_power:file { open write };
-allow init sysfs_kgsl:lnk_file read;
+allow init hal_thermal_hwservice:hwservice_manager add;
 allow init hidl_base_hwservice:hwservice_manager add;
-allow init device_latency:chr_file { open write };
-allow init kernel:system module_request;
+allow init proc:file setattr;
+allow init property_socket:sock_file write;
 allow init shell_exec:file execute_no_trans;
-allow init vendor_charger_exec:file { rx_file_perms };
+allow init sysfs_devfreq:file { open read };
+allow init sysfs:file { open setattr write };
+allow init sysfs_graphics:file { open write };
+allow init sysfs_kgsl:file { open read };
+allow init system_data_file:file append;
+allow init vendor_file:file execute_no_trans;
 allow init vendor_toolbox_exec:file execute_no_trans;
-allow init device:chr_file getattr;
-allow init devinfo_block_device:blk_file { r_file_perms };
-allow init diag_device:chr_file getattr;
-allow init fingerprint_device:chr_file { setattr };
-allow init hal_graphics_composer_default:process signull;
-allow init mediacodec:process signull;
-allow init system_data_file:chr_file getattr;
-allow init system_data_file:sock_file write;
-
-allow init firmware_file:blk_file read;
-allow init fpc_data_file:dir create;
-allow init proc_dirty_ratio:file write;
-allow init ipa_dev:chr_file { ioctl open read };
-allow init proc_kernel_sched:file write;
-allow init self:netlink_route_socket { create nlmsg_read read write };
-allow init sysfs_scheduler:file { open setattr write };
-allow init sysfs_leds:lnk_file read;
-allow init sysfs_graphics:file setattr;
-
-# Allow init to chown/chmod on pseudo files in /sys
-allow init sysfs_type:file { open read write setattr };
-
-allow init { netd domain tzdatacheck vendor_init ueventd tee fsck lmkd crash_dump }:process noatsecure;
-
-dontaudit init kernel:system module_request;
-

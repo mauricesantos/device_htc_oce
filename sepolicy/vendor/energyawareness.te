@@ -1,3 +1,0 @@
-r_dir_file(energyawareness, sysfs)
-allow energyawareness sysfs_nv:dir { open read search };
-allow energyawareness sysfs_nv:file { getattr open read };

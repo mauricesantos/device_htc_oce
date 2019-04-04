@@ -1,6 +1,2 @@
-allow sensors init:unix_stream_socket { connectto };
-allow sensors proc_cmdline:file { r_file_perms };
-allow sensors self:capability net_raw;
-
-set_prop(sensors, diag_prop)
-set_prop(sensors, debug_prop)
+allow sensors self:capability dac_override;
+allow sensors sysfs:file { open read };
