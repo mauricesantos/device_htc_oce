@@ -4,3 +4,28 @@ allow system_app sysfs:file { getattr open read write };
 allow system_app sysfs_zram:dir search;
 allow system_app sysfs_zram:file { getattr open read };
 allow system_app vendor_camera_prop:file { getattr open read };
+
+unix_socket_connect(system_app, cnd, cnd)
+allow system_app time:unix_stream_socket connectto;
+allow system_app oem_qmi_server:unix_stream_socket connectto;
+
+set_prop(system_app, ctl_ppd_prop)
+
+allow system_app atfwd_service:service_manager add;
+allow system_app cne_service:service_manager add;
+
+# allow CNEService to write /data/connectivity
+allow system_app cnd_data_file:dir w_dir_perms;
+# allow CNEService to create profile.txt
+allow system_app cnd_data_file:file create_file_perms;
+
+allow system_app sysfs_zram:dir r_dir_perms;
+allow system_app sysfs_zram:file r_file_perms;
+allow system_app proc_pagetypeinfo:file r_file_perms;
+
+allow system_app perfprofd:binder { transfer };
+allow system_app wificond:binder { call transfer }; 
+allow system_app sysfs_leds:dir search;
+allow system_app sysfs_vibrator:dir search;
+allow system_app sysfs_leds:file { open getattr write };
+allow system_app sysfs_vibrator:file { getattr open write };

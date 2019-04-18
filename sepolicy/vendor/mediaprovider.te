@@ -1,0 +1,1 @@
+allow mediaprovider boottime_prop:file read;

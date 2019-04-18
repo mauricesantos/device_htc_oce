@@ -17,3 +17,12 @@ allow priv_app system_app_data_file:dir getattr;
 allow priv_app unlabeled:dir getattr;
 allow priv_app vndservice_contexts_file:file getattr;
 allow priv_app wifi_prop:file { getattr open };
+
+allow priv_app boottime_prop:file read;
+allow priv_app device:dir { open read };
+allow priv_app device_logging_prop:file read;
+allow priv_app proc:file { getattr open read };
+allow priv_app proc_modules:file { getattr open read };
+allow priv_app sysfs:{ dir file } { read open };
+allow priv_app otapreopt_slot_exec:file getattr;
+allow priv_app postinstall_file:filesystem getattr;

@@ -1,0 +1,2 @@
+allow postinstall otapreopt_chroot:process noatsecure;
+allow postinstall rootfs:dir { read write open getattr setattr };

@@ -1,0 +1,5 @@
+allow bluetooth vendor_file:file { open read execute getattr };
+allow bluetooth boottime_prop:file read;
+allow bluetooth ctl_bootanim_prop:file read;
+allow bluetooth ctl_fuse_prop:file read;
+
