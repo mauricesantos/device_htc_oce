@@ -12,3 +12,14 @@ r_dir_file(platform_app, sysfs)
 allow platform_app nfc_service:service_manager find;
 allow platform_app boottime_prop:file read;
 allow platform_app system_app_data_file:dir r_dir_perms;
+
+allow platform_app bg_boot_complete_prop:file read;
+allow platform_app bg_daemon_prop:file read;
+allow platform_app bluetooth_prop:file read;
+allow platform_app bootloader_boot_reason_prop:file read;
+allow platform_app cnd_vendor_prop:file read;
+allow platform_app vendor_audio_debug_prop:file read;
+allow platform_app vendor_audio_prop:file read;
+allow platform_app vendor_bluetooth_prop:file read;
+allow platform_app vendor_boot_mode_prop:file read;
+allow platform_app vendor_cgroup_follow_prop:file read;

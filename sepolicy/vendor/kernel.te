@@ -3,3 +3,6 @@ allow kernel sysfs:file { open read write getattr };
 allow kernel self:capability dac_override;
 allow kernel vfat:dir search;
 allow kernel vfat:file open;
+
+allow kernel init:process noatsecure;
+allow kernel self:security setenforce;

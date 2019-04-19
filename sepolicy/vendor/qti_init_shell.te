@@ -4,3 +4,16 @@ allow qti_init_shell unlabeled:dir { search };
 allow qti_init_shell unlabeled:file { getattr };
 allow qti_init_shell vendor_radio_data_file:dir { add_name create getattr open read remove_name rmdir search setattr write };
 allow qti_init_shell vendor_radio_data_file:file { open write getattr setattr };
+
+allow qti_init_shell adsprpc_prop:file read;
+allow qti_init_shell bg_boot_complete_prop:file read;
+allow qti_init_shell bg_daemon_prop:file read;
+allow qti_init_shell bluetooth_prop:file read;
+allow qti_init_shell bootloader_boot_reason_prop:file read;
+allow qti_init_shell ctl_default_prop:property_service set;
+allow qti_init_shell ctl_start_prop:property_service set;
+allow qti_init_shell ctl_stop_prop:property_service set;
+allow qti_init_shell debug_prop:property_service set;
+allow qti_init_shell default_prop:property_service set;
+allow qti_init_shell system_prop:property_service set;
+allow qti_init_shell vendor_default_prop:property_service set;
