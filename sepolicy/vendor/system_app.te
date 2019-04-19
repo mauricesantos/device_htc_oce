@@ -1,18 +1,10 @@
-allow system_app proc_pagetypeinfo:file { getattr open read };
 allow system_app su_exec:file getattr;
 allow system_app sysfs:file { getattr open read write };
-allow system_app sysfs_zram:dir search;
-allow system_app sysfs_zram:file { getattr open read };
 allow system_app vendor_camera_prop:file { getattr open read };
 
 unix_socket_connect(system_app, cnd, cnd)
-allow system_app time:unix_stream_socket connectto;
-allow system_app oem_qmi_server:unix_stream_socket connectto;
-
-set_prop(system_app, ctl_ppd_prop)
 
 allow system_app atfwd_service:service_manager add;
-allow system_app cne_service:service_manager add;
 
 # allow CNEService to write /data/connectivity
 allow system_app cnd_data_file:dir w_dir_perms;
