@@ -1,2 +1,13 @@
 allow nfc nfc_vendor_data_file:dir { add_name open read remove_name search write };
 allow nfc nfc_vendor_data_file:file { create };
+
+allow nfc bg_boot_complete_prop:file read;
+allow nfc bg_daemon_prop:file read;
+allow nfc bluetooth_prop:file read;
+allow nfc bootloader_boot_reason_prop:file read;
+allow nfc boottime_prop:file read;
+allow nfc cnd_vendor_prop:file read;
+allow nfc console_silent_prop:file read;
+allow nfc ctl_LKCore_prop:file read;
+allow nfc ctl_atfwd_prop:file read;
+allow nfc ctl_bootanim_prop:file read;
