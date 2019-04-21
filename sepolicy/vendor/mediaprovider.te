@@ -57,6 +57,7 @@ allow mediaprovider persist_khung_prop:file read;
 allow mediaprovider persistent_properties_ready_prop:file read;
 allow mediaprovider qcom_ims_prop:file read;
 allow mediaprovider qvr_prop:file read;
+allow mediaprovider runtime_event_log_tags_file:file r_file_perms;
 allow mediaprovider safemode_prop:file read;
 allow mediaprovider scr_enabled_prop:file read;
 allow mediaprovider sensors_prop:file read;

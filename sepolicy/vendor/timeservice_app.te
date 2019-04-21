@@ -62,3 +62,7 @@ allow timeservice_app safemode_prop:file read;
 allow timeservice_app scr_enabled_prop:file read;
 allow timeservice_app sensors_prop:file read;
 allow timeservice_app serialno_prop:file read;
+allow timeservice_app slpi_prop:file read;
+allow timeservice_app spcomlib_prop:file read;
+allow timeservice_app system_boot_reason_prop:file read;
+allow timeservice_app test_boot_reason_prop:file read;

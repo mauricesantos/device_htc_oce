@@ -20,6 +20,7 @@ allow vendor_init {
   nfc_data_file
   rootfs
   sysfs_kgsl
+  sysfs_msm_perf
   system_data_file
   tombstone_data_file
   wifi_data_file

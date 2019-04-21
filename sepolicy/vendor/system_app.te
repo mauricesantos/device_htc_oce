@@ -112,3 +112,6 @@ allow system_app vendor_softap_prop:file read;
 allow system_app vendor_ssr_prop:file read;
 allow system_app vendor_system_prop:file read;
 allow system_app vendor_tee_listener_prop:file read;
+allow system_app vendor_time_service_prop:file read;
+allow system_app vendor_usb_prop:file read;
+allow system_app vendor_vm_bms_prop:file read;

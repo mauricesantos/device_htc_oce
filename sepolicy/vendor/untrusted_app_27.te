@@ -95,3 +95,7 @@ allow untrusted_app_27 vendor_mpctl_prop:file read;
 allow untrusted_app_27 vendor_opengles_prop:file read;
 allow untrusted_app_27 vendor_pd_locater_dbg_prop:file read;
 allow untrusted_app_27 vendor_per_mgr_state_prop:file read;
+allow untrusted_app_27 proc_vmstat:file read;
+allow untrusted_app_27 vendor_qdcmss_prop:file read;
+allow untrusted_app_27 vendor_qdma_prop:file read;
+allow untrusted_app_27 vendor_radio_prop:file read;
