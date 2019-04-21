@@ -1,0 +1,36 @@
+soong_namespace {
+}
+
+cc_library_shared {
+    srcs: ["ril_shim.cpp"],
+    name: "libshim_ril",
+    proprietary: true,
+}
+
+cc_library_shared {
+    srcs: ["camera_shim.cpp"],
+    name: "libshim_camera",
+    shared_libs: ["libutils","libui"],
+    proprietary: true,
+}
+
+cc_library_shared {
+    srcs: ["stillmore.cpp"],
+    name: "libshim_stillmore",
+    shared_libs: ["libutils","libui"],
+    proprietary: true,
+}
+
+cc_library_shared {
+    srcs: ["ppe.cpp"],
+    name: "libshim_ppe",
+    shared_libs: ["libutils","libui"],
+    proprietary: true,
+}
+
+cc_library_shared {
+    srcs: ["libshim_ims.cpp"],
+    name: "libshim_ims",
+    shared_libs: ["libutils","libui"],
+    proprietary: true,
+}

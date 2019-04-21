@@ -174,6 +174,7 @@ PRODUCT_PACKAGES += \
     Snap \
     libshim_camera \
     libshim_stillmore \
+    libshim_ppe \
     libion
 
 # Connectivity Engine support (CNE)
