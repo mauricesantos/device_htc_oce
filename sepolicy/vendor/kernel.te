@@ -1,8 +1,15 @@
 # Allow access to sysfs
-allow kernel sysfs:file { open read write getattr };
+allow kernel sysfs:file rw_file_perms;
 allow kernel self:capability dac_override;
-allow kernel vfat:dir search;
-allow kernel vfat:file open;
+allow kernel vfat:dir r_dir_perms;
+allow kernel vfat:file r_file_perms;
 
-allow kernel init:process noatsecure;
 allow kernel self:security setenforce;
+
+r_dir_file(kernel, firmware_file)
+
+# for diag over socket
+userdebug_or_eng(`
+  allow kernel self:socket create;
+')
+dontaudit kernel self:socket create;

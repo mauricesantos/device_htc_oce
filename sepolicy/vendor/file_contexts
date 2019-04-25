@@ -1,4 +1,7 @@
 # Sys
-/sys/devices/soc/soc:fp_fpc1155/irq                             u:object_r:sysfs_fpc_irq:s0
-/sys/devices/soc/soc:fp_fpc1155/irq_count                       u:object_r:sysfs_fpc_irq:s0
-/sys/devices/soc/soc:fp_fpc1155/irq_gpio                        u:object_r:sysfs_fpc_irq:s0
+/sys/devices/soc/soc:fp_fpc1155/irq u:object_r:sysfs_fpc_irq:s0
+/sys/devices/soc/soc:fp_fpc1155/irq_count   u:object_r:sysfs_fpc_irq:s0
+/sys/devices/soc/soc:fp_fpc1155/irq_gpio    u:object_r:sysfs_fpc_irq:s0
+
+# Data files
+/data/fpc(/.*)? u:object_r:fpc_data_file:s0

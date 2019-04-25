@@ -1,1 +1,5 @@
+# /sys
 type sysfs_fpc_irq, fs_type, sysfs_type;
+
+# /data
+type fpc_data_file, core_data_file_type, data_file_type, file_type;
