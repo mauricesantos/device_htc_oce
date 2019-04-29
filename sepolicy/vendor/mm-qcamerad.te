@@ -1,4 +1,2 @@
-allow mm-qcamerad default_prop:property_service set;
-allow mm-qcamerad sysfs:file { getattr open read write };
-allow mm-qcamerad vfat:dir { search };
-allow mm-qcamerad fwk_sensor_hwservice:hwservice_manager find;
+allow mm-qcamerad fwk_sensor_hwservice:hwservice_manager find; 
+allow mm-qcamerad sysfs:file r_file_perms;

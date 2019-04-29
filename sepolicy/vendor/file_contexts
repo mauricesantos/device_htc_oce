@@ -1,13 +1,26 @@
-# Sys
-/sys/devices/soc/soc:fp_fpc1155/irq u:object_r:sysfs_fpc_irq:s0
-/sys/devices/soc/soc:fp_fpc1155/irq_count   u:object_r:sysfs_fpc_irq:s0
-/sys/devices/soc/soc:fp_fpc1155/irq_gpio    u:object_r:sysfs_fpc_irq:s0
-
-# Data files
-/data/fpc(/.*)? u:object_r:fpc_data_file:s0
-
 # Audio
+/dev/htc-acoustic                           u:object_r:audio_device:s0
 /system/etc/audio_effects.xml    u:object_r:vendor_configs_file:s0
 
+# CMHW
+/sys/devices/virtual/timed_output/vibrator/voltage_level u:object_r:vibeamp_sysfs:s0
+
 # Custom Equilizer (JamesDSP)
-/system/lib/soundfx/libjamesdsp\.so    u:object_r:vendor_file:s0
+/system/lib/soundfx/libjamesdsp\.so    u:object_r:vendor_file:s0 
+
+# Encryption
+/dev/block/bootdevice/by-name/extra         u:object_r:forceencrypt_block_device:s0
+
+# Fingerprint
+/data/fpc(/.*)?                             u:object_r:fingerprintd_data_file:s0
+/sys/devices/soc/soc:fp_fpc1155(/.*)?       u:object_r:sysfs_fingerprint:s0
+
+# Gesture
+/sys/devices/virtual/htc_sensorhub/sensor_hub/gesture_motion    u:object_r:sysfs_gesture:s0
+
+# Radio
+/dev/radio(/.*)?                            u:object_r:radio_data_file:s0
+/dev/block/bootdevice/by-name/rfg_[0-9]+    u:object_r:modem_efs_partition_device:s0
+
+# ZRAM
+/dev/block/zram[0-9]+                       u:object_r:swap_block_device:s0

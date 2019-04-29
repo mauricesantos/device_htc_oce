@@ -1,6 +1,1 @@
-allow toolbox init:fifo_file { getattr write }; 
-allow toolbox property_socket:sock_file write;
-allow toolbox init:unix_stream_socket connectto;
 allow toolbox system_prop:property_service set;
-allow toolbox proc_meminfo:file r_file_perms;
-allow toolbox self:capability sys_admin;

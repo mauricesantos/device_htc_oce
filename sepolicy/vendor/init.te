@@ -1,50 +1,22 @@
-# symlink /sdcard to backing block
-allow init tmpfs:lnk_file create_file_perms;
-
-# Run "ifup lo" to bring up the localhost interface
+allow init sysfs_devices_system_cpu:file w_file_perms;
+allow init sysfs_msm_power:file w_file_perms; 
+allow init hidl_base_hwservice:hwservice_manager add;
+allow init sysfs_devfreq:file r_file_perms;
+allow init sysfs_lib:file w_file_perms;
+allow init system_data_file:file append;
+allow init system_file:file r_file_perms;
+allow init vendor_file:file r_file_perms;
+allow init vendor_configs_file:file mounton;
+allow init functionfs:dir mounton;
+allow init kernel:system module_request;
+allow init property_socket:sock_file w_file_perms;
+allow init diag_device:chr_file x_file_perms;
+allow init hwservicemanager:binder { call transfer };
+allow init sysfs:dir r_dir_perms;
+allow init tmpfs:lnk_file create;
 allowxperm init self:udp_socket ioctl { SIOCSIFFLAGS };
 allow init sysfs_type:lnk_file read;
 allow init firmware_file:dir mounton;
 allow init persist_file:dir mounton;
-allow init socket_device:sock_file { create unlink setattr };
 allow init userdata_block_device:blk_file { write };
 allow init persist_block_device:lnk_file relabelto;
-
-allow init vfat:dir r_dir_perms;
-allow init vfat:file r_file_perms;
-
-allow init self:process execmem;
-
-allow init servicemanager:binder { call transfer };
-allow init hwservicemanager:binder { call transfer };
-allow init hal_light_hwservice:hwservice_manager add;
-allow init hal_power_hwservice:hwservice_manager add;
-allow init hal_thermal_hwservice:hwservice_manager add;
-allow init hidl_base_hwservice:hwservice_manager add;
-allow init proc:file setattr;
-allow init property_socket:sock_file write;
-allow init shell_exec:file execute_no_trans;
-allow init sysfs_devfreq:file { open read };
-allow init sysfs_devices_system_cpu:file write;
-allow init sysfs:dir { rw_dir_perms setattr };
-allow init sysfs:file { rw_file_perms setattr };
-allow init sysfs_graphics:file rw_file_perms;
-allow init sysfs_graphics:lnk_file read;
-allow init sysfs_kgsl:file { open read };
-allow init sysfs_lib:file write;
-allow init sysfs_msm_power:file write;
-allow init system_data_file:file append;
-allow init vendor_file:file execute_no_trans;
-allow init vendor_toolbox_exec:file execute_no_trans;
-
-allow init sysfs_leds:lnk_file { r_file_perms };
-
-allow init device:chr_file getattr;
-allow init diag_device:chr_file getattr;
-allow init functionfs:dir mounton;
-allow init sysfs_lowmemorykiller:file write;
-allow init system_file:file { mounton execute_no_trans };
-
-allow init { ion_device tee_device }:chr_file ioctl;
-allow init sysfs_fpc_irq:file { open read setattr write };
-allow init tee_device:chr_file write;

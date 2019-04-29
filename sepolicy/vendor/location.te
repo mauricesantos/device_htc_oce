@@ -1,3 +1,2 @@
+allow location wcnss_prop:file r_file_perms; 
 allow location sysfs:file r_file_perms;
-allow location wifi_prop:file r_file_perms;
-allow location wcnss_prop:file r_file_perms;

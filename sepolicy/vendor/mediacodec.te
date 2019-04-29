@@ -1,2 +1,1 @@
-allow mediacodec system_data_file:sock_file write;
-allow mediacodec init:unix_stream_socket connectto;
+allow mediacodec system_data_file:sock_file w_file_perms; 

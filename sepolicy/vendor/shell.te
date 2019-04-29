@@ -1,4 +1,0 @@
-# Allow read access to syslog
-allow shell kernel:system syslog_read;
-
-allow shell runtime_event_log_tags_file:file r_file_perms;

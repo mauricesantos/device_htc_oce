@@ -1,4 +1,1 @@
-allow vold sdcardd:process noatsecure;
-allow vold vold_prepare_subdirs:process noatsecure;
-allow vold sgdisk:process noatsecure;
-allow vold kernel:system module_request;
+allow vold persist_file:dir r_dir_perms;

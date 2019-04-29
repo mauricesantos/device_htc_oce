@@ -1,46 +1,25 @@
 typeattribute vendor_init data_between_core_and_vendor_violators;
-
 allow vendor_init proc_uid_cpupower:file write;
-
 allow vendor_init {
   adb_keys_file
-  backup_data_file
-  cache_backup_file
-  cache_private_backup_file
-  cache_recovery_file
-  cache_file
-  camera_data_file
   dhcp_data_file
-  fpc_data_file
-  heapdump_data_file
   location_data_file
   media_rw_data_file
-  nfc_data_file
   preloads_data_file
   preloads_media_file
   radio_data_file
-  rootfs
-  sysfs_kgsl
-  sysfs_msm_perf
   system_data_file
   time_data_file
   tombstone_data_file
   wifi_data_file
-  wpa_socket
 }:dir { create search getattr open read setattr ioctl write add_name remove_name rmdir relabelfrom };
-
 allow vendor_init {
   adb_keys_file
-  fpc_data_file
   location_data_file
   radio_data_file
-  rootfs
-  shell_exec
 }:file { create getattr open read write setattr relabelfrom unlink };
-
 allow vendor_init {
   location_data_file
 }:sock_file setattr;
-
 dontaudit vendor_init unlabeled:dir getattr;
 dontaudit vendor_init unlabeled:file getattr;

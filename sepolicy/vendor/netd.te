@@ -1,4 +1,5 @@
-dontaudit netd kernel:system module_request;
-dontaudit netd self:capability sys_module;
-
-allow netd netd:capability { fsetid };
+# in addition to ioctl commands granted to domain allow netd to use:
+allowxperm netd self:udp_socket ioctl { SIOCSIFFLAGS SIOCSIFADDR SIOCGIFHWADDR };
+# Enable XTRA downloads
+allow netd location:fd use;
+allow netd location:tcp_socket { getopt read setopt write };
