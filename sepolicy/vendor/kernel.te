@@ -1,7 +1,9 @@
 r_dir_file(kernel, firmware_file)
+allow kernel debugfs_ion:dir r_dir_perms;
 allow kernel sysfs:file rw_file_perms; 
-allow kernel vfat:dir search;
+allow kernel vfat:dir r_dir_perms;
 allow kernel vfat:file w_file_perms;
+allow kernel debugfs_ipc:dir r_dir_perms;
 # for diag over socket
 userdebug_or_eng(`
   allow kernel self:socket create;

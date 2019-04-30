@@ -1,0 +1,1 @@
+allow adsprpcd debugfs_ion:dir r_dir_perms;

@@ -1,2 +1,5 @@
 allow mm-qcamerad fwk_sensor_hwservice:hwservice_manager find; 
 allow mm-qcamerad sysfs:file r_file_perms;
+allow mm-qcamerad debugfs_ion:dir r_dir_perms;
+allow mm-qcamerad debugfs_kgsl:dir r_dir_perms;
+allow mm-qcamerad sysfs_camera:dir r_dir_perms;

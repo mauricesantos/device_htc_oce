@@ -1,0 +1,2 @@
+allow platform_app debugfs_ion:dir r_dir_perms;
+allow platform_app debugfs_kgsl:dir r_dir_perms; 
