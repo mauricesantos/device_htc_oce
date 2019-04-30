@@ -14,13 +14,105 @@
 # Fingerprint
 /data/fpc(/.*)?                             u:object_r:fingerprintd_data_file:s0
 /sys/devices/soc/soc:fp_fpc1155(/.*)?       u:object_r:sysfs_fingerprint:s0
+/sys/devices/soc/soc:fp_fpc1155/irq         u:object_r:sysfs_fpc_irq:s0
+/sys/devices/soc/soc:fp_fpc1155/irq_count   u:object_r:sysfs_fpc_irq:s0
 
 # Gesture
 /sys/devices/virtual/htc_sensorhub/sensor_hub/gesture_motion    u:object_r:sysfs_gesture:s0
+
+# Hal
+/(vendor|system/vendor)/bin/hw/android\.hardware\.light@2\.0-service.oce    u:object_r:hal_light_default_exec:s0
+
+# LED
+/sys/class/leds(/.*)?   u:object_r:sysfs_leds:s0
+/sys/devices/soc/qpnp-flash-led-(.*)?/leds(/.*)?    u:object_r:sysfs_leds:s0
+/sys/devices/soc/soc:qcom,camera-flash(/.*)?    u:object_r:sysfs_leds:s0
 
 # Radio
 /dev/radio(/.*)?                            u:object_r:radio_data_file:s0
 /dev/block/bootdevice/by-name/rfg_[0-9]+    u:object_r:modem_efs_partition_device:s0
 
+# RIL
+/system/vendor/radio/qcril_database/qcril.db    u:object_r:vendor_radio_data_file:s0
+
 # ZRAM
 /dev/block/zram[0-9]+                       u:object_r:swap_block_device:s0
+
+/dev/jpeg[0-9]+                u:object_r:camera_device:s0
+/dev/nanohub                   u:object_r:sensors_device:s0
+/dev/nanohub_comms             u:object_r:sensors_device:s0
+/dev/sg[0-9]+                  u:object_r:sg_device:s0
+/dev/ttyHS0                    u:object_r:hci_attach_dev:s0
+
+# Block device holding the GPT, where the A/B attributes are stored.
+/dev/block/platform/soc/624000\.ufshc/sda                    u:object_r:gpt_block_device:s0
+
+# Block devices for the drive that holds the xbl_a and xbl_b partitions.
+/dev/block/platform/soc/624000\.ufshc/sd[bc]                 u:object_r:xbl_block_device:s0
+
+# Other, non-A/B partitions.
+/dev/block/platform/soc/624000\.ufshc/by-name/frp           u:object_r:frp_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/userdata      u:object_r:userdata_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/misc          u:object_r:misc_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/fsc           u:object_r:modem_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/fsg           u:object_r:modem_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/modemst1      u:object_r:modem_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/modemst2      u:object_r:modem_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/persist       u:object_r:persist_block_device:s0
+
+# files in firmware
+/firmware(/.*)?         u:object_r:firmware_file:s0
+
+# files in /vendor
+/vendor/bin/hw/android\.hardware\.bluetooth@1\.0-service          u:object_r:hal_bluetooth_default_exec:s0
+/vendor/bin/hw/android\.hardware\.drm@1\.1-service\.widevine          u:object_r:hal_drm_widevine_exec:s0
+/vendor/bin/hw/android\.hardware\.drm@1\.1-service\.clearkey          u:object_r:hal_drm_clearkey_exec:s0
+/vendor/bin/hw/android\.hardware\.power@1\.2-service\.oce          u:object_r:hal_power_default_exec:s0
+/vendor/bin/hw/android\.hardware\.usb@1\.0-service\.basic            u:object_r:hal_usb_default_exec:s0
+/vendor/bin/hw/android\.hardware\.vibrator@1\.0-service       u:object_r:hal_vibrator_default_exec:s0
+/vendor/bin/thermal-engine  u:object_r:thermal-engine_exec:s0
+/vendor/bin/qseecomd        u:object_r:tee_exec:s0
+
+/vendor/bin/hw/android\.hardware\.health@2\.0-service          u:object_r:hal_health_default_exec:s0
+
+###############################################
+# same-process HAL files and their dependencies
+#
+/vendor/lib(64)?/hw/gralloc\.msm8996\.so   u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libqdMetaData\.so         u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libqservice\.so           u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libqdutils\.so            u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libadreno_utils\.so       u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libgsl\.so                u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/hw/vulkan\.msm8996\.so     u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libEGL_adreno\.so          u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libGLESv1_CM_adreno\.so    u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libGLESv2_adreno\.so       u:object_r:same_process_hal_file:s0
+
+# RenderScript dependencies.
+# To test: run cts -m CtsRenderscriptTestCases
+/vendor/lib(64)?/libRSDriver_adreno\.so     u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libbccQTI\.so              u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libllvm-qcom\.so           u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/librs_adreno\.so           u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/librs_adreno_sha1\.so      u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libCB\.so                  u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libllvm-glnext\.so            u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libqti-perfd-client\.so    u:object_r:same_process_hal_file:s0
+
+# Loaded by native loader (zygote) for all processes
+/vendor/lib(64)?/libadsprpc\.so             u:object_r:same_process_hal_file:s0
+
+# /data
+/data/misc/perfd(/.*)?           u:object_r:perfd_data_file:s0
+/data/system/perfd(/.*)?         u:object_r:perfd_data_file:s0
+/data/misc/radio(/.*)?           u:object_r:radio_data_file:s0
+/data/vendor/sensor(/.*)?        u:object_r:sensor_vendor_data_file:s0
+
+# /
+/bt_firmware(/.*)?      u:object_r:bt_firmware_file:s0
+/tombstones             u:object_r:rootfs:s0
+/dsp                    u:object_r:rootfs:s0
+
+# /persist
+/persist/sensorcal\.json  u:object_r:sensors_cal_file:s0

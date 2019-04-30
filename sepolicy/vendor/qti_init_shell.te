@@ -3,3 +3,7 @@ allow qti_init_shell vendor_radio_data_file:dir ra_dir_perms;
 allow qti_init_shell debug_prop:property_service set;
 allow qti_init_shell ctl_default_prop:property_service set;
 allow qti_init_shell system_prop:property_service set;
+allow qti_init_shell vendor_radio_data_file:dir create_dir_perms;
+allow qti_init_shell sysfs:file setattr;
+allow qti_init_shell vendor_default_prop:property_service set;
+allow qti_init_shell system_data_file:file { open };
