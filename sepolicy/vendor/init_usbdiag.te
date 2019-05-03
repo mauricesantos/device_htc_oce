@@ -8,8 +8,9 @@ allow init_usbdiag proc_meminfo:file getattr;
 allow init_usbdiag proc_sysrq:file getattr;
 
 allow init_usbdiag vendor_shell_exec:file rx_file_perms;
-allow init_usbdiag vendor_toolbox_exec:file rx_file_perms;
+allow init_usbdiag vendor_toolbox_exec:file { execute_no_trans rx_file_perms };
 allow init_usbdiag domain:dir { getattr search };
 allow init_usbdiag domain:file { read open };
 
 allow init_usbdiag kernel:process setsched;
+

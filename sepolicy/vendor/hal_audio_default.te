@@ -5,4 +5,4 @@ allow hal_audio_default debugfs_ion:dir r_dir_perms;
 allow hal_audio_default perfd_data_file:sock_file w_file_perms;
 allow hal_audio_default sysfs_soc:dir r_dir_perms;
 allow hal_audio_default audio_cal_device:chr_file rw_file_perms;
-
+allow hal_audio_default perfd_data_file:dir search;

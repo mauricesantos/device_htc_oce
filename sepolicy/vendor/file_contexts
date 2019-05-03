@@ -70,6 +70,7 @@
 /vendor/bin/hw/android\.hardware\.bluetooth@1\.0-service          u:object_r:hal_bluetooth_default_exec:s0
 /vendor/bin/hw/android\.hardware\.drm@1\.1-service\.widevine          u:object_r:hal_drm_widevine_exec:s0
 /vendor/bin/hw/android\.hardware\.drm@1\.1-service\.clearkey          u:object_r:hal_drm_clearkey_exec:s0
+/vendor/bin/hw/android\.hardware\.health@2\.0-service          u:object_r:hal_health_default_exec:s0
 /vendor/bin/hw/android\.hardware\.power@1\.2-service\.oce          u:object_r:hal_power_default_exec:s0
 /vendor/bin/hw/android\.hardware\.usb@1\.0-service\.basic            u:object_r:hal_usb_default_exec:s0
 /vendor/bin/hw/android\.hardware\.vibrator@1\.0-service       u:object_r:hal_vibrator_default_exec:s0
@@ -102,8 +103,8 @@
 /vendor/bin/init\.qcom\.firmware_links\.sh u:object_r:qti_init_shell_exec:s0
 /vendor/bin/init\.usbdiag\.sh u:object_r:init_usbdiag_exec:s0
 /vendor/bin/init\.foreground\.sh   u:object_r:init_foreground_exec:s0
+/loggy.sh   u:object_r:loggy_exec:s0
 
-/vendor/bin/hw/android\.hardware\.health@2\.0-service          u:object_r:hal_health_default_exec:s0
 
 ###############################################
 # same-process HAL files and their dependencies

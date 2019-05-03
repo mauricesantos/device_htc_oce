@@ -1,2 +1,3 @@
 allow toolbox system_prop:property_service set;
-allow toolbox init:fifo_file { create w_file_perms };
+allow toolbox init:fifo_file { getattr create w_file_perms };
+allow toolbox init:unix_stream_socket connectto;

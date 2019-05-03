@@ -13,3 +13,8 @@ allow qti_init_shell vendor_radio_data_file:file getattr;
 allow qti_init_shell carrier_file:file getattr;
 allow qti_init_shell radio_data_file:file write;
 allow qti_init_shell post_boot_prop:property_service set;
+allow qti_init_shell bluetooth_log_prop:file open;
+allow qti_init_shell vendor_radio_data_file:file setattr;
+allow qti_init_shell bluetooth_log_prop:file getattr;
+allow qti_init_shell bluetooth_prop:file { getattr open };
+allow qti_init_shell boottime_prop:file open;
