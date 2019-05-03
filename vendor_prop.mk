@@ -204,6 +204,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qti.sensors.sta_detect=false \
     ro.qti.sensors.mot_detect=false
 
+# SurfaceFlinger
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    ro.surface_flinger.protected_contents=true
+
 # System prop for enabling/disabling Android XLAT
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.net.doxlat=false
