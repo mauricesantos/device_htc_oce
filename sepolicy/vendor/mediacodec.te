@@ -1,2 +1,4 @@
 allow mediacodec system_data_file:sock_file w_file_perms; 
 allow mediacodec debugfs_ion:dir r_dir_perms;
+allow mediacodec perfd_data_file:sock_file w_file_perms;
+allow mediacodec sysfs_soc:dir r_dir_perms;

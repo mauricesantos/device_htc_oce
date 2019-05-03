@@ -28,4 +28,5 @@ allow init perfd_data_file:file w_file_perms;
 allow init sysfs_nanoapp_cmd:file rw_file_perms;
 allow init sysfs_kgsl:file r_file_perms;
 allow init sysfs:file setattr;
-
+allow init debugfs_ion:file relabelfrom;
+allow init vendor_toolbox_exec:file execute;

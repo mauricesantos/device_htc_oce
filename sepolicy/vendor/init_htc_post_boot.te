@@ -1,0 +1,15 @@
+type init_htc_post_boot, domain;
+type init_htc_post_boot_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(init_htc_post_boot)
+
+allow init_htc_post_boot proc:file getattr;
+allow init_htc_post_boot proc_iomem:file getattr;
+allow init_htc_post_boot proc_meminfo:file getattr;
+allow init_htc_post_boot proc_sysrq:file getattr;
+
+allow init_htc_post_boot vendor_shell_exec:file rx_file_perms;
+allow init_htc_post_boot vendor_toolbox_exec:file rx_file_perms;
+allow init_htc_post_boot domain:dir { getattr search };
+allow init_htc_post_boot domain:file { read open };
+
+allow init_htc_post_boot kernel:process setsched;

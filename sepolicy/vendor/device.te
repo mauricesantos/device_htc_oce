@@ -1,0 +1,2 @@
+type audio_cal_device, dev_type;
+type ramdump_block_device, dev_type; 

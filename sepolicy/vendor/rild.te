@@ -5,6 +5,8 @@ allow rild device:file create_file_perms;
 allow rild vendor_file:file r_file_perms;
 allow rild carrier_file:dir { add_name remove_name };
 allow rild carrier_file:file r_file_perms;
+allow rild radio_data_file:dir w_dir_perms;
+allow rild radio_data_file:file create_file_perms;
 
 # There's no interest in allowing rild to create tombstones, neither to unnecessarily touch qcril.db
 dontaudit rild tombstone_data_file:dir { search };
