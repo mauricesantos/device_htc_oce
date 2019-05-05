@@ -9,6 +9,7 @@ allow init_htc_fp proc_sysrq:file getattr;
 
 allow init_htc_fp vendor_shell_exec:file rx_file_perms;
 allow init_htc_fp vendor_toolbox_exec:file rx_file_perms;
+allow init_htc_fp vendor_file:file rx_file_perms;
 allow init_htc_fp domain:dir { getattr search };
 allow init_htc_fp domain:file { read open };
 

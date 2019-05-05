@@ -7,8 +7,10 @@ allow init_htc_post_boot proc_iomem:file getattr;
 allow init_htc_post_boot proc_meminfo:file getattr;
 allow init_htc_post_boot proc_sysrq:file getattr;
 
+allow init_htc_post_boot shell_exec:file rx_file_perms;
 allow init_htc_post_boot vendor_shell_exec:file rx_file_perms;
 allow init_htc_post_boot vendor_toolbox_exec:file rx_file_perms;
+allow init_htc_post_boot vendor_file:file rx_file_perms;
 allow init_htc_post_boot domain:dir { getattr search };
 allow init_htc_post_boot domain:file { read open };
 

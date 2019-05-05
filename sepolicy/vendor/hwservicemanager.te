@@ -1,3 +1,8 @@
 allow hwservicemanager init:dir search;
 allow hwservicemanager init:file r_file_perms;
 allow hwservicemanager init:process getattr; 
+
+typeattribute hwservicemanager coredomain;
+add_hwservice(hwservicemanager, hidl_manager_hwservice)
+add_hwservice(hwservicemanager, hidl_token_hwservice)
+set_prop(hwservicemanager, ctl_interface_start_prop)

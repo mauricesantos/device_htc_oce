@@ -1,3 +1,8 @@
 type loggy, domain;
 type loggy_exec, exec_type, vendor_file_type, file_type;
 init_daemon_domain(loggy) 
+
+allow loggy vendor_shell_exec:file rx_file_perms;
+allow loggy vendor_toolbox_exec:file rx_file_perms;
+allow loggy vendor_file:file rx_file_perms;
+allow loggy logcat_exec:file x_file_perms;

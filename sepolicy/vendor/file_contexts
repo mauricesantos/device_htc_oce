@@ -47,6 +47,27 @@
 /dev/sg[0-9]+                  u:object_r:sg_device:s0
 /dev/ttyHS0                    u:object_r:hci_attach_dev:s0
 
+# A/B partitions.
+/dev/block/platform/soc/624000\.ufshc/by-name/aboot_[ab]        u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/apdp_[ab]         u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/boot_[ab]         u:object_r:boot_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/bootlocker_[ab]   u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/cmnlib32_[ab]     u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/cmnlib64_[ab]     u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/devcfg_[ab]       u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/hosd_[ab]         u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/hyp_[ab]          u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/keymaster_[ab]    u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/keystore_[ab]     u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/modem_[ab]        u:object_r:modem_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/msadp_[ab]        u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/pmic_[ab]         u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/rpm_[ab]          u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/system_[ab]       u:object_r:system_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/tz_[ab]           u:object_r:custom_ab_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/vendor_[ab]       u:object_r:system_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/xbl_[ab]          u:object_r:xbl_block_device:s0
+
 # Block device holding the GPT, where the A/B attributes are stored.
 /dev/block/platform/soc/624000\.ufshc/sda                    u:object_r:gpt_block_device:s0
 
@@ -67,18 +88,33 @@
 /firmware(/.*)?         u:object_r:firmware_file:s0
 
 # files in /vendor
+/vendor/bin/hw/android\.hardware\.audio@2\.0-service          u:object_r:hal_audio_default_exec:s0
+/vendor/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.1-service          u:object_r:hal_fingerprint_default_exec:s0
 /vendor/bin/hw/android\.hardware\.bluetooth@1\.0-service          u:object_r:hal_bluetooth_default_exec:s0
+/vendor/bin/hw/android\.hardware\.camera\.provider@2\.4-service          u:object_r:hal_camera_default_exec:s0
+/vendor/bin/hw/android\.hardware\.cas@1\.0-service          u:object_r:hal_cas_default_exec:s0
+/vendor/bin/hw/android\.hardware\.configstore@1\.1-service          u:object_r:hal_configstore_default_exec:s0
+/vendor/bin/hw/android\.hardware\.drm@1\.0-service          u:object_r:hal_drm_default_exec:s0
 /vendor/bin/hw/android\.hardware\.drm@1\.1-service\.widevine          u:object_r:hal_drm_widevine_exec:s0
 /vendor/bin/hw/android\.hardware\.drm@1\.1-service\.clearkey          u:object_r:hal_drm_clearkey_exec:s0
+/vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service          u:object_r:hal_gatekeeper_default_exec:s0
+/vendor/bin/hw/android\.hardware\.gnss@1\.0-service-qti          u:object_r:hal_gnss_default_exec:s0
+/vendor/bin/hw/android\.hardware\.graphics\.allocator@2\.0-service          u:object_r:hal_graphics_allocator_default_exec:s0
+/vendor/bin/hw/android\.hardware\.graphics\.composer@2\.1-service          u:object_r:hal_graphics_composer_default_exec:s0
 /vendor/bin/hw/android\.hardware\.health@2\.0-service          u:object_r:hal_health_default_exec:s0
+/vendor/bin/hw/android\.hardware\.keymaster@3\.0-service          u:object_r:hal_keymaster_default_exec:s0
+/vendor/bin/hw/android\.hardware\.memtrack@1\.0-service          u:object_r:hal_memtrack_default_exec:s0
+/vendor/bin/hw/android\.hardware\.nfc@1\.1-service          u:object_r:hal_nfc_default_exec:s0
 /vendor/bin/hw/android\.hardware\.power@1\.2-service\.oce          u:object_r:hal_power_default_exec:s0
+/vendor/bin/hw/android\.hardware\.sensors@1\.0-service          u:object_r:hal_sensors_default_exec:s0
 /vendor/bin/hw/android\.hardware\.usb@1\.0-service\.basic            u:object_r:hal_usb_default_exec:s0
 /vendor/bin/hw/android\.hardware\.vibrator@1\.0-service       u:object_r:hal_vibrator_default_exec:s0
+/vendor/bin/hw/android\.hardware\.wifi@1\.0-service       u:object_r:hal_wifi_default_exec:s0
 /vendor/bin/thermal-engine  u:object_r:thermal-engine_exec:s0
 /vendor/bin/qseecomd        u:object_r:tee_exec:s0
 /vendor/bin/mm-qcamera-daemon   u:object_r:mm-qcamerad_exec:s0
-/vendor/bin/pm-service          u:object_r:vendor_per_mgr_exec:s0
-/vendor/bin/pm-proxy            u:object_r:vendor_per_mgr_exec:s0
+/vendor/bin/pm-service          u:object_r:per_mgr_exec:s0
+/vendor/bin/pm-proxy            u:object_r:per_proxy_exec:s0
 /vendor/bin/msm_irqbalance      u:object_r:msm_irqbalanced_exec:s0
 /vendor/bin/adsprpcd            u:object_r:adsprpcd_exec:s0
 /vendor/bin/cnd                 u:object_r:cnd_exec:s0
@@ -96,6 +132,8 @@
 /vendor/bin/imscmservice           u:object_r:imscm_exec:s0
 /vendor/bin/time_daemon            u:object_r:time_exec:s0
 /vendor/bin/rmt_storage            u:object_r:rmt_exec:s0
+/vendor/bin/toybox_vendor          u:object_r:vendor_toolbox_exec:s0
+/vendor/bin/toolbox                u:object_r:vendor_toolbox_exec:s0
 
 /vendor/bin/init\.htc_fp\.sh   u:object_r:init_htc_fp_exec:s0
 /vendor/bin/init\.htc_post_boot\.sh   u:object_r:init_htc_post_boot_exec:s0
@@ -103,7 +141,7 @@
 /vendor/bin/init\.qcom\.firmware_links\.sh u:object_r:qti_init_shell_exec:s0
 /vendor/bin/init\.usbdiag\.sh u:object_r:init_usbdiag_exec:s0
 /vendor/bin/init\.foreground\.sh   u:object_r:init_foreground_exec:s0
-/loggy.sh   u:object_r:loggy_exec:s0
+/loggy\.sh   u:object_r:loggy_exec:s0
 
 
 ###############################################
