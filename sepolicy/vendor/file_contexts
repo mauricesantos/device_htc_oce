@@ -139,10 +139,7 @@
 /vendor/bin/init\.htc_post_boot\.sh   u:object_r:init_htc_post_boot_exec:s0
 /vendor/bin/init\.htc_slpi\.sh   u:object_r:init_htc_slpi_exec:s0
 /vendor/bin/init\.qcom\.firmware_links\.sh u:object_r:qti_init_shell_exec:s0
-/vendor/bin/init\.usbdiag\.sh u:object_r:init_usbdiag_exec:s0
 /vendor/bin/init\.foreground\.sh   u:object_r:init_foreground_exec:s0
-/loggy\.sh   u:object_r:loggy_exec:s0
-
 
 ###############################################
 # same-process HAL files and their dependencies

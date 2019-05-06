@@ -304,8 +304,6 @@ PRODUCT_PACKAGES += \
     init.qcom.early_boot.sh \
     init.qcom.post_boot.sh \
     init.qcom.firmware_links.sh \
-    loggy.sh \
-    init.usbdiag.sh \
     init.foreground.sh \
     init.recovery.qcom.rc \
     init.target.rc \
