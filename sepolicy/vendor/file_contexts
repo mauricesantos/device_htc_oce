@@ -32,6 +32,7 @@
 /sys/devices/soc/soc:qcom,camera-flash(/.*)?    u:object_r:sysfs_leds:s0
 
 # Radio
+/dev/block/bootdevice/by-name/radio         u:object_r:modem_block_device:s0
 /dev/radio(/.*)?                            u:object_r:radio_data_file:s0
 /dev/block/bootdevice/by-name/rfg_[0-9]+    u:object_r:modem_efs_partition_device:s0
 
@@ -85,6 +86,7 @@
 /dev/block/platform/soc/624000\.ufshc/by-name/persist       u:object_r:persist_block_device:s0
 
 # files in firmware
+/firmware/image/(/.*)?  u:object_r:firmware_file:s0
 /firmware(/.*)?         u:object_r:firmware_file:s0
 
 # files in /vendor
@@ -192,3 +194,5 @@
 
 # Heaps
 /sys/kernel/debug/ion/heaps/system                             u:object_r:debugfs_heaps_system:s0
+
+/sys/kernel/debug/rmt_storage(/.*)?                             u:object_r:qti_debugfs:s0

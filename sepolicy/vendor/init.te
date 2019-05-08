@@ -32,3 +32,19 @@ allow init sysfs:file setattr;
 allow init debugfs_ion:file relabelfrom;
 allow init vendor_toolbox_exec:file { execute r_file_perms };
 allow init sysfs_lowmemorykiller:file rw_file_perms;
+
+allow init servicemanager:binder { call };
+allow init proc:lnk_file { setattr };
+allow init vendor_file:file execute;
+allow init system_data_file:lnk_file r_file_perms;
+allow init device_latency:chr_file { open write };
+
+# Allow init to chown/chmod on pseudo files in /sys
+allow init sysfs_type:file setattr;
+
+allow init { netd tzdatacheck vendor_init ueventd tee fsck }:process noatsecure;
+
+dontaudit init kernel:system module_request;
+
+allow init debugfs_rmt_storage:dir relabelfrom;
+allow init debugfs_rmt_storage:file relabelfrom;

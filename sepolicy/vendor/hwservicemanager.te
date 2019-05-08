@@ -6,3 +6,8 @@ typeattribute hwservicemanager coredomain;
 add_hwservice(hwservicemanager, hidl_manager_hwservice)
 add_hwservice(hwservicemanager, hidl_token_hwservice)
 set_prop(hwservicemanager, ctl_interface_start_prop)
+
+allow hwservicemanager thermal-engine:binder transfer;
+allow hwservicemanager thermal-engine:dir search;
+allow hwservicemanager thermal-engine:file { open read };
+allow hwservicemanager thermal-engine:process getattr;

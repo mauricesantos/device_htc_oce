@@ -1,1 +1,3 @@
 allow healthd sysfs:file r_file_perms; 
+allow healthd pstorefs:dir r_dir_perms;
+allow healthd pstorefs:file r_file_perms;
