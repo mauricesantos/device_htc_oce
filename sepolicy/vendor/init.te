@@ -46,5 +46,5 @@ allow init { netd tzdatacheck vendor_init ueventd tee fsck }:process noatsecure;
 
 dontaudit init kernel:system module_request;
 
-allow init debugfs_rmt_storage:dir relabelfrom;
-allow init debugfs_rmt_storage:file relabelfrom;
+allow init socket_device:sock_file { create unlink setattr };
+allow init sysfs_leds:lnk_file { r_file_perms };

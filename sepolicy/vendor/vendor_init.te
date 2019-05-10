@@ -51,3 +51,6 @@ allow vendor_init vendor_file:file rx_file_perms;
 allow vendor_init sysfs_msm_subsys:file w_file_perms;
 
 allow vendor_init system_data_file:lnk_file create;
+allow vendor_init self:global_capability_class_set sys_admin;
+allow vendor_init serialno_prop:file { getattr open read map };
+allow vendor_init self:process { setfscreate };

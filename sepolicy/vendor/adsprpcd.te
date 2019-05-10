@@ -1,1 +1,5 @@
-allow adsprpcd debugfs_ion:dir r_dir_perms;
+type adsprpcd_device, dev_type;
+allow adsprpcd adsprpcd_device:chr_file rw_file_perms;
+allow adsprpcd ion_device:chr_file rw_file_perms;
+allow adsprpcd system_file:dir r_dir_perms;
+allow adsprpcd debugfs_ion:dir search;

@@ -12,3 +12,4 @@ allow hal_power_default sysfs_kgsl:file { open write };
 set_prop(hal_power_default, power_prop)
 
 allow hal_power_default device_latency:chr_file { open write }; 
+allow hal_power_default hal_power_hwservice:hwservice_manager { add find };

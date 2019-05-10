@@ -12,3 +12,8 @@ r_dir_file(tee, persist_file)
 allow tee persist_data_file:dir create_dir_perms;
 allow tee persist_data_file:file create_file_perms;
 allow tee debugfs_ion:dir r_dir_perms;
+allow tee device:dir r_dir_perms;
+allow tee firmware_file:dir search;
+allow tee block_device:dir { getattr search };
+allow tee sg_device:chr_file { rw_file_perms setattr };
+allow tee time_daemon:unix_stream_socket connectto;

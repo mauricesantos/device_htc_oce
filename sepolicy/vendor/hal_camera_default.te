@@ -4,6 +4,8 @@ allow hal_camera_default hal_graphics_mapper_hwservice:hwservice_manager find;
 hal_client_domain(hal_camera_default, hal_configstore)
 binder_call(hal_camera_default, hal_graphics_composer)
 binder_call(hal_camera_default, system_server)
+binder_call(hal_camera_default, hal_graphics_allocator)
+binder_call(hal_camera_default, surfaceflinger)
 # For interfacing with PowerHAL
 hal_client_domain(hal_camera_default, hal_power)
 # For camera team debugging
@@ -20,3 +22,16 @@ allow hal_camera_default debugfs_kgsl:dir r_dir_perms;
 allow hal_camera_default cameraserver:file { getattr read open };
 allow hal_camera_default cameraserver:dir search;
 allow hal_camera_default proc_version:file { open read getattr };
+
+set_prop(hal_camera_default, camera_prop)
+set_prop(hal_camera_default, vendor_camera_prop)
+
+allow hal_camera_default hal_power_default:unix_stream_socket connectto;
+
+allow hal_camera_default sysfs_msm_subsys:dir r_dir_perms;
+allow hal_camera_default sysfs_msm_subsys:file r_file_perms;
+r_dir_file(hal_camera_default, sysfs_soc)
+r_dir_file(hal_camera_default, sysfs_esoc)
+
+allow hal_camera_default camera_vendor_data_file:dir rw_dir_perms;
+allow hal_camera_default camera_vendor_data_file:file create_file_perms;

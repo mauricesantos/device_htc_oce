@@ -32,6 +32,7 @@ genfscon sysfs /module/lpm_levels/parameters          u:object_r:sysfs_power_man
 genfscon sysfs /devices/soc/6a00000.ssusb/power_supply                u:object_r:sysfs_batteryinfo:s0
 genfscon sysfs /devices/soc/75b5000.i2c/i2c-7/7-001d/power_supply     u:object_r:sysfs_batteryinfo:s0
 genfscon sysfs /devices/soc/msm-bcl-14/power_supply                   u:object_r:sysfs_batteryinfo:s0
+genfscon sysfs /devices/soc/msm-bcl-14/power_supply/fg_adc/type         u:object_r:sysfs_batteryinfo:s0
 genfscon sysfs /devices/soc/soc:qcom,bcl/power_supply                 u:object_r:sysfs_batteryinfo:s0
 genfscon sysfs /devices/soc/qpnp-fg-17                                u:object_r:sysfs_batteryinfo:s0
 genfscon sysfs /devices/soc/qpnp-smbcharger-16/power_supply           u:object_r:sysfs_batteryinfo:s0
@@ -49,8 +50,8 @@ genfscon sysfs /module/diagchar                       u:object_r:sysfs_diag:s0
 # debugfs
 genfscon debugfs /kgsl/proc                u:object_r:debugfs_kgsl:s0
 genfscon debugfs /wlan_wcnss               u:object_r:debugfs_wlan:s0
-genfscon debugfs /msm_core                 u:object_r:debugfs_msm_core:s0
-genfscon debugfs /rmt_storage              u:object_r:debugfs_rmt_storage:s0
+genfscon debugfs /msm_core                 u:object_r:qti_debugfs:s0
+genfscon debugfs /rmt_storage              u:object_r:qti_debugfs:s0
 genfscon debugfs /ipc_logging              u:object_r:debugfs_ipc:s0
 genfscon debugfs /dma_buf/bufinfo          u:object_r:debugfs_bufinfo:s0
 genfscon debugfs /mdp/xlog/dump            u:object_r:debugfs_mdp:s0
