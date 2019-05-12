@@ -110,7 +110,9 @@ USE_DEVICE_SPECIFIC_CAMERA := true
 # Camera API Override
 TARGET_PROCESS_SDK_VERSION_OVERRIDE := \
     /vendor/bin/mm-qcamera-daemon=26 \
-    /system/vendor/bin/mm-qcamera-daemon=26
+    /system/vendor/bin/mm-qcamera-daemon=26 \
+    /vendor/bin/hw/android.hardware.camera.provider@2.4-service=26 \
+    /system/vendor/bin/hw/android.hardware.camera.provider@2.4-service=26
 
 # Dex
 ifeq ($(HOST_OS),linux)
