@@ -498,10 +498,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     vndk-sp
 
-# Wifi-Display
-PRODUCT_BOOT_JARS += \
-    WfdCommon
-
 # Wifi
 PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service \
@@ -514,6 +510,13 @@ PRODUCT_PACKAGES += \
     wlutil \
     wpa_supplicant \
     wpa_supplicant.conf
+
+# WiFi Display
+PRODUCT_PACKAGES += \
+    libnl
+
+PRODUCT_BOOT_JARS += \
+    WfdCommon
 
 # Wifi tether
 PRODUCT_PROPERTY_OVERRIDES += \
