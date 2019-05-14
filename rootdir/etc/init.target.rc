@@ -32,6 +32,7 @@ on charger
     wait /dev/block/bootdevice
     mount_all /vendor/etc/charger.fstab.qcom
     start vendor.hvdcp_opti
+    start vendor.power_off_alarm
 
 on early-init
     symlink /data/tombstones /tombstones
