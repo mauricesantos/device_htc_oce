@@ -321,9 +321,6 @@
     <!-- Should the pinner service pin the Home application? -->
     <bool name="config_pinnerHomeApp">true</bool>
 
-    <!-- Enable Night display, which requires HWC 2.0. -->
-    <bool name="config_nightDisplayAvailable">true</bool>
-
     <!-- Boolean indicating whether the HWC setColorTransform function can be performed efficiently
          in hardware. -->
     <bool name="config_setColorTransformAccelerated">true</bool>
@@ -438,4 +435,7 @@
     
     <!-- Does the device supports Smart Battery -->
     <bool name="config_smart_battery_available">true</bool>
+    
+    <!-- Default state for LiveDisplay -->
+    <bool name="config_liveDisplayAvailable">true</bool>
 </resources>
