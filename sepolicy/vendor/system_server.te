@@ -10,6 +10,7 @@ allow system_server uhid_device:chr_file rw_file_perms;
 
 # hwservice over hwbinder
 binder_call(system_server, hal_camera_default)
+binder_call(system_server, hal_nfc_default)
 binder_call(system_server, location)
 binder_call(system_server, thermal-engine)
 
