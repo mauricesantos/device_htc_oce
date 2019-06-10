@@ -3,6 +3,7 @@ allow qti_init_shell vendor_radio_data_file:dir { create_dir_perms ra_dir_perms 
 allow qti_init_shell debug_prop:property_service set;
 allow qti_init_shell ctl_default_prop:property_service set;
 allow qti_init_shell system_prop:property_service set;
+allow qti_init_shell sysfs:dir r_dir_perms;
 allow qti_init_shell sysfs:file create_file_perms;
 allow qti_init_shell vendor_default_prop:property_service set;
 allow qti_init_shell system_data_file:file r_file_perms;
@@ -23,3 +24,20 @@ allow qti_init_shell bg_daemon_prop:file r_file_perms;
 allow qti_init_shell cnd_vendor_prop:file { getattr open };
 allow qti_init_shell cnss_diag_prop:file open;
 allow qti_init_shell ctl_LKCore_prop:file open;
+
+allow qti_init_shell kmsg_device:chr_file { write open };
+allow qti_init_shell diag_prop:property_service set;
+
+qmux_socket(qti_init_shell)
+
+allow qti_init_shell cgroup:dir create_dir_perms;
+
+allow qti_init_shell sysfs_devices_system_cpu:file setattr;
+allow qti_init_shell sysfs_devices_system_cpu:dir r_dir_perms;
+allow qti_init_shell sysfs_sec:file setattr;
+allow qti_init_shell sysfs_ss_writable:file { write open setattr };
+allow qti_init_shell device:dir create_dir_perms;
+allow qti_init_shell device:file create_file_perms;
+allow qti_init_shell usf_device:chr_file setattr;
+allow qti_init_shell hwui_prop:property_service set;
+allow qti_init_shell sysfs_sec:file rw_file_perms;

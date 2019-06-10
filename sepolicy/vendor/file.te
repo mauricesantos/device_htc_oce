@@ -50,3 +50,5 @@ type bluetooth_vendor_data_file, file_type, data_file_type;
 type location_vendor_data_file, file_type, data_file_type;
 type netmgr_vendor_data_file, file_type, data_file_type;
 type timekeep_vendor_data_file, file_type, data_file_type;
+type sysfs_sec, sysfs_type, fs_type;
+type sysfs_ss_writable, sysfs_type, fs_type;
