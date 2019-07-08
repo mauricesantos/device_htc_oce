@@ -284,8 +284,6 @@ PRODUCT_PACKAGES += \
     init.htc_multisim.rc \
     init.htc_oce_fp.rc \
     init.common.nanohub.rc \
-    init.htc.usb.configfs.rc \
-    init.htc.usb.rc \
     init.msm.usb.configfs.rc \
     init.qcom.usb.sh \
     init.qcom.sensors.sh \
