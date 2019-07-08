@@ -1,56 +1,31 @@
 typeattribute vendor_init data_between_core_and_vendor_violators;
-allow vendor_init proc_uid_cpupower:file write;
-allow vendor_init {
-  adb_keys_file
-  backup_data_file
-  cache_backup_file
-  cache_file
-  cache_private_backup_file
-  cache_recovery_file
-  dhcp_data_file
-  fingerprintd_data_file
-  heapdump_data_file
-  location_data_file
-  media_rw_data_file
-  nfc_data_file
-  perfd_data_file
-  preloads_data_file
-  preloads_media_file
-  radio_data_file
-  rootfs
-  system_data_file
-  time_data_file
-  tombstone_data_file
-  wifi_data_file
-}:dir { create search getattr open read setattr ioctl write add_name remove_name rmdir relabelfrom };
-allow vendor_init {
-  adb_keys_file
-  location_data_file
-  media_rw_data_file
-  nfc_data_file
-  perfd_data_file
-  radio_data_file
-}:file { create getattr open read write setattr relabelfrom unlink };
-allow vendor_init {
-  location_data_file
-}:sock_file setattr;
-dontaudit vendor_init unlabeled:dir getattr;
-dontaudit vendor_init unlabeled:file getattr;
 
-allow vendor_init sysfs:lnk_file create_file_perms;
-allow vendor_init rootfs:lnk_file { relabelfrom create_file_perms };
+allow vendor_init {
+    backup_data_file
+    cache_backup_file
+    cache_file
+    cache_private_backup_file
+    cache_recovery_file
+    camera_data_file
+    fpc_data_file
+    heapdump_data_file
+    media_rw_data_file
+    nanohub_lock_file
+    nfc_data_file
+    perfd_data_file
+    radio_data_file
+    sensors_cal_file
+    system_data_file
+    time_data_file
+    thermal_data_file
+    tombstone_data_file
+}:dir create_dir_perms;
 
+allow vendor_init device:file create_file_perms;
+allow vendor_init media_rw_data_file:file create_file_perms;
+
+allow vendor_init rootfs:dir { create setattr rw_dir_perms };
+allow vendor_init rootfs:lnk_file { getattr open read ioctl lock map setattr  };
 allow vendor_init dm_device:chr_file getattr;
-allow vendor_init firmware_file:dir r_dir_perms;
-allow vendor_init carrier_file:dir r_dir_perms;
-allow vendor_init carrier_file:file r_file_perms;
-allow vendor_init shell_exec:file x_file_perms;
-allow vendor_init vendor_shell_exec:file rx_file_perms;
-allow vendor_init vendor_toolbox_exec:file rx_file_perms;
-allow vendor_init vendor_file:file rx_file_perms;
-allow vendor_init sysfs_msm_subsys:file w_file_perms;
-
-allow vendor_init system_data_file:lnk_file create;
-allow vendor_init self:global_capability_class_set sys_admin;
-allow vendor_init serialno_prop:file { getattr open read map };
-allow vendor_init self:process { setfscreate };
+allow vendor_init shell_exec:file rx_file_perms;
+allow vendor_init media_rw_data_file:file relabelfrom;

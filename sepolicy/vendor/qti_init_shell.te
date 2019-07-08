@@ -1,43 +1,49 @@
-allow qti_init_shell vendor_radio_data_file:file { setattr getattr w_file_perms };
-allow qti_init_shell vendor_radio_data_file:dir { create_dir_perms ra_dir_perms };
-allow qti_init_shell debug_prop:property_service set;
-allow qti_init_shell ctl_default_prop:property_service set;
-allow qti_init_shell system_prop:property_service set;
-allow qti_init_shell sysfs:dir r_dir_perms;
-allow qti_init_shell sysfs:file create_file_perms;
-allow qti_init_shell vendor_default_prop:property_service set;
-allow qti_init_shell system_data_file:file r_file_perms;
-allow qti_init_shell adsprpc_prop:file r_file_perms;
-allow qti_init_shell radio_data_file:file w_file_perms;
-allow qti_init_shell carrier_file:file r_file_perms;
-allow qti_init_shell post_boot_prop:property_service set;
-allow qti_init_shell bluetooth_log_prop:file r_file_perms;
-allow qti_init_shell bluetooth_prop:file r_file_perms;
-allow qti_init_shell boottime_prop:file r_file_perms;
-allow qti_init_shell shell_exec:file rx_file_perms;
-allow qti_init_shell vendor_shell_exec:file rx_file_perms;
-allow qti_init_shell vendor_toolbox_exec:file rx_file_perms;
-allow qti_init_shell vendor_file:file rx_file_perms;
-allow qti_init_shell sysfs_msm_subsys:file w_file_perms;
-allow qti_init_shell bg_boot_complete_prop:file r_file_perms;
-allow qti_init_shell bg_daemon_prop:file r_file_perms;
-allow qti_init_shell cnd_vendor_prop:file { getattr open };
-allow qti_init_shell cnss_diag_prop:file open;
-allow qti_init_shell ctl_LKCore_prop:file open;
+typeattribute qti_init_shell data_between_core_and_vendor_violators;
 
-allow qti_init_shell kmsg_device:chr_file { write open };
-allow qti_init_shell diag_prop:property_service set;
+allow qti_init_shell vendor_radio_data_file:dir { create_dir_perms rw_dir_perms };
+allow qti_init_shell vendor_radio_data_file:file rw_file_perms;
+allow qti_init_shell file_contexts_file:file { getattr open read };
 
-qmux_socket(qti_init_shell)
+# Allow qti_init_shell to fully access wlan_mac.bin persist file
+allow qti_init_shell mnt_vendor_file:dir rw_dir_perms;
+allow qti_init_shell mnt_vendor_file:file create_file_perms;
 
-allow qti_init_shell cgroup:dir create_dir_perms;
+# Allow qti_init_shell to write and read /mnt/vendor/persist/bluetooth/bt_mac
+allow qti_init_shell persist_bluetooth_file:dir { add_name create search write };
+allow qti_init_shell persist_bluetooth_file:file { create getattr open read write };
 
-allow qti_init_shell sysfs_devices_system_cpu:file setattr;
-allow qti_init_shell sysfs_devices_system_cpu:dir r_dir_perms;
-allow qti_init_shell sysfs_sec:file setattr;
-allow qti_init_shell sysfs_ss_writable:file { write open setattr };
-allow qti_init_shell device:dir create_dir_perms;
-allow qti_init_shell device:file create_file_perms;
-allow qti_init_shell usf_device:chr_file setattr;
-allow qti_init_shell hwui_prop:property_service set;
-allow qti_init_shell sysfs_sec:file rw_file_perms;
+# Allow qti_init_shell to read cmdline
+allow qti_init_shell proc_cmdline:file { getattr open read };
+
+set_prop(qti_init_shell, oem_unlock_prop)
+
+allow qti_init_shell init_foreground_exec:file entrypoint;
+
+set_prop(qti_init_shell, post_boot_prop)
+set_prop(qti_init_shell, debug_prop)
+set_prop(qti_init_shell, system_prop)
+set_prop(qti_init_shell, vendor_default_prop)
+set_prop(qti_init_shell, sf_lcd_density_prop)
+set_prop(qti_init_shell, powerctl_prop)
+
+allow qti_init_shell hal_keymaster_default:file { open read };
+
+allow qti_init_shell sysfs:file setattr;
+
+allow qti_init_shell init:dir { getattr search };
+allow qti_init_shell init:file { open read };
+
+allow qti_init_shell kernel:dir { getattr search };
+allow qti_init_shell kernel:file { open read };
+
+allow qti_init_shell tee:dir { getattr search };
+allow qti_init_shell tee:file { open read };
+
+allow qti_init_shell ueventd:dir { getattr search };
+allow qti_init_shell ueventd:file { open read };
+
+allow qti_init_shell radio_data_file:file rw_file_perms;
+
+allow qti_init_shell vendor_init:dir { getattr search };
+allow qti_init_shell vendor_init:file { open read };
+allow qti_init_shell vendor_radio_data_file:file setattr;

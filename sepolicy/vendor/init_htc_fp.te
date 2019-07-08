@@ -2,12 +2,10 @@ type init_htc_fp, domain;
 type init_htc_fp_exec, exec_type, vendor_file_type, file_type;
 init_daemon_domain(init_htc_fp) 
 
-allow init_htc_fp rootfs:file r_file_perms;
 allow init_htc_fp vendor_shell_exec:file rx_file_perms;
 allow init_htc_fp vendor_toolbox_exec:file rx_file_perms;
-
-r_dir_file(init_htc_fp, sysfs_type)
-allow init_htc_fp sysfs:file { rw_file_perms relabelfrom };
-allow init_htc_fp sysfs:dir { relabelfrom r_dir_perms };
-
-allow qti_init_shell system_prop:property_service set;
+allow init_htc_fp domain:dir { getattr search };
+allow init_htc_fp domain:file { read open };
+allow init_htc_fp toolbox_exec:file rx_file_perms;
+allow init_htc_fp shell_exec:file { execute_no_trans rx_file_perms };
+allow init_htc_fp system_file:file { execute_no_trans rx_file_perms };

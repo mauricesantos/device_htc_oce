@@ -14,6 +14,7 @@ allow rild time:unix_stream_socket connectto;
 allowxperm rild self:udp_socket ioctl priv_sock_ioctls;
 allow rild self:socket ioctl;
 allowxperm rild self:socket ioctl msm_sock_ipc_ioctls;
+allow rild rild_file:file { ioctl lock };
 userdebug_or_eng(`
   allow rild diag_device:chr_file rw_file_perms;
 ')
@@ -35,6 +36,3 @@ allow rild vendor_shell_exec:file rx_file_perms;
 typeattribute rild socket_between_core_and_vendor_violators;
 # Allow vendor native process to read the proc file of xy_qtaguid
 allow rild proc_qtaguid_stat:file r_file_perms;
-
-allow rild carrier_file:file r_file_perms;
-allow rild carrier_file:dir r_dir_perms;

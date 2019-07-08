@@ -23,4 +23,9 @@ allow hal_gnss_default self:netlink_route_socket { bind create nlmsg_read read w
 # TODO (b/37730994) Remove udp_socket requirement from
 # libqdi and have all its clients use netlink route
 # sockets.
-dontaudit hal_gnss_default self:udp_socket create; 
+dontaudit hal_gnss_default self:udp_socket create;
+
+allow hal_gnss_default sysfs_msm_subsys:dir r_dir_perms;
+allow hal_gnss_default sysfs_msm_subsys:file r_file_perms;
+allow hal_gnss_default sysfs_soc:dir r_dir_perms;
+allow hal_gnss_default sysfs_soc:file r_file_perms;

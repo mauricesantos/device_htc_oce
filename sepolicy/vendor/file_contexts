@@ -11,11 +11,13 @@
 /system/lib/soundfx/libjamesdsp\.so    u:object_r:vendor_file:s0 
 
 # Encryption
-/dev/block/bootdevice/by-name/extra         u:object_r:forceencrypt_block_device:s0
+/dev/block/bootdevice/by-name/extra         u:object_r:metadata_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/extra u:object_r:metadata_block_device:s0
+
 /cache/recovery/uncrypt_file        u:object_r:cache_recovery_file:s0
 
 # Fingerprint
-/data/fpc(/.*)?                             u:object_r:fingerprintd_data_file:s0
+/data/fpc(/.*)?                             u:object_r:fpc_data_file:s0
 /sys/devices/soc/soc:fp_fpc1155(/.*)?       u:object_r:sysfs_fingerprint:s0
 /sys/devices/soc/soc:fp_fpc1155/irq         u:object_r:sysfs_fpc_irq:s0
 /sys/devices/soc/soc:fp_fpc1155/irq_count   u:object_r:sysfs_fpc_irq:s0
@@ -33,12 +35,10 @@
 /sys/devices/soc/[a-z0-9]+.qcom,mdss_mdp/[a-z0-9]+.qcom,mdss_mdp:qcom,mdss_fb_primary/leds/lcd-backlight(/.*)? u:object_r:sysfs_leds:s0
 
 # Radio
-/dev/block/bootdevice/by-name/radio         u:object_r:modem_block_device:s0
 /dev/radio(/.*)?                            u:object_r:radio_data_file:s0
 /dev/block/bootdevice/by-name/rfg_[0-9]+    u:object_r:modem_efs_partition_device:s0
-
-# RIL
-/system/vendor/radio/qcril_database/qcril.db    u:object_r:vendor_radio_data_file:s0
+/(vendor|system/vendor)/radio/qcril_database/qcril.db                                  u:object_r:rild_file:s0
+/carrier/qcril.db           u:object_r:vendor_radio_data_file:s0
 
 # ZRAM
 /dev/block/zram[0-9]+                       u:object_r:swap_block_device:s0
@@ -48,6 +48,9 @@
 /dev/nanohub_comms             u:object_r:sensors_device:s0
 /dev/sg[0-9]+                  u:object_r:sg_device:s0
 /dev/ttyHS0                    u:object_r:hci_attach_dev:s0
+
+# Nanohub
+/system/bin/nanoapp_cmd                                                       u:object_r:nanoapp_cmd_exec:s0
 
 # A/B partitions.
 /dev/block/platform/soc/624000\.ufshc/by-name/aboot_[ab]        u:object_r:custom_ab_block_device:s0
@@ -76,120 +79,87 @@
 # Block devices for the drive that holds the xbl_a and xbl_b partitions.
 /dev/block/platform/soc/624000\.ufshc/sd[bc]                 u:object_r:xbl_block_device:s0
 
-# Other, non-A/B partitions.
+# Block Devices
 /dev/block/platform/soc/624000\.ufshc/by-name/frp           u:object_r:frp_block_device:s0
-/dev/block/platform/soc/624000\.ufshc/by-name/userdata      u:object_r:userdata_block_device:s0
+/dev/block/bootdevice/by-name/frp                                        u:object_r:frp_block_device:s0
+
 /dev/block/platform/soc/624000\.ufshc/by-name/misc          u:object_r:misc_block_device:s0
+
+/dev/block/platform/soc/624000\.ufshc/by-name/devinfo                    u:object_r:devinfo_block_device:s0
+/dev/block/bootdevice/by-name/devinfo                                        u:object_r:devinfo_block_device:s0
+
+/dev/block/platform/soc/624000\.ufshc/by-name/userdata      u:object_r:userdata_block_device:s0
+/dev/block/bootdevice/by-name/userdata                                        u:object_r:userdata_block_device:s0
+
+/dev/block/platform/soc/624000\.ufshc/by-name/boot         u:object_r:boot_block_device:s0
+/dev/block/bootdevice/by-name/boot                                            u:object_r:boot_block_device:s0
+
+/dev/block/platform/soc/624000\.ufshc/by-name/cache                          u:object_r:cache_block_device:s0
+/dev/block/bootdevice/by-name/cache                                           u:object_r:cache_block_device:s0
+
+/dev/block/platform/soc/624000\.ufshc/by-name/persist       u:object_r:persist_block_device:s0
+/dev/block/bootdevice/by-name/persist                                         u:object_r:persist_block_device:s0
+
+/dev/block/platform/soc/624000\.ufshc/by-name/radio                          u:object_r:modem_block_device:s0
+/dev/block/bootdevice/by-name/radio                                             u:object_r:modem_block_device:s0
+
+/dev/block/platform/soc/624000\.ufshc/by-name/xbl          u:object_r:xbl_block_device:s0
+/dev/block/bootdevice/by-name/xbl                                             u:object_r:xbl_block_device:s0
+
+/dev/block/bootdevice/by-name/system u:object_r:system_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/system       u:object_r:system_block_device:s0
+
+/dev/block/bootdevice/by-name/carrier u:object_r:carrier_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/carrier                    u:object_r:carrier_block_device:s0
+
+/dev/block/platform/soc/624000\.ufshc/by-name/ramdump         u:object_r:ramdump_block_device:s0
+/dev/block/bootdevice/by-name/ramdump                          u:object_r:ramdump_block_device:s0
+
 /dev/block/platform/soc/624000\.ufshc/by-name/fsc           u:object_r:modem_block_device:s0
 /dev/block/platform/soc/624000\.ufshc/by-name/fsg           u:object_r:modem_block_device:s0
 /dev/block/platform/soc/624000\.ufshc/by-name/modemst1      u:object_r:modem_block_device:s0
 /dev/block/platform/soc/624000\.ufshc/by-name/modemst2      u:object_r:modem_block_device:s0
-/dev/block/platform/soc/624000\.ufshc/by-name/persist       u:object_r:persist_block_device:s0
 
 # files in firmware
 /firmware/image/(/.*)?  u:object_r:firmware_file:s0
 /firmware(/.*)?         u:object_r:firmware_file:s0
 
 # files in /vendor
-/vendor/bin/hw/android\.hardware\.audio@2\.0-service          u:object_r:hal_audio_default_exec:s0
-/vendor/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.1-service          u:object_r:hal_fingerprint_default_exec:s0
-/vendor/bin/hw/android\.hardware\.bluetooth@1\.0-service          u:object_r:hal_bluetooth_default_exec:s0
-/vendor/bin/hw/android\.hardware\.camera\.provider@2\.4-service          u:object_r:hal_camera_default_exec:s0
-/vendor/bin/hw/android\.hardware\.cas@1\.0-service          u:object_r:hal_cas_default_exec:s0
-/vendor/bin/hw/android\.hardware\.configstore@1\.1-service          u:object_r:hal_configstore_default_exec:s0
-/vendor/bin/hw/android\.hardware\.drm@1\.0-service          u:object_r:hal_drm_default_exec:s0
-/vendor/bin/hw/android\.hardware\.drm@1\.1-service\.widevine          u:object_r:hal_drm_widevine_exec:s0
-/vendor/bin/hw/android\.hardware\.drm@1\.1-service\.clearkey          u:object_r:hal_drm_clearkey_exec:s0
-/vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service          u:object_r:hal_gatekeeper_default_exec:s0
-/vendor/bin/hw/android\.hardware\.gnss@1\.0-service-qti          u:object_r:hal_gnss_default_exec:s0
-/vendor/bin/hw/android\.hardware\.graphics\.allocator@2\.0-service          u:object_r:hal_graphics_allocator_default_exec:s0
-/vendor/bin/hw/android\.hardware\.graphics\.composer@2\.1-service          u:object_r:hal_graphics_composer_default_exec:s0
-/vendor/bin/hw/android\.hardware\.health@2\.0-service          u:object_r:hal_health_default_exec:s0
-/vendor/bin/hw/android\.hardware\.keymaster@3\.0-service          u:object_r:hal_keymaster_default_exec:s0
-/vendor/bin/hw/android\.hardware\.memtrack@1\.0-service          u:object_r:hal_memtrack_default_exec:s0
-/vendor/bin/hw/android\.hardware\.nfc@1\.1-service          u:object_r:hal_nfc_default_exec:s0
-/vendor/bin/hw/android\.hardware\.power@1\.2-service\.oce          u:object_r:hal_power_default_exec:s0
-/vendor/bin/hw/android\.hardware\.sensors@1\.0-service          u:object_r:hal_sensors_default_exec:s0
-/vendor/bin/hw/android\.hardware\.usb@1\.0-service\.basic            u:object_r:hal_usb_default_exec:s0
-/vendor/bin/hw/android\.hardware\.vibrator@1\.0-service       u:object_r:hal_vibrator_default_exec:s0
-/vendor/bin/hw/android\.hardware\.wifi@1\.0-service       u:object_r:hal_wifi_default_exec:s0
-/vendor/bin/thermal-engine  u:object_r:thermal-engine_exec:s0
-/vendor/bin/qseecomd        u:object_r:tee_exec:s0
-/vendor/bin/mm-qcamera-daemon   u:object_r:mm-qcamerad_exec:s0
-/vendor/bin/pm-service          u:object_r:per_mgr_exec:s0
-/vendor/bin/pm-proxy            u:object_r:per_proxy_exec:s0
-/vendor/bin/msm_irqbalance      u:object_r:msm_irqbalanced_exec:s0
-/vendor/bin/adsprpcd            u:object_r:adsprpcd_exec:s0
-/vendor/bin/cnd                 u:object_r:cnd_exec:s0
-/vendor/bin/ATFWD-daemon        u:object_r:atfwd_exec:s0
-/vendor/bin/imsdatadaemon          u:object_r:ims_exec:s0
-/vendor/bin/imsqmidaemon           u:object_r:ims_exec:s0
-/vendor/bin/ims_rtp_daemon         u:object_r:ims_exec:s0
-/vendor/bin/loc_launcher           u:object_r:location_exec:s0
-/vendor/bin/netmgrd                u:object_r:netmgrd_exec:s0
-/vendor/bin/irsc_util              u:object_r:irsc_util_exec:s0
-/vendor/bin/slim_daemon            u:object_r:location_exec:s0
-/vendor/bin/xtra-daemon            u:object_r:location_exec:s0
-/vendor/bin/lowi-server            u:object_r:location_exec:s0
-/vendor/bin/ssr_setup              u:object_r:ssr_setup_exec:s0
-/vendor/bin/imscmservice           u:object_r:imscm_exec:s0
-/vendor/bin/time_daemon            u:object_r:time_exec:s0
-/vendor/bin/rmt_storage            u:object_r:rmt_exec:s0
-/vendor/bin/toybox_vendor          u:object_r:vendor_toolbox_exec:s0
-/vendor/bin/toolbox                u:object_r:vendor_toolbox_exec:s0
-
-/vendor/bin/init\.htc_fp\.sh   u:object_r:init_htc_fp_exec:s0
-/vendor/bin/init\.htc_slpi\.sh   u:object_r:init_htc_slpi_exec:s0
-/vendor/bin/init\.qcom\.firmware_links\.sh u:object_r:qti_init_shell_exec:s0
-/vendor/bin/init\.foreground\.sh   u:object_r:init_foreground_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.configstore@1\.1-service          u:object_r:hal_configstore_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.drm@1\.1-service\.widevine          u:object_r:hal_drm_widevine_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.drm@1\.1-service\.clearkey          u:object_r:hal_drm_clearkey_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.gnss@1\.0-service-qti          u:object_r:hal_gnss_default_exec:s0
+/(vendor|system/vendor)/bin/imscmservice           u:object_r:imscm_exec:s0
+/(vendor|system/vendor)/bin/init.htc.fp.sh   u:object_r:init_htc_fp_exec:s0
+/(vendor|system/vendor)/bin/init.htc.slpi.sh   u:object_r:init_htc_slpi_exec:s0
+/(vendor|system/vendor)/bin/init.qcom.firmware_links.sh u:object_r:firmware-links_exec:s0
+/(vendor|system/vendor)/bin/init.foreground.sh   u:object_r:init_foreground_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.power@1\.2-service\.oce          u:object_r:hal_power_default_exec:s0
 
 ###############################################
 # same-process HAL files and their dependencies
 #
-/vendor/lib(64)?/hw/gralloc\.msm8996\.so   u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libqdMetaData\.so         u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libqservice\.so           u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libqdutils\.so            u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libadreno_utils\.so       u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libgsl\.so                u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/hw/vulkan\.msm8996\.so     u:object_r:same_process_hal_file:s0
 /(system/vendor|vendor|odm)/lib(64)?/hw/vulkan\.qcom\.so              u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libEGL_adreno\.so          u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libGLESv1_CM_adreno\.so    u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libGLESv2_adreno\.so       u:object_r:same_process_hal_file:s0
-
-# RenderScript dependencies.
-# To test: run cts -m CtsRenderscriptTestCases
-/vendor/lib(64)?/libRSDriver_adreno\.so     u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libbccQTI\.so              u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libllvm-qcom\.so           u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/librs_adreno\.so           u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/librs_adreno_sha1\.so      u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libCB\.so                  u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libllvm-glnext\.so            u:object_r:same_process_hal_file:s0
-/vendor/lib(64)?/libqti-perfd-client\.so    u:object_r:same_process_hal_file:s0
 
 # Loaded by native loader (zygote) for all processes
-/vendor/lib(64)?/libadsprpc\.so             u:object_r:same_process_hal_file:s0
+
 /(system/vendor|vendor|odm)/lib(64)?/libcdsprpc\.so                   u:object_r:same_process_hal_file:s0
 /(system/vendor|vendor|odm)/lib(64)?/libsdsprpc\.so                   u:object_r:same_process_hal_file:s0
 /(system/vendor|vendor|odm)/lib(64)?/libgralloccore\.so               u:object_r:same_process_hal_file:s0
 /(system/vendor|vendor|odm)/lib(64)?/libgrallocutils\.so              u:object_r:same_process_hal_file:s0
-
-
 /(system/vendor|vendor|odm)/lib(64)?/(egl/)?libq3dtools_adreno\.so    u:object_r:same_process_hal_file:s0
 /(system/vendor|vendor|odm)/lib(64)?/libOpenCL\.so                    u:object_r:same_process_hal_file:s0
-
-/(system/vendor|vendor|odm)/lib(64)?/libllvm-glnext\.so               u:object_r:same_process_hal_file:s0
-
 /(system/vendor|vendor|odm)/lib(64)?/libdrmutils\.so                  u:object_r:same_process_hal_file:s0
 /(system/vendor|vendor|odm)/lib(64)?/libdrm\.so                       u:object_r:same_process_hal_file:s0
 
 # /data
+/data/decrypt\.txt               u:object_r:thermal_data_file:s0
 /data/misc/perfd(/.*)?           u:object_r:perfd_data_file:s0
 /data/system/perfd(/.*)?         u:object_r:perfd_data_file:s0
 /data/misc/radio(/.*)?           u:object_r:radio_data_file:s0
-/data/vendor/sensor(/.*)?        u:object_r:sensor_vendor_data_file:s0
+/data/vendor/sensor(/.*)?        u:object_r:sensors_cal_file:s0
+/data/system/nanohub_lock(/.*)?                                               u:object_r:nanohub_lock_file:s0
+
 
 # /
 /bt_firmware(/.*)?      u:object_r:bt_firmware_file:s0
@@ -205,6 +175,9 @@
 # Sensors
 /sys/bus/iio/devices(/.*)?                                          u:object_r:sysfs_sensors:s0
 /sys/devices/virtual/htc_sensorhub(/.*)?                            u:object_r:sysfs_sensors:s0
+/sys/class/htc_sensorhub/sensor_hub(/.*)?				      u:object_r:sysfs_sensors:s0
+/sys/devices/virtual/optical_sensors/proximity/ps_pocket                      u:object_r:sysfs_sensors:s0
+
 
 # Heaps
 /sys/kernel/debug/ion/heaps/system                             u:object_r:debugfs_heaps_system:s0
@@ -220,3 +193,6 @@
 /(system/vendor|vendor)/lib(64)?/camera\.device@3\.3-impl\.so                           u:object_r:same_process_hal_file:s0
 /(system/vendor|vendor)/lib(64)?/camera\.device@3\.4-impl\.so                           u:object_r:same_process_hal_file:s0
 /(system/vendor|vendor)/lib(64)?/camera\.device@3\.4-external-impl\.so                  u:object_r:same_process_hal_file:s0
+
+# IDC
+/system/usr/idc(/.*)?                                u:object_r:idc_file:s0

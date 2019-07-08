@@ -1,50 +1,28 @@
-allow init sysfs_devices_system_cpu:file w_file_perms;
-allow init sysfs_msm_power:file w_file_perms; 
-allow init hidl_base_hwservice:hwservice_manager add;
-allow init sysfs_devfreq:file r_file_perms;
-allow init sysfs_gesture:file w_file_perms;
-allow init sysfs_lib:file w_file_perms;
-allow init system_data_file:file append;
-allow init system_file:file r_file_perms;
-allow init vendor_file:file r_file_perms;
-allow init vendor_shell_exec:file { execute r_file_perms };
-allow init vendor_configs_file:file mounton;
-allow init functionfs:dir mounton;
-allow init kernel:system module_request;
-allow init property_socket:sock_file w_file_perms;
-allow init diag_device:chr_file x_file_perms;
-allow init hwservicemanager:binder { call transfer };
-allow init sysfs:dir r_dir_perms;
-allow init tmpfs:lnk_file create;
-allowxperm init self:udp_socket ioctl { SIOCSIFFLAGS };
-allow init sysfs_type:lnk_file read;
-allow init firmware_file:dir mounton;
-allow init persist_file:dir mounton;
-allow init userdata_block_device:blk_file { write };
-allow init persist_block_device:lnk_file relabelto;
-allow init device:chr_file x_file_perms;
-allow init debugfs_ipc:dir relabelfrom;
-allow init debugfs_ipc:file relabelfrom;
-allow init perfd_data_file:file w_file_perms;
-allow init sysfs_nanoapp_cmd:file rw_file_perms;
-allow init sysfs_kgsl:file r_file_perms;
-allow init sysfs:file setattr;
-allow init debugfs_ion:file relabelfrom;
-allow init vendor_toolbox_exec:file { execute r_file_perms };
-allow init sysfs_lowmemorykiller:file rw_file_perms;
+typeattribute init data_between_core_and_vendor_violators;
+
+allow init devinfo_block_device:blk_file { r_file_perms };
 
 allow init servicemanager:binder { call };
-allow init proc:lnk_file { setattr };
-allow init vendor_file:file execute;
-allow init system_data_file:lnk_file r_file_perms;
-allow init device_latency:chr_file { open write };
+allow init hwservicemanager:binder { call };
 
-# Allow init to chown/chmod on pseudo files in /sys
-allow init sysfs_type:file setattr;
-
-allow init { netd tzdatacheck vendor_init ueventd tee fsck }:process noatsecure;
-
-dontaudit init kernel:system module_request;
+allow init sysfs_leds:lnk_file { r_file_perms };
 
 allow init socket_device:sock_file { create unlink setattr };
-allow init sysfs_leds:lnk_file { r_file_perms };
+
+allow init vendor_file:file execute;
+
+allow init { ion_device tee_device }:chr_file ioctl;
+allow init hidl_base_hwservice:hwservice_manager add;
+allow init sysfs_fingerprint:file { open read setattr write };
+allow init tee_device:chr_file write;
+allow init sysfs_graphics:lnk_file read;
+allow init adsprpcd_file:filesystem { mount relabelfrom relabelto };
+
+allow init debugfs_ion:file relabelfrom;
+allow init debugfs_ipc:dir relabelfrom;
+allow init debugfs_ipc:file relabelfrom;
+allow init sysfs:file setattr;
+allow init sysfs_nanoapp_cmd:file { open write };
+allow init vfat:dir search;
+
+allow init vendor_configs_file:file mounton;
