@@ -295,7 +295,6 @@ PRODUCT_PACKAGES += \
     init.qcom.post_boot.sh \
     init.qcom.firmware_links.sh \
     init.foreground.sh \
-    init.recovery.qcom.rc \
     init.target.rc \
     ueventd.qcom.rc
 
