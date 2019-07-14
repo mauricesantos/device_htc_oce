@@ -49,7 +49,6 @@ type vendor_netmgr_data_file, file_type, data_file_type;
 type vendor_timekeep_data_file, file_type, data_file_type;
 type sysfs_sec, sysfs_type, fs_type;
 type sysfs_ss_writable, sysfs_type, fs_type;
-type devinfo_block_device, dev_type;
 type fpc_data_file, core_data_file_type, data_file_type, file_type;
 type thermal_data_file, core_data_file_type, data_file_type, file_type;
 type idc_file, file_type, vendor_file_type;
