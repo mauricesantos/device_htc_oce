@@ -47,9 +47,6 @@
 /dev/sg[0-9]+                  u:object_r:sg_device:s0
 /dev/ttyHS0                    u:object_r:hci_attach_dev:s0
 
-# Nanohub
-/system/bin/nanoapp_cmd                                                       u:object_r:nanoapp_cmd_exec:s0
-
 # A/B partitions.
 /dev/block/platform/soc/624000\.ufshc/by-name/aboot_[ab]        u:object_r:custom_ab_block_device:s0
 /dev/block/platform/soc/624000\.ufshc/by-name/apdp_[ab]         u:object_r:custom_ab_block_device:s0
