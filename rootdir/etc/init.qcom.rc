@@ -46,12 +46,9 @@ on early-init
     chown root system /dev/kmsg
     chmod 0620 /dev/kmsg
     # Load WIGIG platform driver
-    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules msm_11ad_proxy
+    exec u:r:vendor_modprobe:s0 -- /system/vendor/bin/modprobe -a -d /system/vendor/lib/modules msm_11ad_proxy
 
 on init
-    start jamesdsp
-    mount none /system/etc/audio_effects.xml /vendor/etc/audio_effects.xml bind
-    mount none /system/lib/soundfx/libjamesdsp.so /vendor/lib/soundfx/libjamesdsp.so bind
 
     # Create cgroup mount point for memory
     mkdir /sys/fs/cgroup/memory/bg 0750 root system
@@ -68,8 +65,8 @@ on early-boot
     setrlimit 8 67108864 67108864
     # Allow subsystem (modem etc) debugging
     write /sys/kernel/boot_adsp/boot 1
-    exec /vendor/bin/sh /vendor/bin/init.htc.slpi.sh
-    exec u:r:qti_init_shell:s0 -- /vendor/bin/init.qcom.early_boot.sh
+    exec /system/vendor/bin/sh /system/vendor/bin/init.htc.slpi.sh
+    exec u:r:qti_init_shell:s0 -- /system/vendor/bin/init.qcom.early_boot.sh
 
     # for backward compatibility
     chown system system /persist/sensors
@@ -136,7 +133,7 @@ on boot
     mkdir /dev/socket/qmux_gps 0770 gps gps
     chmod 2770 /dev/socket/qmux_gps
 
-    mkdir /mnt/vendor/persist/drm 0770 system system
+    mkdir /persist/drm 0770 system system
     mkdir /mnt/vendor/persist/bluetooth 0770 bluetooth bluetooth
     mkdir /persist/misc 0770 system system
     mkdir /mnt/vendor/persist/alarm 0770 system system
@@ -227,6 +224,7 @@ on boot
 
     # Create directory used for display
     # for backward compatibility
+    mkdir /persist/display 0770 system graphics
     mkdir /mnt/vendor/persist/display 0770 system graphics
 
     # Create vpp directory
@@ -447,17 +445,8 @@ on post-fs-data
     #Create dir for TUI
     mkdir /data/vendor/tui 0600 system drmrpc
 
-    #Start move time data to /data/vendor once post-fs-data done
-    start vendor.move_time_data
-
 # Services begin here
-service adsprpcd /vendor/bin/adsprpcd
-    class main
-    user media
-    group media
-    writepid /dev/cpuset/foreground/tasks
-
-service vendor.atfwd /vendor/bin/ATFWD-daemon
+service vendor.atfwd /system/vendor/bin/ATFWD-daemon
     class late_start
     user system
     group system radio
@@ -469,128 +458,55 @@ service charger /charger
     seclabel u:r:healthd:s0
     writepid /dev/cpuset/system-background/tasks
 
-service vendor.cnd /vendor/bin/cnd
+service vendor.cnd /system/vendor/bin/cnd
     class main
     user system
     group system wifi inet radio wakelock net_admin
     writepid /dev/cpuset/system-background/tasks
 
-service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
-    class main
-    user root
-    group root system wakelock
-    writepid /dev/cpuset/system-background/tasks
-
-service vendor.imsqmidaemon /vendor/bin/imsqmidaemon
-    class main
-    user system
-    socket ims_qmid stream 0660 system radio
-    group radio log diag
-    writepid /dev/cpuset/system-background/tasks
-
-service vendor.imsdatadaemon /vendor/bin/imsdatadaemon
-    class main
-    user system
-    socket ims_datad stream 0660 system radio
-    group system wifi radio inet log diag
-    writepid /dev/cpuset/system-background/tasks
-    disabled
-
-service pd_mapper /vendor/bin/pd-mapper
-    class core
-    writepid /dev/cpuset/system-background/tasks
-    disabled
-
-on property:persist.sys.pd_enable=1
-    start pd_mapper
-    write /sys/class/service_locator/service_locator_status 1
-
-on property:persist.sys.pd_enable=0
-    write /sys/class/service_locator/service_locator_status 0
-
-on property:vendor.ims.QMI_DAEMON_STATUS=1
-    start vendor.imsdatadaemon
-
 on property:vold.decrypt=trigger_restart_framework
     restart vendor.camera-provider-2-4
 
-service vendor.ims_rtp_daemon /vendor/bin/ims_rtp_daemon
-    class main
-    user system
-    group radio diag inet log
-    writepid /dev/cpuset/system-background/tasks
-    disabled
-
-service vendor.imsrcsservice /vendor/bin/imsrcsd
-    class main
-    user system
-    group radio diag inet log
-    writepid /dev/cpuset/system-background/tasks
-    disabled
-
-on property:vendor.ims.DATA_DAEMON_STATUS=1
-    restart vendor.ims_rtp_daemon
-
-service dpmQmiMgr /vendor/bin/dpmQmiMgr
+service dpmQmiMgr /system/vendor/bin/dpmQmiMgr
     class main
     user system
     group radio system
 
-service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
+service irsc_util /system/vendor/bin/irsc_util "/system/vendor/etc/sec_config"
     class core
     user root
     oneshot
 
-service vendor.ipacm /vendor/bin/ipacm
+service vendor.ipacm /system/vendor/bin/ipacm
     class main
     user radio
     group radio inet
     writepid /dev/cpuset/system-background/tasks
 
-service loc_launcher /vendor/bin/loc_launcher
+service loc_launcher /system/vendor/bin/loc_launcher
     class late_start
     user gps
     group gps
     writepid /dev/cpuset/system-background/tasks
 
-service vendor-sensor-sh /vendor/bin/init.qcom.sensors.sh
+service vendor-sensor-sh /system/vendor/bin/init.qcom.sensors.sh
     class core
     user root
     oneshot
     disabled
 
-#Start up peripheral manager
-service per_mgr /vendor/bin/pm-service
-    class late_start
-    user system
-    group system net_raw
-    writepid /dev/cpuset/system-background/tasks
-
-service per_proxy /vendor/bin/pm-proxy
-    class late_start
-    user system
-    group system
-    writepid /dev/cpuset/system-background/tasks
-    disabled
-
-on property:init.svc.per_mgr=running
-    start per_proxy
-
-on property:sys.shutdown.requested=*
-    stop per_proxy
-
-service vendor.port-bridge /vendor/bin/port-bridge
+service vendor.port-bridge /system/vendor/bin/port-bridge
     class main
     user radio
     group radio system inet
     disabled
     oneshot
 
-service vendor.netmgrd /vendor/bin/netmgrd
+service vendor.netmgrd /system/vendor/bin/netmgrd
     class main
     writepid /dev/cpuset/system-background/tasks
 
-service perfd /vendor/bin/perfd
+service perfd /system/vendor/bin/perfd
     class main
     user root
     group root system
@@ -600,50 +516,18 @@ service perfd /vendor/bin/perfd
 on property:sys.post_boot.parsed=1
     start perfd
 
-service ppd /vendor/bin/mm-pp-dpps
-    class hal
-    user system
-    group system graphics
-    socket pps stream 0660 system system
-    writepid /dev/cpuset/foreground/tasks
-
-service qcamerasvr /vendor/bin/mm-qcamera-daemon
-    class late_start
-    user camera
-    group camera system inet input graphics
-    writepid /dev/cpuset/system-background/tasks
-
-on property:init.svc.media=restarting
-    restart qcamerasvr
-
-on property:init.svc.servicemanager=restarting
-    restart qcamerasvr
-
-service vendor.foreground_sh /vendor/bin/init.foreground.sh
-    class main
-    user root
-    group root system readproc
-    disabled
-    oneshot
-
-service qcom-sh /vendor/bin/init.qcom.sh
+service qcom-sh /system/vendor/bin/init.qcom.sh
     class late_start
     user root
     oneshot
 
-service qseecomd /vendor/bin/qseecomd
-    class core
-    user root
-    group root
-    writepid /dev/cpuset/system-background/tasks
-
-service vendor.dataqti /vendor/bin/qti
+service vendor.dataqti /system/vendor/bin/qti
     class main
     user radio
     group radio oem_2901 diag usb net_admin
     writepid /dev/cpuset/system-background/tasks
 
-service vendor.rmt_storage /vendor/bin/rmt_storage
+service vendor.rmt_storage /system/vendor/bin/rmt_storage
     class core
     user root
     group system wakelock
@@ -651,14 +535,14 @@ service vendor.rmt_storage /vendor/bin/rmt_storage
     ioprio rt 0
     writepid /dev/cpuset/system-background/tasks
 
-service vendor.msm_irqbalance /vendor/bin/msm_irqbalance -f /vendor/etc/msm_irqbalance.conf
+service vendor.msm_irqbalance /system/vendor/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance.conf
     socket msm_irqbalance seqpacket 660 root system
     class core
     user root
     group root
     writepid /dev/cpuset/system-background/tasks
 
-service vendor.sensors /vendor/bin/sensors.qcom
+service vendor.sensors /system/vendor/bin/sensors.qcom
     class core
     user root
     group root
@@ -676,73 +560,32 @@ service ssr_setup /system/vendor/bin/ssr_setup
     oneshot
     disabled
 
-service qcom-post-boot /vendor/bin/init.qcom.post_boot.sh
+service qcom-post-boot /system/vendor/bin/init.qcom.post_boot.sh
     class late_start
     user root
     disabled
     oneshot
 
-service thermal-engine /vendor/bin/thermal-engine -c ${sys.qcom.thermalcfg:-/vendor/etc/thermal-engine.conf}
-    class main
-    user root
-    group root system diag
-    socket thermal-send-client stream 0666 system system
-    socket thermal-recv-client stream 0660 system system
-    socket thermal-recv-passive-client stream 0666 system system
-    writepid /dev/cpuset/system-background/tasks
-
-service thermal-monitor /vendor/bin/thermal-monitor
-    class main
-    user root
-    writepid /dev/cpuset/system-background/tasks
-
-service vendor.tftp_server /vendor/bin/tftp_server
+service vendor.tftp_server /system/vendor/bin/tftp_server
     class core
     user root
     writepid /dev/cpuset/system-background/tasks
 
 # init.qcom.usb.sh configure RNDIS to go through HW IPA
-service qcom-usb-sh /vendor/bin/init.qcom.usb.sh
+service qcom-usb-sh /system/vendor/bin/init.qcom.usb.sh
     class core
     user root
     oneshot
     disabled
 
-service time_daemon /vendor/bin/time_daemon
+service time_daemon /system/vendor/bin/time_daemon
     class main
     user root
     group root
     writepid /dev/cpuset/system-background/tasks
 
-service vendor.power_off_alarm /vendor/bin/power_off_alarm
+service vendor.power_off_alarm /system/vendor/bin/power_off_alarm
     class core
     group system
     disabled
     oneshot
-
-service jamesdsp /system/bin/init.jamesdsp.sh
-    user root
-    oneshot
-    disabled
-
-# WPA supplicant
-service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
-    -O/data/vendor/wifi/wpa/sockets -puse_p2p_group_interface \
-    -g@android:wpa_wlan0
-    interface android.hardware.wifi.supplicant@1.0::ISupplicant default
-    interface android.hardware.wifi.supplicant@1.1::ISupplicant default
-    class main
-    socket wpa_wlan0 dgram 660 wifi wifi
-    disabled
-    oneshot
-    writepid /dev/cpuset/system-background/tasks
-
-# Triggers start here
-on class_start:late_start
-    # For modem config copy
-    write /data/misc/radio/copy_complete 1
-
-on property:sys.boot_completed=1
-    start qcom-post-boot
-
-    write /dev/kmsg "BOOT COMPLETED"

@@ -1,25 +1,8 @@
-# Policy for /vendor/bin/thermal-engine
-# Grant access to Qualcomm MSM Interface (QMI) radio sockets
 qmux_socket(thermal-engine)
-allow thermal-engine self:socket create_socket_perms;
-allowxperm thermal-engine self:socket ioctl msm_sock_ipc_ioctls;
-# /dev/msm_thermal_query
-allow thermal-engine thermal_device:chr_file rw_file_perms;
-# files in /sys/
-r_dir_file(thermal-engine, sysfs_type)
-allow thermal-engine sysfs_msm_subsys:file write;
-allow thermal-engine sysfs_thermal:file rw_file_perms;
-allow thermal-engine sysfs_thermal:lnk_file read;
-allow thermal-engine sysfs_thermal:dir search;
-r_dir_file(thermal-engine, sysfs_batteryinfo)
-allow thermal-engine sysfs_batteryinfo:file w_file_perms;
-# /proc/stat
-allow thermal-engine proc_stat:file { getattr open read };
-allow thermal-engine uio_device:chr_file rw_file_perms;
-# access to /dev/diag on debug builds
-userdebug_or_eng(`
-  allow thermal-engine diag_device:chr_file rw_file_perms;
-')
+allow thermal-engine hidl_base_hwservice:hwservice_manager add; 
+allow thermal-engine hwservicemanager:binder { call transfer };
+allow thermal-engine hwservicemanager_prop:file { getattr open read };
+allow thermal-engine sysfs_rmtfs:dir search;
 # reboot/shutdown for thermal limits exceeded
 set_prop(thermal-engine, powerctl_prop)
 # IThermal Thermal HAL

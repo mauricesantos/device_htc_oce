@@ -279,7 +279,6 @@ PRODUCT_PACKAGES += \
     charger.fstab.qcom \
     fstab.qcom \
     init.qcom.rc \
-    init.jamesdsp.sh \
     init.qcom.power.rc \
     init.qcom.usb.rc \
     init.htc_multisim.rc \
@@ -412,7 +411,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/privapp-permissions-htchep.xml:system/etc/permissions/privapp-permissions-htchep.xml \
     $(LOCAL_PATH)/configs/privapp-permissions-htcshep.xml:system/etc/permissions/privapp-permissions-htcshep.xml \
     $(LOCAL_PATH)/configs/privapp-permissions-oem.xml:system/etc/permissions/privapp-permissions-oem.xml \
-    $(LOCAL_PATH)/configs/privapp-permissions-oce.xml:system/etc/permissions/privapp-permissions-oce.xml \
     $(LOCAL_PATH)/configs/qti_whitelist.xml:system/etc/sysconfig/qti_whitelist.xml
 
 # RCS

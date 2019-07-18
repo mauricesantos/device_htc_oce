@@ -1,4 +1,0 @@
-type audio_cal_device, dev_type;
-type ramdump_block_device, dev_type;
-type carrier_block_device, dev_type;
-type devinfo_block_device, dev_type;

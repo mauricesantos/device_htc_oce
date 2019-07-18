@@ -1,30 +1,19 @@
-allow vendor_init {
-    backup_data_file
-    cache_backup_file
-    cache_file
-    cache_private_backup_file
-    cache_recovery_file
-    camera_data_file
-    fpc_data_file
-    heapdump_data_file
-    media_rw_data_file
-    nanohub_lock_file
-    nfc_data_file
-    perfd_data_file
-    radio_data_file
-    sensors_cal_file
-    system_data_file
-    time_data_file
-    thermal_data_file
-    tombstone_data_file
-}:dir create_dir_perms;
-
-allow vendor_init device:file create_file_perms;
-allow vendor_init media_rw_data_file:file create_file_perms;
-
-allow vendor_init rootfs:dir { create setattr rw_dir_perms };
-allow vendor_init rootfs:lnk_file { getattr open read ioctl lock map setattr  };
+allow vendor_init backup_data_file:dir setattr;
+allow vendor_init cache_file:dir setattr;
+allow vendor_init heapdump_data_file:dir setattr;
+allow vendor_init media_rw_data_file:dir setattr;
+allow vendor_init media_rw_data_file:file { getattr relabelfrom };
+allow vendor_init radio_data_file:dir { create setattr };
+allow vendor_init rootfs:dir { add_name create setattr write };
+allow vendor_init rootfs:lnk_file setattr;
+allow vendor_init system_data_file:dir setattr; 
+allow vendor_init cache_backup_file:dir setattr;
+allow vendor_init cache_private_backup_file:dir setattr;
+allow vendor_init cache_recovery_file:dir setattr;
 allow vendor_init dm_device:chr_file getattr;
-allow vendor_init shell_exec:file { execute_no_trans rx_file_perms };
-allow vendor_init media_rw_data_file:file relabelfrom;
+allow vendor_init fingerprintd_data_file:dir setattr;
+allow vendor_init nfc_data_file:dir setattr;
+allow vendor_init rootfs:lnk_file relabelfrom;
+allow vendor_init shell_exec:file getattr;
+allow vendor_init tombstone_data_file:dir { search setattr };
 allow vendor_init sysfs:lnk_file setattr;

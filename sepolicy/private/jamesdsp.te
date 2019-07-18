@@ -1,2 +1,0 @@
-allow jamesdsp shell_exec:file { execute getattr read };
-allow jamesdsp toolbox_exec:file { execute execute_no_trans getattr open read };

@@ -1,4 +1,4 @@
-#!/system/bin/sh
+#!/vendor/bin/sh
 
 mode=$(cat system/etc/fp_mode)
 

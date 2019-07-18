@@ -1,48 +1,11 @@
-domain_auto_trans(init, shell_exec, qti_init_shell)
-
-allow qti_init_shell vendor_radio_data_file:dir { create_dir_perms rw_dir_perms };
-allow qti_init_shell vendor_radio_data_file:file { create_file_perms rw_file_perms };
-allow qti_init_shell file_contexts_file:file { getattr open read };
-
-# Allow qti_init_shell to fully access wlan_mac.bin persist file
-allow qti_init_shell mnt_vendor_file:dir rw_dir_perms;
-allow qti_init_shell mnt_vendor_file:file create_file_perms;
-
-# Allow qti_init_shell to write and read /mnt/vendor/persist/bluetooth/bt_mac
-allow qti_init_shell persist_bluetooth_file:dir { add_name create search write };
-allow qti_init_shell persist_bluetooth_file:file { create getattr open read write };
-
-# Allow qti_init_shell to read cmdline
-allow qti_init_shell proc_cmdline:file { getattr open read };
-
-set_prop(qti_init_shell, oem_unlock_prop)
-
-allow qti_init_shell init_foreground_exec:file entrypoint;
-
-set_prop(qti_init_shell, post_boot_prop)
-set_prop(qti_init_shell, debug_prop)
-set_prop(qti_init_shell, system_prop)
-set_prop(qti_init_shell, vendor_default_prop)
-set_prop(qti_init_shell, sf_lcd_density_prop)
-set_prop(qti_init_shell, powerctl_prop)
-
-allow qti_init_shell hal_keymaster_default:file { open read };
-
+allow qti_init_shell debug_prop:property_service set;
+allow qti_init_shell post_boot_prop:property_service set;
+allow qti_init_shell sf_lcd_density_prop:property_service set;
+allow qti_init_shell system_prop:property_service set;
+allow qti_init_shell vendor_default_prop:property_service set;
+allow qti_init_shell vendor_radio_data_file:dir { add_name create open read remove_name rmdir setattr getattr write };
+allow qti_init_shell vendor_radio_data_file:file { getattr setattr open write };
+allow qti_init_shell radio_data_file:file { open write };
 allow qti_init_shell sysfs:file setattr;
-
-allow qti_init_shell init:dir { getattr search };
-allow qti_init_shell init:file { open read };
-
-allow qti_init_shell kernel:dir { getattr search };
-allow qti_init_shell kernel:file { open read };
-
-allow qti_init_shell tee:dir { getattr search };
-allow qti_init_shell tee:file { open read };
-
-allow qti_init_shell ueventd:dir { getattr search };
-allow qti_init_shell ueventd:file { open read };
-
-allow qti_init_shell radio_data_file:file rw_file_perms;
-
-allow qti_init_shell vendor_init:dir { getattr search };
-allow qti_init_shell vendor_init:file { open read };
+allow qti_init_shell qcom-early-boot_exec:file entrypoint;
+allow qti_init_shell init_htc_slpi_exec:file entrypoint;

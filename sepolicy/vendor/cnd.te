@@ -1,4 +1,1 @@
-allow cnd sysfs:file r_file_perms; 
-allow cnd sysfs_msm_subsys:dir search;
-allow cnd sysfs_msm_subsys:file r_file_perms;
-allow cnd sysfs_soc:dir search;
+allow cnd sysfs:file { open read }; 

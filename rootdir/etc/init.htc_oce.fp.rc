@@ -1,5 +1,5 @@
 on early-boot
-	exec /vendor/bin/sh /vendor/bin/init.htc.fp.sh
+	exec /system/vendor/bin/sh /system/vendor/bin/init.htc.fp.sh
 
 	# For MFG socket
 	mkdir /data/fpc 0770 system system

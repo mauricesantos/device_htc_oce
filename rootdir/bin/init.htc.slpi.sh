@@ -1,4 +1,4 @@
-#!/system/bin/sh
+#!/vendor/bin/sh
 enable_sensordaemon=`getprop ro.qualcomm.ssc`
 case "$enable_sensordaemon" in "true")
 echo 1 > /sys/kernel/boot_slpi/boot
