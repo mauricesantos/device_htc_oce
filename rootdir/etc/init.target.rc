@@ -31,7 +31,6 @@ on charger
     write /sys/module/lpm_levels/parameters/sleep_disabled 0
     wait /dev/block/bootdevice
     mount_all /system/vendor/etc/charger.fstab.qcom
-    start vendor.hvdcp_opti
 
 on early-init
     symlink /data/tombstones /tombstones
@@ -491,12 +490,6 @@ service adsprpcd /vendor/bin/adsprpcd
     user media
     group media
     writepid /dev/cpuset/foreground/tasks
-    
-service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
-    class main
-    user root
-    group root system wakelock
-    writepid /dev/cpuset/system-background/tasks
 
 ## imsdatadaemon starts with root and UID will be downgraded to SYSTEM.
 service vendor.imsqmidaemon /system/vendor/bin/imsqmidaemon
@@ -584,13 +577,6 @@ on property:init.svc.media=restarting
 
 on property:init.svc.servicemanager=restarting
     restart qcamerasvr
-    
-service vendor.foreground_sh /vendor/bin/init.foreground.sh
-    class main
-    user root
-    group root system readproc
-    disabled
-    oneshot
 
 service qseecomd /vendor/bin/qseecomd
     class core

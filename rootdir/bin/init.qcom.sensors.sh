@@ -29,6 +29,7 @@
 #
 # Function to start sensors for SSC enabled platforms
 #
+
 start_sensors()
 {
     if [ -c /dev/msm_dsps -o -c /dev/sensors ]; then

@@ -1,5 +1,4 @@
 #!/vendor/bin/sh
-
 mode=$(cat system/etc/fp_mode)
 
 if [ "$mode" == "fpc" ]
@@ -27,4 +26,3 @@ else
 		echo "ro.hardware.fingerprint = 3rd_src"
 	fi
 fi
-

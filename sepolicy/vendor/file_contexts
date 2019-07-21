@@ -20,15 +20,10 @@
 /sys/devices/soc/msm-bcl-14/power_supply/fg_adc/type            u:object_r:sysfs_batteryinfo:s0
 
 # Init
-/system/vendor/bin/init\.qcom\.early_boot\.sh u:object_r:qcom-early-boot_exec:s0
 /system/vendor/bin/init\.qcom\.post_boot\.sh u:object_r:qcom-post-boot_exec:s0
-/system/vendor/bin/init\.qcom\.sensors\.sh u:object_r:qcom-sensors_exec:s0
 /system/vendor/bin/init\.qcom\.usb\.sh u:object_r:qcom-usb_exec:s0
-/system/vendor/bin/init\.qcom\.sh u:object_r:qcom_exec:s0
-/(vendor|system/vendor)/bin/init.htc.fp.sh   u:object_r:init_htc_fp_exec:s0
-/(vendor|system/vendor)/bin/init.htc.slpi.sh   u:object_r:init_htc_slpi_exec:s0
-/(vendor|system/vendor)/bin/init.qcom.firmware_links.sh u:object_r:firmware-links_exec:s0
-/(vendor|system/vendor)/bin/init.foreground.sh   u:object_r:init_foreground_exec:s0
+/(vendor|system/vendor)/bin/init.htc.fp.sh   u:object_r:qti_init_shell_exec:s0
+/(vendor|system/vendor)/bin/init.htc.slpi.sh   u:object_r:qti_init_shell_exec:s0
 
 # LED
 /sys/class/leds(/.*)?   u:object_r:sysfs_leds:s0

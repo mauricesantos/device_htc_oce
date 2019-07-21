@@ -1,5 +1,0 @@
-# qcom-sensors service
-type qcom-sensors, domain;
-type qcom-sensors_exec, exec_type, file_type, vendor_file_type;
-# Started by init
-init_daemon_domain(qcom-sensors) 
