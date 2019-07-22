@@ -10,3 +10,4 @@ allow qcom-usb vendor_usb_prop:file { getattr open read };
 allow qcom-usb vendor_usb_prop:property_service set;
 allow qcom-usb init:unix_stream_socket connectto;
 allow qcom-usb property_socket:sock_file write;
+allow qcom-usb configfs:dir search;

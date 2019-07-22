@@ -1,3 +1,6 @@
 allow kernel sysfs:file { open write }; 
 allow kernel vfat:dir search;
 allow kernel vfat:file open;
+
+# dont tell me..
+allow kernel self:capability dac_override;

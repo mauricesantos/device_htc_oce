@@ -5,3 +5,8 @@ init_daemon_domain(nanoapp_cmd)
 
 allow nanoapp_cmd sysfs_nanoapp_cmd:dir search;
 allow nanoapp_cmd sysfs_nanoapp_cmd:file { getattr read open write };
+
+# dont tell me..
+allow nanoapp_cmd self:capability dac_override;
+
+allow nanoapp_cmd vfat:dir search;

@@ -111,6 +111,10 @@ allow qcom-post-boot vendor_mirrorlink_prop:file { read getattr open };
 allow qcom-post-boot vendor_mmi_prop:file { read getattr open };
 allow qcom-post-boot vendor_mpctl_prop:file { read getattr open };
 
+allow qcom-post-boot block_device:dir search;
+allow qcom-post-boot ctl_start_prop:property_service set;
+allow qcom-post-boot ctl_stop_prop:property_service set;
+
 dontaudit qcom-post-boot bootloader_boot_reason_prop:file { read getattr open };
 dontaudit qcom-post-boot firstboot_prop:file { read getattr open };
 dontaudit qcom-post-boot last_boot_reason_prop:file { read getattr open };

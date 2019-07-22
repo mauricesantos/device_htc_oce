@@ -1,4 +1,4 @@
-allow rild radio_data_file:dir { add_name write };
+allow rild radio_data_file:dir { search add_name write };
 allow rild radio_data_file:file { create getattr open read write }; 
 allow rild vendor_carrier_file:file { getattr ioctl lock open read };
 
