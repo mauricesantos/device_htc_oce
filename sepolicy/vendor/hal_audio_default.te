@@ -1,2 +1,2 @@
 allow hal_audio_default device:chr_file ioctl;
-allow hal_audio_default adb_data_file:file read;
+allow hal_audio_default adb_data_file:file r_file_perms;

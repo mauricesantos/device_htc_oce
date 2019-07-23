@@ -1,1 +1,1 @@
-allow radio adb_data_file:file read; 
+allow radio adb_data_file:file r_file_perms; 

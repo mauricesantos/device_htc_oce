@@ -4,10 +4,10 @@ type qcom-usb_exec, exec_type, file_type, vendor_file_type;
 # Started by init
 init_daemon_domain(qcom-usb)
 
-allow qcom-usb sysfs_android_usb:dir search;
+allow qcom-usb sysfs_android_usb:dir r_dir_perms;
 allow qcom-usb vendor_toolbox_exec:file execute_no_trans;
-allow qcom-usb vendor_usb_prop:file { getattr open read };
+allow qcom-usb vendor_usb_prop:file r_file_perms;
 allow qcom-usb vendor_usb_prop:property_service set;
 allow qcom-usb init:unix_stream_socket connectto;
-allow qcom-usb property_socket:sock_file write;
-allow qcom-usb configfs:dir search;
+allow qcom-usb property_socket:sock_file w_file_perms;
+allow qcom-usb configfs:dir r_dir_perms;
