@@ -477,6 +477,10 @@ PRODUCT_PACKAGES += \
 # USB HAL
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.0-service.basic
+    
+# Vendor security patch level
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.aicp.build.vendor_security_patch=2018-03-01
 
 # Vibrator
 PRODUCT_PACKAGES += \
