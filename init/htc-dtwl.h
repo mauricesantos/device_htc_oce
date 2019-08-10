@@ -32,6 +32,7 @@ static const char *htc_dtwl_properties =
         "persist.rild.nitz_short_ons_3=\n"
         "ril.subscription.types=NV,RUIM\n"
         "telephony.lteOnCdmaDevice=1\n"
+        "ro.telephony.default_network=22\n"
         "persist.vendor.radio.sap_silent_pin=1\n"
         "persist.radio.multisim.config=dsds\n"
         "ril.htc.multisim.cfg=dsds\n"
