@@ -501,7 +501,7 @@ service vendor.atfwd /vendor/bin/ATFWD-daemon
     group system radio
     writepid /dev/cpuset/system-background/tasks
 
-service charger /charger
+service charger /sbin/charger
     class charger
     user system
     group system graphics input
@@ -514,6 +514,11 @@ service vendor.cnd /vendor/bin/cnd
     writepid /dev/cpuset/system-background/tasks
     
 service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
+    class main
+    user root
+    group root
+    
+service htcdcpd /system/bin/htcdcpd
     class main
     user root
     group root
