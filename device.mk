@@ -476,6 +476,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
+# Soong
+PRODUCT_SOONG_NAMESPACES += \
+    device/htc/oce
+
 # TextClassifier smart selection model files
 PRODUCT_PACKAGES += \
     textclassifier.bundle1
