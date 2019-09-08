@@ -40,6 +40,7 @@ TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := kryo
 
 TARGET_USES_64_BIT_BINDER := true
+BUILD_BROKEN_DUP_RULES := true
 
 # Use Snapdragon LLVM, if available
 TARGET_USE_SDCLANG := true
