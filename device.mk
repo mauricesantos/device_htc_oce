@@ -455,6 +455,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     net.tethering.noprovisioning=true
 
+# Shims
+PRODUCT_PACKAGES += \
+    libui_shim
+
 # Telephony
 PRODUCT_PACKAGES += \
     com.android.ims.rcsmanager.xml \
