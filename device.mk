@@ -466,7 +466,10 @@ PRODUCT_PACKAGES += \
     com.android.ims.rcsmanager.xml \
     com.android.ims.rcsmanager \
     ims-ext-common \
+    ims_ext_common.xml \
     telephony-ext \
+    qti-telephony-hidl-wrapper \
+    qti_telephony_hidl_wrapper.xml \
     libshim_ims
 
 #PRODUCT_BOOT_JARS += \
