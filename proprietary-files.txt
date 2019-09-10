@@ -966,7 +966,6 @@ vendor/qcril.db
 
 # Radio - IMS
 framework/qti-telephony-common.jar|b1953a3599255f08f1785c677d22810f65e0167b
--priv-app/ims/ims.apk|eef47c0b6f250e7f96e7155d84274b1c83940d8f
 vendor/bin/ims_rtp_daemon
 vendor/bin/imscmservice
 vendor/bin/imsdatadaemon
@@ -993,6 +992,9 @@ vendor/lib64/libimscamera_jni.so
 vendor/lib64/libimsmedia_jni.so
 vendor/lib64/librcc.so
 vendor/lib64/libvoice-svc.so
+
+#IMS - Mata QP1A.190711.107
+-priv-app/ims/ims.apk|0f1e907bb3a0c2631f54310860711aa955710bfc
 
 #IMS - Taimen QPP6.190730.005
 vendor/bin/imsrcsd|afeb8ba71b688dec5ca8f0c47ded9bf8b675dbf8
