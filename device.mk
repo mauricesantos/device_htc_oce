@@ -191,10 +191,6 @@ PRODUCT_PACKAGES += \
     libcnefeatureconfig \
     services-ext
 
-# Cutout
-PRODUCT_PACKAGES += \
-    NoCutoutOverlay
-
 # Device Settings
 PRODUCT_PACKAGES += \
     DeviceSettings
