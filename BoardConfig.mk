@@ -93,7 +93,7 @@ USE_CUSTOM_AUDIO_POLICY := 0
 USE_XML_AUDIO_POLICY_CONF := 1
 TARGET_USES_QCOM_MM_AUDIO := true
 
-BOARD_ROOT_EXTRA_SYMLINKS := /vendor/lib/dsp:/dsp
+#BOARD_ROOT_EXTRA_SYMLINKS := /vendor/lib/dsp:/dsp
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -210,14 +210,10 @@ TARGET_RIL_VARIANT := caf
 TARGET_USES_OLD_MNC_FORMAT := true
 
 # SELinux
-# include device/qcom/sepolicy/sepolicy.mk
-# BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
-# BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/private
-
-# We modify several neverallows, so let the build proceed
-# ifneq ($(TARGET_BUILD_VARIANT),user)
-# SELINUX_IGNORE_NEVERALLOWS := true
-# endif
+-include device/qcom/sepolicy/sepolicy.mk
+#BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
+#BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/private
+BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy-minimal
 
 # SHIMS
 TARGET_LD_SHIM_LIBS := \
