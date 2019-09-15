@@ -93,7 +93,9 @@ USE_CUSTOM_AUDIO_POLICY := 0
 USE_XML_AUDIO_POLICY_CONF := 1
 TARGET_USES_QCOM_MM_AUDIO := true
 
-BOARD_ROOT_EXTRA_SYMLINKS := /vendor/dsp:/dsp
+BOARD_ROOT_EXTRA_SYMLINKS := \
+    /vendor/dsp:/dsp \
+    /mnt/vendor/persist:/persist
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
