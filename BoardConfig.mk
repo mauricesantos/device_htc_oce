@@ -182,7 +182,7 @@ HWUI_COMPILE_FOR_PERF := true
 USE_DEVICE_SPECIFIC_DATA_IPA_CFG_MGR := true
 
 # Init
-TARGET_INIT_VENDOR_LIB := libinit_oce
+TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_oce
 TARGET_RECOVERY_DEVICE_MODULES := device/htc/oce/init
 
 # Keymaster
