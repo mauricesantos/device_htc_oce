@@ -229,7 +229,8 @@ TARGET_LD_SHIM_LIBS := \
     /system/vendor/lib64/libril.so|/system/vendor/lib64/libshim_ril.so \
     /system/vendor/lib/hw/camera.msm8996.so|/system/vendor/lib/libshim_camera.so \
     /system/vendor/lib/libmmcamera_stillmore_lib.so|/system/vendor/lib/libshim_stillmore.so \
-    /system/lib64/lib-imsvideocodec.so|/system/vendor/lib64/libshim_ims.so
+    /system/lib64/lib-imsvideocodec.so|/system/vendor/lib64/libshim_ims.so \
+    /system/vendor/lib64/lib-sec-disp.so|/system/vendor/lib64/libshim_sec-disp.so
 
 # Treble
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
