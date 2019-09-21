@@ -30,6 +30,7 @@ include $(CLEAR_VARS)
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := camera_shim.cpp
 LOCAL_MULTILIB := 32
+LOCAL_SHARED_LIBRARIES := libgui libui libutils
 LOCAL_MODULE := libshim_camera
 LOCAL_MODULE_TAGS := optional
 LOCAL_PROPRIETARY_MODULE := true
