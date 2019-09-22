@@ -368,10 +368,6 @@ on fs
 
     # symlink firmware to /firmware/image
     wait /system/bin/sh
-    class_start firmware-link
-    wait /firmware/image/.adsp_done
-    wait /firmware/image/.radio_done
-    wait /firmware/image/.venus_done
     setprop ro.boot.firmware.cpe 1
 
     # HTC feature: Support multiple firmware image mount points
@@ -536,24 +532,6 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
-
-# Firmware linking to /firmware/image
-service fwnk-adsp  /system/vendor/bin/sh /init.qcom.firmware_links.sh /firmware/adsp /firmware/image "adsp*" adsp
-    class firmware-link
-    oneshot
-
-service fwnk-cpe  /system/vendor/bin/sh /init.qcom.firmware_links.sh /firmware/adsp /firmware/image "cpe*" cpe
-    class firmware-link
-    oneshot
-
-service fwnk-radio /system/vendor/bin/sh /init.qcom.firmware_links.sh /firmware/radio /firmware/image "modem* mba* radiover* version* qdsp6m* msadp*" radio
-    class firmware-link
-    oneshot
-
-service fwnk-venus /system/vendor/bin/sh /init.qcom.firmware_links.sh /firmware/venus /firmware/image "venus*" venus
-    class firmware-link
-    oneshot
-
 
 # Triggers start here
 on class_start:late_start
