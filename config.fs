@@ -166,6 +166,12 @@ user: AID_SYSTEM
 group: AID_SYSTEM
 caps: 0
 
+[firmware/wsd]
+mode: 0771
+user: AID_VENDOR_RFS
+group: AID_VENDOR_RFS
+caps: 0
+
 [firmware/image/*]
 mode: 0771
 user: AID_ROOT
@@ -177,6 +183,12 @@ mode: 0771
 user: AID_ROOT
 group: AID_SYSTEM
 caps: 0
+
+[carrier/]
+mode: 0771
+user: AID_RADIO
+group: AID_RADIO
+caps: NET_BIND_SERVICE
 
 [bt_firmware/]
 mode: 0771
