@@ -505,6 +505,7 @@ service charger /sbin/charger
     class charger
     user system
     group system graphics input
+    capabilities SYS_BOOT
     writepid /dev/cpuset/system-background/tasks
 
 service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
