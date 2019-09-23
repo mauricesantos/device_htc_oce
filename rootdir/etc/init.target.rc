@@ -347,15 +347,7 @@ on fs
     # Update dm-verity state and set partition.*.verified properties
     verity_update_state
 
-    wait /dev/block/bootdevice/by-name/dsp
-    # HTC_AUD_START - ro for DSP mount to fix CTS failed
-    mount ext4 /dev/block/bootdevice/by-name/dsp /dsp ro nosuid nodev barrier=1,errors=panic
-    # HTC_AUD_END
-    restorecon_recursive /dsp
-
-    # Add rfg_3 mounting from stock. This way we will still boot if partition doesn't actually exist on the device.
-    wait /dev/block/bootdevice/by-name/rfg_3
-    mount vfat /dev/block/bootdevice/by-name/rfg_3 /firmware/wsd ro shortname=lower,uid=3012,gid=3012,dmask=277,fmask=377
+    restorecon_recursive /vendor/dsp
 
     # symlink firmware to /firmware/image
     wait /system/bin/sh
