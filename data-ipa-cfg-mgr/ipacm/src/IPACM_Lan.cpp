@@ -528,9 +528,10 @@ void IPACM_Lan::event_callback(ipa_cm_event_id event, void *param)
 			IPACMERR("No event data is found.\n");
 			return;
 		}
-		IPACMDBG_H("Backhaul is sta mode?%d, if_index_tether:%d tether_if_name:%s\n", data_wan_tether->is_sta,
+		IPACMDBG_H("Backhaul is sta mode?%d, if_index_tether:%d tether_if_name:%s xlat_mux_id: %d\n", data_wan_tether->is_sta,
 					data_wan_tether->if_index_tether,
-					IPACM_Iface::ipacmcfg->iface_table[data_wan_tether->if_index_tether].iface_name);
+					IPACM_Iface::ipacmcfg->iface_table[data_wan_tether->if_index_tether].iface_name,
+					data_wan_tether->xlat_mux_id);
 #ifndef FEATURE_IPACM_HAL
 		if (data_wan_tether->if_index_tether != ipa_if_num)
 		{
@@ -591,7 +592,7 @@ void IPACM_Lan::event_callback(ipa_cm_event_id event, void *param)
 					{
 							ext_prop = IPACM_Iface::ipacmcfg->GetExtProp(IPA_IP_v4);
 							handle_wan_up_ex(ext_prop, IPA_IP_v4,
-								IPACM_Wan::getXlat_Mux_Id());
+								data_wan_tether->xlat_mux_id);
 					} else {
 							handle_wan_up(IPA_IP_v4);
 					}
@@ -601,7 +602,7 @@ void IPACM_Lan::event_callback(ipa_cm_event_id event, void *param)
 			if (data_wan_tether->is_sta == false)
 			{
 					ext_prop = IPACM_Iface::ipacmcfg->GetExtProp(IPA_IP_v4);
-					handle_wan_up_ex(ext_prop, IPA_IP_v4, 0);
+					handle_wan_up_ex(ext_prop, IPA_IP_v4, data_wan_tether->xlat_mux_id);
 			} else {
 					handle_wan_up(IPA_IP_v4);
 			}
@@ -749,6 +750,25 @@ void IPACM_Lan::event_callback(ipa_cm_event_id event, void *param)
 		if (ipa_interface_index == ipa_if_num)
 		{
 			IPACMDBG_H("Received IPA_DOWNSTREAM_ADD event.\n");
+#ifdef FEATURE_IPA_ANDROID
+			if (IPACM_Wan::isXlat() && (data->prefix.iptype == IPA_IP_v4))
+			{
+				/* indicate v4-offload */
+				IPACM_OffloadManager::num_offload_v4_tethered_iface++;
+				IPACMDBG_H("in xlat: update num_offload_v4_tethered_iface %d\n", IPACM_OffloadManager::num_offload_v4_tethered_iface);
+
+				/* xlat not support for 2st tethered iface */
+				if (IPACM_OffloadManager::num_offload_v4_tethered_iface > 1)
+				{
+					IPACMDBG_H("Not support 2st downstream iface %s for xlat, cur: %d\n", dev_name,
+						IPACM_OffloadManager::num_offload_v4_tethered_iface);
+					return;
+				}
+			}
+
+			IPACMDBG_H(" support downstream iface %s, cur %d\n", dev_name,
+				IPACM_OffloadManager::num_offload_v4_tethered_iface);
+#endif
 			if (data->prefix.iptype < IPA_IP_MAX && is_downstream_set[data->prefix.iptype] == false)
 			{
 				IPACMDBG_H("Add downstream for IP iptype %d\n", data->prefix.iptype);
@@ -775,6 +795,7 @@ void IPACM_Lan::event_callback(ipa_cm_event_id event, void *param)
 							ext_prop = IPACM_Iface::ipacmcfg->GetExtProp(data->prefix.iptype);
 							if (data->prefix.iptype == IPA_IP_v4)
 							{
+								IPACMDBG_H("check getXlat_Mux_Id:%d\n", IPACM_Wan::getXlat_Mux_Id());
 								handle_wan_up_ex(ext_prop, data->prefix.iptype,
 									IPACM_Wan::getXlat_Mux_Id());
 							}
@@ -1199,6 +1220,14 @@ int IPACM_Lan::handle_wan_down(bool is_sta_mode)
 		IPACMERR("Failed opening %s.\n", IPA_DEVICE_NAME);
 		return IPACM_FAILURE;
 	}
+
+#ifdef FEATURE_IPA_ANDROID
+		/* indicate v4-offload remove */
+		if (IPACM_Wan::isXlat() && (IPACM_OffloadManager::num_offload_v4_tethered_iface > 0)) {
+			IPACM_OffloadManager::num_offload_v4_tethered_iface--;
+			IPACMDBG_H("num_offload_v4_tethered_iface %d\n", IPACM_OffloadManager::num_offload_v4_tethered_iface);
+		}
+#endif
 
 	if(is_sta_mode == false && modem_ul_v4_set == true)
 	{
@@ -1790,6 +1819,7 @@ int IPACM_Lan::handle_wan_up_ex(ipacm_ext_prop *ext_prop, ipa_ip_type iptype, ui
 		}
 
 		mux.qmap_id = ipacm_config->GetQmapId();
+		IPACMDBG("get mux id %d for rx-endpoint\n", mux.qmap_id);
 		for(cnt=0; cnt<rx_prop->num_rx_props; cnt++)
 		{
 			mux.client = rx_prop->rx[cnt].src_pipe;
@@ -1811,6 +1841,7 @@ int IPACM_Lan::handle_wan_up_ex(ipacm_ext_prop *ext_prop, ipa_ip_type iptype, ui
 		ret = handle_uplink_filter_rule(ext_prop, iptype, xlat_mux_id);
 		modem_ul_v6_set = true;
 	} else if (iptype ==IPA_IP_v4 && modem_ul_v4_set == false) {
+		IPACMDBG_H("check getXlat_Mux_Id:%d\n", IPACM_Wan::getXlat_Mux_Id());
 		IPACMDBG_H("IPA_IP_v4 xlat_mux_id: %d, modem_ul_v4_set %d\n", xlat_mux_id, modem_ul_v4_set);
 		ret = handle_uplink_filter_rule(ext_prop, iptype, xlat_mux_id);
 		modem_ul_v4_set = true;
@@ -3199,7 +3230,7 @@ int IPACM_Lan::handle_uplink_filter_rule(ipacm_ext_prop *prop, ipa_ip_type iptyp
 	int fd;
 	int i, index, eq_index;
 	uint32_t value = 0;
-	uint8_t qmap_id;
+	uint8_t qmap_id, xlat_debug;
 
 	IPACMDBG_H("Set modem UL flt rules\n");
 
@@ -3257,13 +3288,14 @@ int IPACM_Lan::handle_uplink_filter_rule(ipacm_ext_prop *prop, ipa_ip_type iptyp
 	flt_index.retain_header = 0;
 	flt_index.embedded_call_mux_id_valid = 1;	
 	qmap_id = IPACM_Iface::ipacmcfg->GetQmapId();
+	xlat_debug = IPACM_Wan::getXlat_Mux_Id();
 	flt_index.embedded_call_mux_id = qmap_id;
 #ifndef FEATURE_IPA_V3
-	IPACMDBG_H("flt_index: src pipe: %d, num of rules: %d, ebd pipe: %d, mux id: %d\n",
-		flt_index.source_pipe_index, flt_index.filter_index_list_len, flt_index.embedded_pipe_index, flt_index.embedded_call_mux_id);
+	IPACMDBG_H("flt_index: src pipe: %d, num of rules: %d, ebd pipe: %d, mux id: %d, xlat_mux id: %d, wan-debug %d\n",
+		flt_index.source_pipe_index, flt_index.filter_index_list_len, flt_index.embedded_pipe_index, flt_index.embedded_call_mux_id, xlat_mux_id, xlat_debug);
 #else /* defined (FEATURE_IPA_V3) */
-	IPACMDBG_H("flt_index: src pipe: %d, num of rules: %d, ebd pipe: %d, mux id: %d\n",
-		flt_index.source_pipe_index, flt_index.rule_id_len, flt_index.embedded_pipe_index, flt_index.embedded_call_mux_id);
+	IPACMDBG_H("flt_index: src pipe: %d, num of rules: %d, ebd pipe: %d, mux id: %d, xlat_mux id: %d, wan-debug %d\n",
+		flt_index.source_pipe_index, flt_index.rule_id_len, flt_index.embedded_pipe_index, flt_index.embedded_call_mux_id, xlat_mux_id, xlat_debug);
 #endif
 	len = sizeof(struct ipa_ioc_add_flt_rule) + prop->num_ext_props * sizeof(struct ipa_flt_rule_add);
 	pFilteringTable = (struct ipa_ioc_add_flt_rule*)malloc(len);
@@ -3334,6 +3366,13 @@ int IPACM_Lan::handle_uplink_filter_rule(ipacm_ext_prop *prop, ipa_ip_type iptyp
 		}
 
 		/* Handle XLAT configuration */
+		/* temp wa to reset xlat_mux_id to qmap_id if it's xlat call */
+		if (IPACM_Wan::isXlat() && (iptype == IPA_IP_v4))
+		{
+			IPACMDBG_H("WA to replace xlat_mux_id %d with qmap_id: %d\n", xlat_mux_id, qmap_id);
+			xlat_mux_id = qmap_id;
+		}
+
 		if ((iptype == IPA_IP_v4) && prop->prop[cnt].is_xlat_rule && (xlat_mux_id != 0))
 		{
 			/* fill the value of meta-data */
@@ -4489,6 +4528,17 @@ void IPACM_Lan::eth_bridge_post_event(ipa_cm_event_id evt, ipa_ip_type iptype, u
 #ifdef FEATURE_L2TP
 	ipacm_event_data_all *evt_data_all;
 #endif
+
+
+/* not enable rndis for lan2lan HW-offload due to android limitation */
+#ifdef FEATURE_IPA_ANDROID
+	if(ipa_if_cate == LAN_IF)
+	{
+		IPACMDBG_H("This is LAN IF (%s):ipa_index (%d) skip lan2lan events for Android \n", IPACM_Iface::ipacmcfg->iface_table[ipa_if_num].iface_name, ipa_if_num);
+		return;
+	}
+#endif
+
 	if(ipv6_addr)
 	{
 		IPACMDBG_H("IPv6 addr: %08x:%08x:%08x:%08x \n", ipv6_addr[0],
