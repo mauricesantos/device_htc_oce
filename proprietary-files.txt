@@ -1012,7 +1012,6 @@ vendor/bin/thermal-engine
 -vendor/lib/libthermalclient.so
 -vendor/lib64/libthermalclient.so
 vendor/lib64/libthermalioctl.so
-vendor/lib64/android.hardware.thermal@1.1.so
 
 # Time services - from B2N_sprout - PPR1.180610.011
 -vendor/app/TimeService/TimeService.apk|25337e4160093a998c0e4cfced1c1a6c51177dff
