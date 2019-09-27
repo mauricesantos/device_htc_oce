@@ -2,26 +2,31 @@
   {
     "repository": "Siluxsept/android_kernel_htc_oce",
     "target_path":"kernel/htc/oce",
-    "branch":     "p9.0"
+    "branch":     "q10.0"
   },
   {
     "repository": "Siluxsept/proprietary_vendor_htc",
     "target_path":"vendor/htc",
-    "branch":     "p9.0"
+    "branch":     "q10.0"
   },
   {
     "repository": "AICP/packages_apps_FlipFlap",
     "target_path": "packages/apps/FlipFlap",
-    "branch":      "p9.0"
+    "branch":      "q10.0"
   },
   {
     "repository": "LineageOS/android_packages_resources_devicesettings",
     "target_path": "packages/resources/devicesettings",
-    "branch":      "lineage-16.0"
+    "branch":      "lineage-17.0"
   },
   {
-   "repository":  "LineageOS/android_external_connectivity",
-   "target_path": "external/connectivity",
-   "branch":      "lineage-16.0"
+    "repository": "LineageOS/android_lineage-sdk",
+    "target_path": "lineage-sdk",
+    "branch":      "lineage-17.0"
+  },
+  {
+    "repository": "LineageOS/android_vendor_qcom_opensource_power",
+    "target_path": "vendor/qcom/opensource/power",
+    "branch":      "lineage-17.0"
   }
 ]
