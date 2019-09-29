@@ -20,11 +20,6 @@
     "branch":      "lineage-17.0"
   },
   {
-    "repository": "LineageOS/android_lineage-sdk",
-    "target_path": "lineage-sdk",
-    "branch":      "lineage-17.0"
-  },
-  {
     "repository": "LineageOS/android_vendor_qcom_opensource_power",
     "target_path": "vendor/qcom/opensource/power",
     "branch":      "lineage-17.0"
