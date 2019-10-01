@@ -213,7 +213,7 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.full
 TARGET_USERIMAGES_USE_EXT4 := true
 
 # Release
-#TARGET_RELEASETOOLS_EXTENSIONS := device/htc/oce/releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := device/htc/oce/releasetools
 
 # RIL
 TARGET_PROVIDES_QTI_TELEPHONY_JAR := true
