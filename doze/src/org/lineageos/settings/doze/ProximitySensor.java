@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015 The CyanogenMod Project
- *               2017-2018 The LineageOS Project
+ * Copyright (c) 2017 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,85 +22,78 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class ProximitySensor implements SensorEventListener {
 
-    private static final boolean DEBUG = false;
-    private static final String TAG = "ProximitySensor";
+    private static final int PROXIMITY_DELAY = 1000 * 1000;
+    private static final int PROXIMITY_LATENCY = 100 * 1000;
 
-    // Maximum time for the hand to cover the sensor: 1s
-    private static final int HANDWAVE_MAX_DELTA_NS = 1000 * 1000 * 1000;
-
-    // Minimum time until the device is considered to have been in the pocket: 2s
-    private static final int POCKET_MIN_DELTA_NS = 2000 * 1000 * 1000;
-
+    private boolean mEnabled;
+    private boolean mReady;
+    private boolean mState;
+    private float mMaxRange;
+    private ProximityListener mProximityListener;
+    private Sensor mProximitySensor;
     private SensorManager mSensorManager;
-    private Sensor mSensor;
-    private Context mContext;
-    private ExecutorService mExecutorService;
 
-    private boolean mSawNear = false;
-    private long mInPocketTime = 0;
-
-    public ProximitySensor(Context context) {
-        mContext = context;
-        mSensorManager = mContext.getSystemService(SensorManager.class);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY, false);
-        mExecutorService = Executors.newSingleThreadExecutor();
+    public interface ProximityListener {
+        void onEvent(boolean isNear, long timestamp);
+        void onInit(boolean isNear, long timestamp);
     }
 
-    private Future<?> submit(Runnable runnable) {
-        return mExecutorService.submit(runnable);
-    }
+    public ProximitySensor(Context context, SensorManager sensorManager,
+            ProximityListener proximitylistener) {
+        mEnabled = false;
+        reset();
+        mProximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY, true);
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        boolean isNear = event.values[0] < mSensor.getMaximumRange();
-        if (mSawNear && !isNear) {
-            if (shouldPulse(event.timestamp)) {
-                Utils.launchDozePulse(mContext);
-            }
-        } else {
-            mInPocketTime = event.timestamp;
+        mProximityListener = proximitylistener;
+        mSensorManager = sensorManager;
+
+        if (mProximitySensor != null) {
+            mMaxRange = mProximitySensor.getMaximumRange();
         }
-        mSawNear = isNear;
     }
 
-    private boolean shouldPulse(long timestamp) {
-        long delta = timestamp - mInPocketTime;
-
-        if (Utils.isHandwaveGestureEnabled(mContext) && Utils.isPocketGestureEnabled(mContext)) {
-            return true;
-        } else if (Utils.isHandwaveGestureEnabled(mContext)) {
-            return delta < HANDWAVE_MAX_DELTA_NS;
-        } else if (Utils.isPocketGestureEnabled(mContext)) {
-            return delta >= POCKET_MIN_DELTA_NS;
-        }
-        return false;
-    }
-
-    @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        /* Empty */
     }
 
-    protected void enable() {
-        if (DEBUG) Log.d(TAG, "Enabling");
-        submit(() -> {
-            mSensorManager.registerListener(this, mSensor,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-        });
+    public void onSensorChanged(SensorEvent event) {
+        if (event.values.length == 0) return;
+        boolean isNear = (event.values[0] < mMaxRange);
+
+        // Launch an event
+        if (mState != isNear) {
+            mState = isNear;
+            if (mReady) {
+                mProximityListener.onEvent(mState, event.timestamp);
+            }
+        }
+
+        // Init the sensor
+        if (!mReady) {
+            mProximityListener.onInit(mState, event.timestamp);
+            mReady = true;
+        }
     }
 
-    protected void disable() {
-        if (DEBUG) Log.d(TAG, "Disabling");
-        submit(() -> {
-            mSensorManager.unregisterListener(this, mSensor);
-        });
+    public void enable() {
+        if (!mEnabled && mProximitySensor != null) {
+            mSensorManager.registerListener(this, mProximitySensor, PROXIMITY_DELAY,
+                    PROXIMITY_LATENCY);
+            mEnabled = true;
+        }
+    }
+
+    public void reset() {
+        mReady = false;
+        mState = false;
+    }
+
+    public void disable() {
+        if (mEnabled && mProximitySensor != null) {
+            mSensorManager.unregisterListener(this, mProximitySensor);
+            mEnabled = false;
+        }
     }
 }
