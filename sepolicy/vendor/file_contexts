@@ -76,4 +76,9 @@
 /data/misc/radio(/.*)?           u:object_r:radio_data_file:s0
 /dev/block/bootdevice/by-name/rfg_[0-9]+    u:object_r:modem_efs_partition_device:s0
 /dev/block/platform/soc/624000\.ufshc/by-name/rfg_[0-9]+ u:object_r:modem_efs_partition_device:s0
-/carrier(/.*)?   u:object_r:vendor_radio_data_file:s0
+
+# Root Symlinks
+/bt_firmware(/.*)?       u:object_r:bt_firmware_file:s0
+/firmware(/.*)?          u:object_r:firmware_file:s0
+/carrier(/.*)?       u:object_r:carrier_file:s0
+/crashdump.d(/.*)?       u:object_r:crashdata_data_file:s0
