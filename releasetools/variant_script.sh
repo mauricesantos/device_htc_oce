@@ -5,7 +5,12 @@ set -e
 # Helper functions
 copy()
 {
-  /sbin/toybox cp --preserve=a "$1" "$2"
+    if [ -e /sbin/toybox ]
+    then
+        /sbin/toybox cp --preserve=a "$1" "$2"
+    else
+        /sbin/busybox cp -c "$1" "$2"
+    fi
 }
 
 # Detect variant and copy its specific-blobs
