@@ -1,9 +1,15 @@
 # AICP/vendor_aicp
+aicppick 94367
 aicppick 94366
+aicppick 94365
+aicppick 94363
+aicppick 94273
 aicppick 94109
 aicppick 94081
 aicppick 93992
+aicppick 93867
 aicppick 93866
+aicppick 93814
 aicppick 93714
 aicppick 93670
 
@@ -14,13 +20,22 @@ aicppick 94009
 # AICP/build
 aicppick 94369
 aicppick 94370
+aicppick 94371
+aicppick 94195
 aicppick 94372
 aicppick 94197
+aicppick 94373
 aicppick 94374
+aicppick 94375
+aicppick 94262
 aicppick 94263
+aicppick 94279
 aicppick 94184
+aicppick 94183
+aicppick 93820
 
 # AICP/build_soong
+aicppick 93681
 aicppick 93934
 
 # AICP/system_core
@@ -55,105 +70,129 @@ aicppick 94380
 aicppick 94381
 
 # art
-repopicklos 256444 # Don't fail dual map if memfd isn't supported
+lineagepick -f 256444 # Don't fail dual map if memfd isn't supported
 
 # device/qcom/sepolicy
-repopicklos 257238 # sepolicy: Move definitions from Android.mk to make opt-in
-repopicklos 257244 # sepolicy: Fix target selection
+lineagepick -f 257238 # sepolicy: Move definitions from Android.mk to make opt-in
+lineagepick -f 257244 # sepolicy: Fix target selection
+lineagepick -f 257245 # legacy: Fix newline in file_contexts
 
 # external/tinycompress
-repopicklos 256308 # tinycompress: Enable extended compress format
-repopicklos 256309 # tinycompress: Use generated kernel headers
+lineagepick -f 256308 # tinycompress: Enable extended compress format
+lineagepick -f 256309 # tinycompress: Use generated kernel headers
 
 # frameworks/opt/telephony
-repopicklos 256942 # telephony: Squashed support for simactivation feature
-repopicklos 257344 # Add ims-ext-common to static java libraries
+lineagepick -f 256942 # telephony: Squashed support for simactivation feature
 
 # hardware/libhardware
-repopicklos 256911 # hardware/libhw: Add display_defs.h to declare custom enums/flags
+lineagepick -f 256911 # hardware/libhw: Add display_defs.h to declare custom enums/flags
 
 # hardware/qcom/audio
-repopicklos 256868 # Squash revert of amplifier commits
-
-# hardware/lineage/interfaces
-repopicklos 256420 # Initial audio amplifier HAL
-repopicklos 256912 # audio: Add audio amplifier HAL
+lineagepick -f 256353 # audio: Use project pathmap
 
 # hardware/qcom/bt
-repopicklos 256355 # bt: Add guard makefile
+lineagepick -f 256355 # bt: Add guard makefile
+
+# hardware/qcom/camera
+lineagepick -f 256356 # camera: Only build if specified
+
+# hardware/qcom/data/ipacfg-mgr
+lineagepick -f 256357 # ipacfg-mgr: Use project pathmap
+
+# hardware/qcom/display
+lineagepick -f 256358 # display: Use project pathmap
+
+# hardware/qcom/gps
+lineagepick -f 256359 # gps: Use project pathmap
 
 # hardware/qcom/keymaster
-repopicklos 256360 # keymaster: add TARGET_PROVIDES_KEYMASTER
+lineagepick -f 256360 # keymaster: add TARGET_PROVIDES_KEYMASTER
+
+# hardware/qcom/media
+lineagepick -f 256361 # media: Use project pathmap
 
 # hardware/qcom/wlan
-repopicklos 256362 # wlan: Add guard makefile
+lineagepick -f 256362 # wlan: Add guard makefile
 
 # hardware/qcom-caf/thermal
-repopicklos 257197 # thermal: Use project pathmap
+lineagepick -f 257197 # thermal: Use project pathmap
 
 # hardware/qcom-caf/vr
-repopicklos 257198 # vr: Use project pathmap
+lineagepick -f 257198 # vr: Use project pathmap
 
 # hardware/qcom-caf/wlan
-repopicklos 257199 # wlan-caf: Add guard makefile
-repopicklos 257200 # wcnss-service: Additional format support
-repopicklos 257201 # wcnss: Build and dlopen wcnss_qmi_client as a shared library
-repopicklos 257202 # wcnss_service: Deal with mdm-detect too
-repopicklos 257203 # wifi-hal: Only try LOWI once
-repopicklos 257204 # wifi-hal: stop the UMAC logspam
-repopicklos 257205 # Wifi: Quiet some excessive debug output
-repopicklos 257206 # Make wcnss_service build with the VNDK.
-repopicklos 257207 # wifi-hal: Use generated kernel headers
-repopicklos 257208 # Reading the serialno property is forbidden
-repopicklos 257209 # wcnss-service: Opt-in to disable copying WCNSS_qcom_cfg.ini to userdata
+lineagepick -f 257199 # wlan-caf: Add guard makefile
+lineagepick -f 257200 # wcnss-service: Additional format support
+lineagepick -f 257201 # wcnss: Build and dlopen wcnss_qmi_client as a shared library
+lineagepick -f 257202 # wcnss_service: Deal with mdm-detect too
+lineagepick -f 257203 # wifi-hal: Only try LOWI once
+lineagepick -f 257204 # wifi-hal: stop the UMAC logspam
+lineagepick -f 257205 # Wifi: Quiet some excessive debug output
+lineagepick -f 257206 # Make wcnss_service build with the VNDK.
+lineagepick -f 257207 # wifi-hal: Use generated kernel headers
+lineagepick -f 257208 # Reading the serialno property is forbidden
+lineagepick -f 257209 # wcnss-service: Opt-in to disable copying WCNSS_qcom_cfg.ini to userdata
 
 # hardware/ril
-repopicklos 257211 # libril: Bounds check s_commands
-repopicklos 257212 # libril: Restore support for RIL v6, v8 and v9 stacks
-repopicklos 257213 # libril: Fix manual network selection with old modem
-repopicklos 257210 # FR51015: Tuning of Binder buffer for rild.
-repopicklos 257214 # Make RIL command headers overlayable by devices.
+lineagepick -f 257211 # libril: Bounds check s_commands
+lineagepick -f 257212 # libril: Restore support for RIL v6, v8 and v9 stacks
+lineagepick -f 257213 # libril: Fix manual network selection with old modem
+lineagepick -f 257210 # FR51015: Tuning of Binder buffer for rild.
+lineagepick -f 257214 # Make RIL command headers overlayable by devices.
 
 # packages/apps/Nfc
-repopicklos 256595 # NFC: Adding new vendor specific interface to NFC Service
-repopicklos 256814 # NFCService: Add sysprop to prevent FW download during boot with NFC off.
-repopicklos 257348 # NFC: Restore legacy NXP stack
-repopicklos 257349 # nxp: jni: Forward-port the stack sources
-repopicklos 257350 # nxp: NativeNfcManager: Implement missing inherited abstract methods
-repopicklos 257351 # nxp: jni: use proper nativehelper headers
-repopicklos 257352 # nxp: jni: Remove unused variables and functions
-repopicklos 257353 # nxp: jni: Implement AOSP P abstract methods
-repopicklos 258124 # nxp: Q api updates
+lineagepick -f 256595 # NFC: Adding new vendor specific interface to NFC Service
+lineagepick -f 256814 # NFCService: Add sysprop to prevent FW download during boot with NFC off.
+lineagepick -f 257348 # NFC: Restore legacy NXP stack
+lineagepick -f 257349 # nxp: jni: Forward-port the stack sources
+lineagepick -f 257350 # nxp: NativeNfcManager: Implement missing inherited abstract methods
+lineagepick -f 257351 # nxp: jni: use proper nativehelper headers
+lineagepick -f 257352 # nxp: jni: Remove unused variables and functions
+lineagepick -f 257353 # nxp: jni: Implement AOSP P abstract methods
+lineagepick -f 258124 # nxp: Q api updates
 
 # packages/apps/PackageInstaller
-repopicklos 255658 # Revert "Remove Permissions Hub."
-repopicklos 255659 # PermissionController: Enable permission hub by default
+lineagepick -f 255658 # Revert "Remove Permissions Hub."
+lineagepick -f 255659 # PermissionController: Enable permission hub by default
 
 # packages/services/Telecomm
-repopicklos 256938 # Telecomm: Squashed phone_type switch support
+lineagepick -f 256938 # Telecomm: Squashed phone_type switch support
 
 # packages/services/Telephony
-repopicklos 256792 # Telephony: Add ERI configuration for U.S. Cellular
-repopicklos 256793 # Telephony: Support muting by RIL command
-repopicklos 256794 # Fix non-protected broadcasts sent from phone process.
-repopicklos 256797 # Allow to disable the new scan API for manual network search.
+lineagepick -f 256792 # Telephony: Add ERI configuration for U.S. Cellular
+lineagepick -f 256793 # Telephony: Support muting by RIL command
+lineagepick -f 256794 # Fix non-protected broadcasts sent from phone process.
+lineagepick -f 256797 # Allow to disable the new scan API for manual network search.
 
 # vendor/codeaurora/telephony
-repopicklos 257215 # Revert "IMS-VT: Low battery handling for Video calls"
+lineagepick -f 257215 # Revert "IMS-VT: Low battery handling for Video calls"
 
-aicppick 93905 93906 93907 93921
+# hardware/lineage/interfaces
+lineagepick -f 256420 # Initial audio amplifier HAL
+lineagepick -f 256912 # audio: Add audio amplifier HAL
+
+# from hima
+repopick 93905 93906 93907 93921
 repopick -t FlipFlap_ten
-aicppick 94191
+repopick 94191
 repopick -t cpu_info
-aicppick 94045
+repopick 94045
 repopick -t batterybar
 repopick -t dialer-q -P packages/apps/Dialer
-aicppick 94303-94308
-aicppick 94342
-aicppick 94343-94344
+repopick 94303-94308
+repopick 94342
+repopick 94343-94344
 repopick -t ten_tiles
-repopicklos 258191-258194 -P vendor/qcom/opensource/cryptfs_hw
-repopicklos 258821  -P vendor/qcom/opensource/cryptfs_hw
-repopicklos 258212 -P vendor/qcom/opensource/interfaces/
-aicppick 94433-94434
-aicppick 94238-94246
+repopick 94433-94434
+repopick 94238-94246
+repopick 94539-94543
+repopick 94544
+repopick 94438
+lineagepick -f 256881-256882 -P hardware/qcom/display/msm8994
+lineagepick -f 256873-256875 -P hardware/qcom/media/msm8994
+lineagepick -f 256209 -P hardware/qcom/display/msm8994
+repopick -t ten-aonly-backuptool
+repopick 94423
+repopick 94563
+repopick -t changelog_ten
+repopick -t jamesdsp_ten
