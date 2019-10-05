@@ -693,9 +693,9 @@ vendor/lib64/libsdm-diag.so|7ab5d2a980029ac9bd20fe68656823b21e483e11
 vendor/lib64/libsdmextension.so|d8e738455720e4c1492fcb2f77c030aa8beaa8dd
 vendor/lib64/libtinyxml2_1.so|b743b93bbb47bb2d80322fcfb985b7b8c696fa1b
 
-# Graphics (Vulkan) - from op3 - PKQ1.181203.001
-vendor/lib/hw/vulkan.msm8996.so|55c875334793eb80e0d7177f640df1930dbe46a5
-vendor/lib64/hw/vulkan.msm8996.so|acb63c9b1827f7cbae1ee9946a9c3afde4ec18f7
+# Graphics (Vulkan) - from marlin - QP1A.190711.020
+vendor/lib/hw/vulkan.msm8996.so|4ec030d5358f50d829cd166c3e75bb202e44b688
+vendor/lib64/hw/vulkan.msm8996.so|3e86ae4ae42956d2659483fb41cbf518389da68c
 
 # Graphics firmware
 vendor/firmware/a225_pfp.fw
