@@ -465,7 +465,9 @@ PRODUCT_PACKAGES += \
     telephony-ext \
     qti-telephony-hidl-wrapper \
     qti_telephony_hidl_wrapper.xml \
-    libshim_ims
+    libshim_ims \
+    RcsService \
+    PresencePolling
 
 PRODUCT_BOOT_JARS += \
     ims-ext-common_system \
