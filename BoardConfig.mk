@@ -105,7 +105,8 @@ TARGET_USES_QCOM_MM_AUDIO := true
 BOARD_ROOT_EXTRA_SYMLINKS := \
     /vendor/dsp:/dsp \
     /vendor/bt_firmware:/bt_firmware \
-    /mnt/vendor/persist:/persist
+    /mnt/vendor/persist:/persist \
+    /data/tombstones:/tombstones
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
