@@ -65,8 +65,8 @@ on early-boot
     # Allow subsystem (modem etc) debugging
     write /sys/kernel/boot_adsp/boot 1
     chown root audio /sys/kernel/boot_adsp/boot
-    exec u:r:qti_init_shell:s0 -- /system/vendor/bin/init.htc.slpi.sh
-    exec u:r:qti_init_shell:s0 -- /system/vendor/bin/init.qcom.early_boot.sh
+    exec -- /system/vendor/bin/init.htc.slpi.sh
+    exec -- /system/vendor/bin/init.qcom.early_boot.sh
 
     # for backward compatibility
     chown system system /persist/sensors
@@ -88,7 +88,7 @@ on early-boot
     chown system system /mnt/vendor/persist/sensors/registry/config
     chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
 
-    exec u:r:qti_init_shell:s0 -- /system/vendor/bin/init.htc.fp.sh
+    exec -- /system/vendor/bin/init.htc.fp.sh
 
     # For MFG socket
     mkdir /data/fpc 0770 system system
@@ -520,7 +520,6 @@ service charger /charger
     class charger
     user system
     group system graphics input
-    seclabel u:r:healthd:s0
     writepid /dev/cpuset/system-background/tasks
 
 service vendor.cnd /system/vendor/bin/cnd
@@ -546,8 +545,7 @@ service vendor.hvdcp_opti /system/vendor/bin/hvdcp_opti
     class main
     user root
     group root
-    seclabel u:r:hvdcp:s0
-
+    
 service vendor.ipacm /system/vendor/bin/ipacm
     class main
     user radio
