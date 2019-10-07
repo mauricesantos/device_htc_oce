@@ -66,6 +66,7 @@ BOARD_RAMDISK_OFFSET     := 0x01000000
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_SOURCE := kernel/htc/oce
 TARGET_KERNEL_CONFIG := oce_defconfig
+TEMPORARY_DISABLE_PATH_RESTRICTIONS=true
 
 BOARD_ROOT_EXTRA_FOLDERS := \
     carrier \
@@ -121,6 +122,14 @@ USE_DEVICE_SPECIFIC_CAMERA := true
 TARGET_PROCESS_SDK_VERSION_OVERRIDE := \
     /vendor/bin/mm-qcamera-daemon=26 \
     /system/vendor/bin/mm-qcamera-daemon=26
+
+# IMS API Override
+TARGET_PROCESS_SDK_VERSION_OVERRIDE := \
+    /system/vendor/bin/ims_rtp_daemon=26 \
+    /system/vendor/bin/imscmservice=26 \
+    /system/vendor/bin/imsdatadaemon=26 \
+    /system/vendor/bin/imsqmidaemon=26 \
+    /system/vendor/bin/imsrcsd=26
 
 # Dex
 ifeq ($(HOST_OS),linux)
