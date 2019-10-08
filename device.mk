@@ -391,10 +391,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/powerhint.json:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.json
 
-# Prebuilts
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/org.apache.http.legacy.jar:system/framework/org.apache.http.legacy.jar
-
 # QSEECOM Shim
 PRODUCT_PACKAGES += \
     libshim_sec-disp
