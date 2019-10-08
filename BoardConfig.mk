@@ -123,14 +123,6 @@ TARGET_PROCESS_SDK_VERSION_OVERRIDE := \
     /vendor/bin/mm-qcamera-daemon=26 \
     /system/vendor/bin/mm-qcamera-daemon=26
 
-# IMS API Override
-TARGET_PROCESS_SDK_VERSION_OVERRIDE := \
-    /system/vendor/bin/ims_rtp_daemon=26 \
-    /system/vendor/bin/imscmservice=26 \
-    /system/vendor/bin/imsdatadaemon=26 \
-    /system/vendor/bin/imsqmidaemon=26 \
-    /system/vendor/bin/imsrcsd=26
-
 # Dex
 ifeq ($(HOST_OS),linux)
   ifneq ($(TARGET_BUILD_VARIANT),eng)
