@@ -47,13 +47,6 @@ LOCAL_PROPRIETARY_MODULE := true
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_SRC_FILES := libshim_sec-disp.cpp
-LOCAL_MODULE := libshim_sec-disp
-LOCAL_MODULE_TAGS := optional
-LOCAL_PROPRIETARY_MODULE := true
-include $(BUILD_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
 LOCAL_SRC_FILES := \
     GraphicBuffer.cpp
 LOCAL_SHARED_LIBRARIES := libui
