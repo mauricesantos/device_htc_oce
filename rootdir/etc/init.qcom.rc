@@ -638,9 +638,8 @@ service qcom-usb-sh /system/vendor/bin/init.qcom.usb.sh
 
 service time_daemon /system/vendor/bin/time_daemon
     class main
-    user system
-    group system
-    capabilities SYS_TIME
+    user root
+    group root
     writepid /dev/cpuset/system-background/tasks
 
 service vendor.power_off_alarm /system/vendor/bin/power_off_alarm
