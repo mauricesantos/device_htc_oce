@@ -203,4 +203,74 @@ It allows additional grants on top of privapp-permissions-platform.xml
         <permission name="android.permission.PREVENT_POWER_KEY"/>
         <permission name="android.permission.WRITE_MEDIA_STORAGE"/>
     </privapp-permissions>
+    
+    <privapp-permissions package="com.android.managedprovisioning">
+        <permission name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
+        <permission name="android.permission.START_ACTIVITIES_FROM_BACKGROUND"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="com.android.shell">
+        <permission name="android.permission.SET_WALLPAPER_COMPONENT"/>
+        <permission name="android.permission.STATUS_BAR"/>
+        <permission name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
+        <permission name="android.permission.OBSERVE_APP_USAGE"/>
+        <permission name="android.permission.READ_PRECISE_PHONE_STATE"/>
+        <permission name="android.permission.INSTALL_DYNAMIC_SYSTEM"/>
+        <permission name="android.permission.POWER_SAVER"/>
+        <permission name="android.permission.START_ACTIVITIES_FROM_BACKGROUND"/>
+        <permission name="android.permission.BIND_EXPLICIT_HEALTH_CHECK_SERVICE"/>
+        <permission name="android.permission.NETWORK_SCAN"/>
+        <permission name="android.permission.REQUEST_NOTIFICATION_ASSISTANT_SERVICE"/>
+        <permission name="android.permission.CONTROL_KEYGUARD_SECURE_NOTIFICATIONS"/>
+        <permission name="android.permission.INTERACT_ACROSS_PROFILES"/>
+        <permission name="android.permission.PACKET_KEEPALIVE_OFFLOAD"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="com.android.permissioncontroller">
+        <permission name="android.permission.OBSERVE_GRANT_REVOKE_PERMISSIONS"/>
+        <permission name="android.permission.GET_APP_OPS_STATS"/>
+        <permission name="android.permission.MANAGE_USERS"/>
+        <permission name="android.permission.REQUEST_INCIDENT_REPORT_APPROVAL"/>
+        <permission name="android.permission.SUBSTITUTE_NOTIFICATION_APP_NAME"/>
+        <permission name="android.permission.UPDATE_APP_OPS_STATS"/>
+        <permission name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="com.android.networkstack">
+        <permission name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
+        <permission name="android.permission.INTERACT_ACROSS_USERS"/>
+        <permission name="android.permission.CONNECTIVITY_INTERNAL"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="com.android.providers.calendar">
+        <permission name="android.permission.MANAGE_USERS"/>
+        <permission name="android.permission.INTERACT_ACROSS_USERS"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="android.ext.services">
+        <permission name="android.permission.MONITOR_DEFAULT_SMS_PACKAGE"/>
+        <permission name="android.permission.REQUEST_NOTIFICATION_ASSISTANT_SERVICE"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="com.android.packageinstaller">
+        <permission name="android.permission.SUBSTITUTE_NOTIFICATION_APP_NAME"/>
+        <permission name="android.permission.PACKAGE_USAGE_STATS"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="com.android.providers.media">
+        <permission name="android.permission.WATCH_APPOPS"/>
+        <permission name="android.permission.UPDATE_DEVICE_STATS"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="com.android.dynsystem">
+        <permission name="android.permission.REBOOT"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="com.android.providers.downloads">
+        <permission name="android.permission.START_ACTIVITIES_FROM_BACKGROUND"/>
+    </privapp-permissions>
+    
+    <privapp-permissions package="com.android.cellbroadcastreceiver">
+        <permission name="android.permission.START_ACTIVITIES_FROM_BACKGROUND"/>
+    </privapp-permissions>
 </permissions>
