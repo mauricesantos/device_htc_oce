@@ -465,7 +465,6 @@ PRODUCT_PACKAGES += \
     com.android.ims.rcsmanager \
     ims-ext-common \
     ims_ext_common.xml \
-    ims-ext-common_system \
     telephony-ext \
     qti-telephony-hidl-wrapper \
     qti_telephony_hidl_wrapper.xml \
@@ -473,9 +472,8 @@ PRODUCT_PACKAGES += \
     RcsService \
     PresencePolling
 
-PRODUCT_BOOT_JARS += \
-    ims-ext-common_system \
-    telephony-ext
+#PRODUCT_BOOT_JARS += \
+#    telephony-ext
 
 # TextClassifier smart selection model files
 PRODUCT_PACKAGES += \
