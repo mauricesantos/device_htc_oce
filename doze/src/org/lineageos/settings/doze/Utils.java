@@ -19,6 +19,7 @@ package org.lineageos.settings.doze;
 
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.display.AmbientDisplayConfiguration;
 import android.content.pm.PackageManager;
 import android.os.UserHandle;
 import androidx.preference.PreferenceManager;
