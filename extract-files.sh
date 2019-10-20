@@ -55,4 +55,10 @@ setup_vendor "$DEVICE" "$VENDOR" "$CM_ROOT"
 
 extract "$MY_DIR"/proprietary-files.txt "$SRC"
 
+patchelf --add-needed "libbase_shim.so" "$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/bin/imsrcsd
+patchelf --add-needed "libbase_shim.so" "$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib64/lib-imsrcs.so
+patchelf --add-needed "libbase_shim.so" "$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib64/lib-uceservice.so
+patchelf --add-needed "libbase_shim.so" "$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/lib-imsrcs.so
+patchelf --add-needed "libbase_shim.so" "$LINEAGE_ROOT"/vendor/"$VENDOR"/"$DEVICE"/proprietary/vendor/lib/lib-uceservice.so
+
 "$MY_DIR"/setup-makefiles.sh
