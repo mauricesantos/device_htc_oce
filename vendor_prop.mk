@@ -183,7 +183,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.ims.dropset_feature=0 \
     persist.data.profile_update=true \
     persist.radio.NETWORK_SWITCH=1 \
-    persist.vendor.radio.add_power_save=1
+    persist.vendor.radio.add_power_save=1 \
+    persist.sys.fflag.override.settings_network_and_internet_v2=true
 
 # RmNet Data
 PRODUCT_PROPERTY_OVERRIDES += \
