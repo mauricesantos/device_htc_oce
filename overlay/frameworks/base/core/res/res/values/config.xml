@@ -227,7 +227,7 @@
          This needs to match the constants in
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
-    <integer name="config_longPressOnHomeBehavior">0</integer>
+    <integer name="config_longPressOnHomeBehavior">1</integer>
 
     <!-- SD card is hot-pluggable on this device -->
     <bool name="config_batterySdCardAccessibility">true</bool>
@@ -333,7 +333,7 @@
     <bool name="config_setColorTransformAccelerated">true</bool>
 
     <!-- Whether device supports double tap to wake -->
-    <bool name="config_supportDoubleTapWake">true</bool>
+    <bool name="config_supportDoubleTapWake">false</bool>
 	
 	    <!-- The bounding path of the cutout region of the main built-in display.
          Must either be empty if there is no cutout region, or a string that is parsable by
@@ -426,7 +426,7 @@
     </string-array>
 
     <!-- Audio panel view placement. Is left side enabled -->
-    <bool name="config_audioPanelOnLeftSide">true</bool>
+    <bool name="config_audioPanelOnLeftSide">false</bool>
 
     <!-- Blank the display when transitioning from dozing to non-dozing state -->
     <bool name="config_displayBlanksAfterDoze">false</bool>
@@ -447,7 +447,4 @@
 
     <!-- True if the firmware supports Wi-Fi link probing -->
     <bool name="config_wifi_link_probing_supported">true</bool>
-
-    <!-- Whether to cleanup fingerprints upon connection to the daemon and when user switches -->
-    <bool name="config_cleanupUnusedFingerprints">false</bool>
 </resources>
