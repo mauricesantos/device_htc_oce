@@ -428,7 +428,6 @@ PRODUCT_PACKAGES += \
     libhtcril_db \
     libprotobuf-cpp-full \
     librmnetctl \
-    rmnetcli \
     libshim_ril \
     libxml2
 
