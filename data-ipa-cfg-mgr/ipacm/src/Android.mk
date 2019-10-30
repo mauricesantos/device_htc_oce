@@ -24,8 +24,6 @@ LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_CFLAGS := -v
 LOCAL_CFLAGS += -DFEATURE_IPA_ANDROID
 LOCAL_CFLAGS += -DFEATURE_IPACM_RESTART
-LOCAL_CFLAGS += -DFEATURE_ETH_BRIDGE_LE
-
 LOCAL_CFLAGS += -DFEATURE_IPACM_HAL -Wall -Werror -Wno-error=macro-redefined
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
 LOCAL_CFLAGS += -DDEBUG
@@ -59,8 +57,7 @@ LOCAL_SRC_FILES := IPACM_Main.cpp \
 		IPACM_ConntrackClient.cpp \
 		IPACM_ConntrackListener.cpp \
 		IPACM_Log.cpp \
-		IPACM_OffloadManager.cpp \
-		IPACM_LanToLan.cpp
+		IPACM_OffloadManager.cpp
 
 LOCAL_MODULE := ipacm
 LOCAL_CLANG := false

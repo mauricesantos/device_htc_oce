@@ -45,8 +45,9 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef FEATURE_IPA_ANDROID
 #include <libxml/list.h>
-#endif /* defined(FEATURE_IPA_ANDROID) */
+#else/* defined(FEATURE_IPA_ANDROID) */
 #include <list>
+#endif /* ndefined(FEATURE_IPA_ANDROID)*/
 
 #define MAX_NUM_CACHED_CLIENT_ADD_EVENT 10
 #define MAX_NUM_IFACE 10
