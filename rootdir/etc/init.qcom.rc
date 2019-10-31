@@ -45,7 +45,7 @@ on early-init
     chown root system /dev/kmsg
     chmod 0620 /dev/kmsg
     # Load WIGIG platform driver
-    exec u:r:vendor_modprobe:s0 -- /system/vendor/bin/modprobe -a -d /system/vendor/lib/modules msm_11ad_proxy
+    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules msm_11ad_proxy
 
 on init
 
@@ -56,8 +56,6 @@ on init
     chown root system /sys/fs/cgroup/memory/bg/tasks
     chmod 0660 /sys/fs/cgroup/memory/bg/tasks
 
-    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
-
 on post-fs
     chmod 0755 /sys/kernel/debug/tracing
 
@@ -67,8 +65,8 @@ on early-boot
     # Allow subsystem (modem etc) debugging
     write /sys/kernel/boot_adsp/boot 1
     chown root audio /sys/kernel/boot_adsp/boot
-    exec -- /system/vendor/bin/init.htc.slpi.sh
-    exec -- /system/vendor/bin/init.qcom.early_boot.sh
+    exec -- /vendor/bin/init.htc.slpi.sh
+    exec -- /vendor/bin/init.qcom.early_boot.sh
 
     # for backward compatibility
     chown system system /persist/sensors
@@ -90,7 +88,7 @@ on early-boot
     chown system system /mnt/vendor/persist/sensors/registry/config
     chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
 
-    exec -- /system/vendor/bin/init.htc.fp.sh
+    exec -- /vendor/bin/init.htc.fp.sh
 
     # For MFG socket
     mkdir /data/fpc 0770 system system
@@ -387,8 +385,6 @@ on post-fs-data
     chown system system /sys/devices/platform/msm_sdcc.2/polling
     chown system system /sys/devices/platform/msm_sdcc.3/polling
     chown system system /sys/devices/platform/msm_sdcc.4/polling
-
-    #Create the symlink to qcn wpa_supplicant folder for ar6000 wpa_supplicant
 
     # Create all remaining /data root dirs so that they are made through init
     # and get proper encryption policy installed
