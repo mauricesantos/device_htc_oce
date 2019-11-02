@@ -2691,10 +2691,10 @@ case "$target" in
         start perfd # start perfd on 8916 and 8939
     ;;
     "msm8909")
-        setprop sys.post_boot.parsed 1
+        setprop vendor.post_boot.parsed 1
     ;;
     "msm8952")
-        setprop sys.post_boot.parsed 1
+        setprop vendor.post_boot.parsed 1
     ;;
     "msm8937" | "msm8953")
         echo 128 > /sys/block/mmcblk0/bdi/read_ahead_kb
@@ -2710,7 +2710,7 @@ case "$target" in
         echo 512 > /sys/block/mmcblk0/bdi/read_ahead_kb
     ;;
     "msm8994" | "msm8992" | "msm8996" | "msm8998" | "sdm660" | "apq8098_latv" | "sdm845")
-        setprop sys.post_boot.parsed 1
+        setprop vendor.post_boot.parsed 1
     ;;
     "apq8084")
         rm /data/system/perfd/default_values
