@@ -261,10 +261,6 @@ on post-fs-data
     # Create directory for tombstone
     mkdir /data/tombstones 0771 system system
     mkdir /data/vendor/tombstones 0771 system system
-    mkdir /tombstones/modem 0771 system system
-    mkdir /tombstones/lpass 0771 system system
-    mkdir /tombstones/dsps 0771 system system
-    mkdir /tombstones/wcnss 0771 system system
 
     symlink /persist/tee/00000000.authtokcont.backup /data/misc/mcRegistry/00000000.authtokcont.backup
     export MC_AUTH_TOKEN_PATH /data/misc/mcRegistry
