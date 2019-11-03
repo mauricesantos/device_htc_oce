@@ -874,7 +874,6 @@ vendor/lib64/vendor.display.color@1.2.so|4c8662c993e4af6df2d6ebc4101caee0d629e0d
 vendor/lib64/vendor.display.postproc@1.0.so|40910c332df5288c60bae04f99747c526b5499bd
 
 # Power-off alarm - from daisy 9/PKQ1.180917.001/V10.0.7.0.PDLMIXM
-framework/vendor.qti.hardware.alarm-V1.0-java.jar|ca5bf830ebb4fbf8fc1994200ec6e03dc83c274b
 vendor/etc/init/vendor.qti.hardware.alarm@1.0-service.rc|c9877b6cae0353d5fdea5bc23dba77101b3d6980
 
 # from LA.UM.8.6.r1-01900-89xx.0
