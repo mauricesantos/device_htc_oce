@@ -81,3 +81,4 @@
 /bt_firmware(/.*)?       u:object_r:bt_firmware_file:s0
 /firmware(/.*)?          u:object_r:firmware_file:s0
 /carrier(/.*)?       u:object_r:carrier_file:s0
+/crashdump.d(/.*)?       u:object_r:crashdata_data_file:s0

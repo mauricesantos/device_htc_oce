@@ -70,6 +70,7 @@ TEMPORARY_DISABLE_PATH_RESTRICTIONS=true
 
 BOARD_ROOT_EXTRA_FOLDERS := \
     carrier \
+    crashdump.d \
     firmware/adsp \
     firmware/radio \
     firmware/venus \
