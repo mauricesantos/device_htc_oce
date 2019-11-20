@@ -227,8 +227,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # WFD
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.debug.wfd.enable=1 \
-    vendor.gralloc.disable_wb_ubwc=1 \
-    persist.sys.wfd.nohdcp=1
+    persist.sys.wfd.virtual=0
 
 # Wifi
 PRODUCT_PROPERTY_OVERRIDES += \
