@@ -1,1 +1,2 @@
-allow time_daemon sysfs:file r_file_perms; 
+allow time_daemon sysfs:file rw_file_perms; 
+allow time_daemon self:capability { setgid setuid };
