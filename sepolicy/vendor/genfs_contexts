@@ -1,7 +1,7 @@
 # Debugfs
 genfscon sysfs /devices/soc/0.qcom,rmtfs_sharedmem    u:object_r:sysfs_rmtfs:s0
 genfscon debugfs /rmt_storage/rmts              u:object_r:qti_debugfs:s0
-genfscon proc /irq                     u:object_r:sysfs_irqbalance:s0
+#genfscon proc /irq                     u:object_r:sysfs_irqbalance:s0
 
 # Fingerprint
 genfscon sysfs /devices/soc/soc:fp_fpc1155         u:object_r:sysfs_fpc:s0 
