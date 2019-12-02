@@ -249,7 +249,6 @@ PRODUCT_PACKAGES += \
     libbatching \
     libgeofencing \
     libgnss \
-    libgnsspps \
     libwifi-hal-ctrl
 
 PRODUCT_COPY_FILES += \
