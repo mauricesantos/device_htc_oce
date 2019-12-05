@@ -1,38 +1,24 @@
 [
   {
-    "repository": "Siluxsept/android_kernel_htc_oce",
-    "target_path":"kernel/htc/oce",
-    "remote":     "github",
-    "branch":     "q10.0"
+    "repository": "AICP/kernel_htc_oce",
+    "target_path":"kernel/htc/oce"
   },
   {
-    "repository": "Siluxsept/proprietary_vendor_htc",
-    "target_path":"vendor/htc",
-    "remote":     "github",
-    "branch":     "q10.0"
+    "repository": "AICP/proprietary_vendor_htc",
+    "target_path":"vendor/htc"
   },
   {
     "repository": "AICP/packages_apps_FlipFlap",
-    "target_path": "packages/apps/FlipFlap",
-    "remote":     "github",
-    "branch":      "q10.0"
+    "target_path": "packages/apps/FlipFlap"
   },
   {
     "repository": "LineageOS/android_packages_resources_devicesettings",
     "target_path": "packages/resources/devicesettings",
-    "remote":     "github",
     "branch":      "lineage-17.0"
   },
   {
     "repository": "LineageOS/android_hardware_lineage_livedisplay",
     "target_path": "hardware/lineage/livedisplay",
-    "remote":     "github",
-    "branch":      "lineage-17.0"
-  },
-  {
-    "repository": "LineageOS/android_vendor_qcom_opensource_power",
-    "target_path": "vendor/qcom/opensource/power",
-    "remote":     "github",
     "branch":      "lineage-17.0"
   }
 ]
