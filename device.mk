@@ -289,7 +289,6 @@ PRODUCT_PACKAGES += \
     init.qcom.sensors.sh \
     init.qcom.sh \
     init.htc.fp.sh \
-    init.htc.slpi.sh \
     init.htc_oce.fp.rc \
     init.qcom.early_boot.sh \
     init.qcom.post_boot.sh \

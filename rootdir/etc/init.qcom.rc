@@ -64,8 +64,8 @@ on early-boot
     setrlimit 8 67108864 67108864
     # Allow subsystem (modem etc) debugging
     write /sys/kernel/boot_adsp/boot 1
+    write /sys/kernel/boot_slpi/boot 1
     chown root audio /sys/kernel/boot_adsp/boot
-    exec -- /vendor/bin/init.htc.slpi.sh
     exec -- /vendor/bin/init.qcom.early_boot.sh
 
     # for backward compatibility
