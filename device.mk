@@ -280,7 +280,6 @@ PRODUCT_PACKAGES += \
     charger.fstab.qcom \
     fstab.qcom \
     init.qcom.rc \
-    init.qcom.power.rc \
     init.qcom.usb.rc \
     init.htc_multisim.rc \
     init.common.nanohub.rc \
@@ -289,12 +288,11 @@ PRODUCT_PACKAGES += \
     init.qcom.sensors.sh \
     init.qcom.sh \
     init.htc.fp.sh \
-    init.htc_oce.fp.rc \
     init.qcom.early_boot.sh \
     init.qcom.post_boot.sh \
-    init.qcom.firmware_links.sh \
-    init.foreground.sh \
+    init.recovery.qcom.rc \
     init.target.rc \
+    init.oce.rc \
     ueventd.qcom.rc
 
 # Input

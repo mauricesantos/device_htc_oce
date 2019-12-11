@@ -1,0 +1,570 @@
+# Copyright (C) 2018, The LineageOS Project. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#     * Neither the name of The Linux Foundation nor
+#       the names of its contributors may be used to endorse or promote
+#       products derived from this software without specific prior written
+#       permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NON-INFRINGEMENT ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+on init
+    # Disable UFS powersaving
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 0
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 0
+    write /sys/devices/soc/${ro.boot.bootdevice}/${ro.boot.bootdevice}:ufs_variant/pm_qos_enable 0
+    write /sys/module/lpm_levels/parameters/sleep_disabled Y
+    
+    write /sys/block/mmcblk0/queue/scheduler "noop"
+    write /sys/block/mmcblk0/bdi/read_ahead_kb 512
+    write /sys/block/mmcblk1/bdi/read_ahead_kb 512
+    write /sys/module/lpm_levels/parameters/sleep_disabled "Y"
+
+    # set up schedtune
+    write /dev/stune/foreground/schedtune.prefer_idle 1
+    write /dev/stune/top-app/schedtune.boost 10
+    write /dev/stune/top-app/schedtune.prefer_idle 1
+
+on fs
+    wait /dev/block/bootdevice
+    wait /dev/device-mapper
+    mount_all /vendor/etc/fstab.qcom
+
+    # Update dm-verity state and set partition.*.verified properties
+    verity_update_state
+
+    restorecon_recursive /vendor/dsp
+
+    # symlink firmware to /firmware/image
+    wait /system/bin/sh
+    setprop ro.boot.firmware.cpe 1
+
+    # HTC feature: Support multiple firmware image mount points
+    write /sys/module/firmware_class/parameters/fw_path /firmware/image,/firmware/adsp,/firmware/radio,/firmware/venus,/firmware/wsd,/vendor/firmware
+
+    chown root system /mnt/vendor/persist
+    chmod 0771 /mnt/vendor/persist
+    mkdir /mnt/vendor/persist/data 0700 system system
+    mkdir /mnt/vendor/persist/bms 0700 root system
+    restorecon_recursive /mnt/vendor/persist
+
+on property:sys.boot_completed=1
+    # Enable ZRAM on boot_complete
+    swapon_all /vendor/etc/fstab.qcom
+
+    # Set KCAL permissions
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_enable
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_cont
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_sat
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_hue
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_min
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_val
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_invert
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_enable
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_cont
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_sat
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_hue
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_min
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_val
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_invert
+
+    # Set KCAL calibration values for Burn-in protection
+    write /sys/devices/platform/kcal_ctrl.0/kcal_enable 0
+    write /sys/devices/platform/kcal_ctrl.0/kcal "220 220 220"
+    write /sys/devices/platform/kcal_ctrl.0/kcal_enable 1   
+
+on late-fs
+    # boot time fs tune
+    write /sys/block/sda/queue/iostats 0
+    write /sys/block/sda/queue/iosched/slice_idle 0
+    write /sys/block/sda/queue/read_ahead_kb 2048
+    write /sys/block/sda/queue/nr_requests 256
+    write /sys/block/dm-0/queue/read_ahead_kb 2048
+    write /sys/block/dm-1/queue/read_ahead_kb 2048
+
+on post-fs-data
+    # Create oemnvitems for RIL
+    mkdir /data/vendor/oemnvitems 0771 radio radio
+    
+    chown radio radio /carrier
+    chown radio radio /carrier/htcril.db
+
+    #fingerint, changhua add for fp debug image usage,feature default off
+    mkdir /data/fpc_images 0770 system system
+    mkdir /data/fpc_images/verify 0770 system system
+    mkdir /data/fpc_images/enroll 0770 system system
+    mkdir /data/fpc 0770 system system
+
+    #Create folder of camera
+    mkdir /data/misc/camera 0770 camera camera
+
+on early-boot
+    exec u:r:qti_init_shell:s0 -- /vendor/bin/init.htc.fp.sh
+
+    # For MFG socket
+    mkdir /data/fpc 0770 system system
+    mkdir /data/idex 0770 system system
+
+on boot
+# set up schedtune
+    write /dev/stune/foreground/schedtune.prefer_idle 1
+    write /dev/stune/top-app/schedtune.boost 0
+    write /dev/stune/top-app/schedtune.prefer_idle 1
+    write /dev/stune/rt/schedtune.boost 0
+    write /dev/stune/rt/schedtune.prefer_idle 1
+
+    # Update foreground and background cpusets
+    write /dev/cpuset/foreground/cpus 0-3
+    write /dev/cpuset/background/cpus 0-3
+    write /dev/cpuset/system-background/cpus 0-3
+    write /dev/cpuset/top-app/cpus 0-3
+    write /dev/cpuset/restricted/cpus 0-3
+
+    # Don't reset entire SoC on individual subsystem crash
+    write /sys/bus/msm_subsys/devices/subsys0/restart_level "related"
+    write /sys/bus/msm_subsys/devices/subsys1/restart_level "related"
+    write /sys/bus/msm_subsys/devices/subsys2/restart_level "related"
+    write /sys/bus/msm_subsys/devices/subsys3/restart_level "related"
+    write /sys/bus/msm_subsys/devices/subsys4/restart_level "related"
+    write /sys/bus/msm_subsys/devices/subsys5/restart_level "related"
+
+    # Fingerprint
+    write /sys/devices/soc/soc:fp_fpc1155/pinctl_set fpc1020_reset_active
+    
+    # To prevent permission denied error for telephony
+    chmod 0644 /proc/cmdline
+
+    # Wifi firmware reload path
+    chown wifi wifi /sys/module/bcmdhd/parameters/firmware_path
+
+    # Set graphic node permissions
+    chown system graphics /sys/class/graphics/fb0/msm_cmd_autorefresh_en
+    chown system graphics /sys/class/graphics/fb0/idle_time
+    chown system graphics /sys/class/graphics/fb0/dyn_pu
+    chown system graphics /sys/class/graphics/fb0/modes
+    chown system graphics /sys/class/graphics/fb0/mode
+    chown system graphics /sys/class/graphics/fb1/hpd
+    chmod 0664 /sys/class/graphics/fb0/msm_cmd_autorefresh_en
+    chmod 0664 /sys/class/graphics/fb0/idle_time
+    chmod 0664 /sys/class/graphics/fb0/dyn_pu
+    chmod 0664 /sys/class/graphics/fb0/modes
+    chmod 0664 /sys/class/graphics/fb0/mode
+    chmod 0664 /sys/class/graphics/fb1/hpd
+
+    # Set HTC debug driver permissions
+    chown root system /proc/driver/hdf
+    chmod 0664 /proc/driver/hdf
+
+    # Set display permissions
+    chown system graphics /sys/class/leds/lcd-backlight/cabc_level_ctl
+    chown system graphics /sys/class/leds/lcd-backlight/color_temp_ctl
+    chown system graphics /sys/class/leds/lcd-backlight/color_profile_ctl
+    chown system graphics /sys/class/leds/lcd-backlight/disp_cali_enable
+    chown system graphics /sys/class/leds/lcd-backlight/bklt_cali_enable
+    chown system graphics /sys/class/htc_display/ddic_color_mode_ctrl
+    chown system graphics /sys/class/htc_display/get_color_modes
+    chown system graphics /sys/class/htc_display/parse_bl_gain
+    chown system system /sys/class/leds/lcd-backlight/burst_switch
+    chown system system /sys/class/leds/lcd-backlight/sre_enable
+
+    # nits will be deprecated
+    chown system system /sys/class/leds/lcd-backlight-nits/brightness
+
+    # projector
+    chmod 0660 /dev/minifb
+    chown system graphics /dev/minifb
+
+# + SSD_RIL: set radio_feedback permissions
+    chown radio radio /dev/radio_feedback
+    chmod 0660 /dev/radio_feedback
+# - SSD_RIL
+
+    # HDMI
+    chmod 644 /sys/class/graphics/fb1/hpd
+    chmod 644 /sys/class/graphics/fb1/res_info
+    chmod 644 /sys/class/graphics/fb1/vendor_name
+    chmod 644 /sys/class/graphics/fb1/product_description
+    chmod 644 /sys/class/graphics/fb1/video_mode
+    chmod 644 /sys/class/graphics/fb1/format_3d
+    chmod 644 /sys/class/graphics/fb1/s3d_mode
+    chmod 644 /sys/class/graphics/fb1/dynamic_fps
+    chmod 644 /sys/class/graphics/fb1/msm_fb_dfps_mode
+    chmod 644 /sys/class/graphics/fb1/cec/enable
+    chmod 644 /sys/class/graphics/fb1/cec/logical_addr
+    chmod 644 /sys/class/graphics/fb1/cec/rd_msg
+    chmod 644 /sys/class/graphics/fb1/pa
+    chmod 600 /sys/class/graphics/fb1/cec/wr_msg
+    chmod 644 /sys/class/graphics/fb1/hdcp/tp
+    chown system graphics /sys/class/graphics/fb1/hpd
+    chown system graphics /sys/class/graphics/fb1/res_info
+    chown system graphics /sys/class/graphics/fb1/vendor_name
+    chown system graphics /sys/class/graphics/fb1/product_description
+    chown system graphics /sys/class/graphics/fb1/video_mode
+    chown system graphics /sys/class/graphics/fb1/format_3d
+    chown system graphics /sys/class/graphics/fb1/s3d_mode
+    chown system graphics /sys/class/graphics/fb1/dynamic_fps
+    chown system graphics /sys/class/graphics/fb1/msm_fb_dfps_mode
+    chown system graphics /sys/class/graphics/fb1/cec/enable
+    chown system graphics /sys/class/graphics/fb1/cec/logical_addr
+    chown system graphics /sys/class/graphics/fb1/cec/rd_msg
+    chown system graphics /sys/class/graphics/fb1/pa
+    chown system graphics /sys/class/graphics/fb1/cec/wr_msg
+    chown system graphics /sys/class/graphics/fb1/hdcp/tp
+    symlink /sys/dev/graphics/fb1 /sys/devices/virtual/switch/hdmi
+
+    # HTC SSD Battery
+    chown system system /sys/class/power_supply/battery/full_level_dis_batt_chg
+    chmod 0220 /sys/class/power_supply/battery/full_level_dis_batt_chg
+    chown radio radio /sys/class/power_supply/battery/phone_call
+    chmod 0660 /sys/class/power_supply/battery/phone_call
+    chown media media /sys/class/power_supply/battery/play_music
+    chmod 0220 /sys/class/power_supply/battery/play_music
+    chown radio radio /sys/class/power_supply/battery/network_search
+    chmod 0220 /sys/class/power_supply/battery/network_search
+    chown system system /sys/class/power_supply/battery/navigation
+    chmod 0220 /sys/class/power_supply/battery/navigation
+    chown system system /sys/class/power_supply/battery/disable_limit_chg
+    chmod 0220 /sys/class/power_supply/battery/disable_limit_chg
+
+    # Capacitive key disabler permissions
+    chown system system /sys/android_cap/enabled
+
+    # HTC Camera - for Flashlight Restriction
+    chown system system /sys/camera_led_status/led_hotspot_status
+    chown system system /sys/module/ccid_bridge/parameters/bulk_msg_timeout
+    
+    #enable camera read sensors data
+    setprop persist.camera.gyro.disable 0
+
+    # Laser
+    chown system system /sys/class/htc_laser/laser/iio/buffer/enable
+    chown system system /sys/class/htc_laser/laser/iio/buffer/length
+    chown system system /sys/class/htc_laser/laser/iio/trigger/current_trigger
+    chmod 660 /sys/class/htc_laser/laser/iio/buffer/enable
+    chmod 660 /sys/class/htc_laser/laser/iio/buffer/length
+    chmod 660 /sys/class/htc_laser/laser/iio/trigger/current_trigger
+
+    chown system system /sys/devices/virtual/htc_laser/laser/enable
+    chown system system /sys/devices/virtual/htc_laser/laser/batch
+    chown system system /sys/devices/virtual/htc_laser/laser/flush
+    chown system system /sys/devices/virtual/htc_laser/laser/laser_power
+    chown system system /sys/devices/virtual/htc_laser/laser/laser_hwid
+    chown system system /sys/devices/virtual/htc_laser/laser/laser_range
+    chown system system /sys/devices/virtual/htc_laser/laser/laser_compensation
+    chown system system /sys/devices/virtual/htc_laser/laser/laser_offset
+    chown system system /sys/devices/virtual/htc_laser/laser/laser_xtalk
+    chown system system /sys/devices/virtual/htc_laser/laser/laser_offset_calibrate
+    chown system system /sys/devices/virtual/htc_laser/laser/laser_xtalk_calibrate
+    chown system system /sys/devices/virtual/htc_laser/laser/laser_cali_status
+    chown system system /sys/devices/virtual/htc_laser/laser/enable_ps_sensor
+
+    chmod 660 /sys/devices/virtual/htc_laser/laser/enable
+    chmod 660 /sys/devices/virtual/htc_laser/laser/batch
+    chmod 660 /sys/devices/virtual/htc_laser/laser/flush
+    chmod 660 /sys/devices/virtual/htc_laser/laser/laser_power
+    chmod 440 /sys/devices/virtual/htc_laser/laser/laser_hwid
+    chmod 440 /sys/devices/virtual/htc_laser/laser/laser_range
+    chmod 660 /sys/devices/virtual/htc_laser/laser/laser_compensation
+    chmod 660 /sys/devices/virtual/htc_laser/laser/laser_offset
+    chmod 660 /sys/devices/virtual/htc_laser/laser/laser_xtalk
+    chmod 440 /sys/devices/virtual/htc_laser/laser/laser_offset_calibrate
+    chmod 660 /sys/devices/virtual/htc_laser/laser/laser_xtalk_calibrate
+    chmod 440 /sys/devices/virtual/htc_laser/laser/laser_cali_status
+    chmod 660 /sys/devices/virtual/htc_laser/laser/enable_ps_sensor
+
+    # SensorHUB
+    chown system system /sys/class/htc_sensorhub/sensor_hub/iio/buffer/enable
+    chown system system /sys/class/htc_sensorhub/sensor_hub/iio/buffer/length
+    chown system system /sys/class/htc_sensorhub/sensor_hub/iio/trigger/current_trigger
+    chmod 660 /sys/class/htc_sensorhub/sensor_hub/iio/buffer/enable
+    chmod 660 /sys/class/htc_sensorhub/sensor_hub/iio/buffer/length
+    chmod 660 /sys/class/htc_sensorhub/sensor_hub/iio/trigger/current_trigger
+
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/ap_calibrator_data_acc_rl
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_acc
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_acc_rl
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_barometer
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_gyro
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_light
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_mag
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_proximity
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_en
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_status_acc
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_status_gyro
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_status_mag
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/ps_canc
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/ps_autok_thd
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/ls_leveltolux
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/ls_mechanism
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/data_barometer
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/data_light_kadc
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/data_light_polling
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/data_proximity
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/data_proximity_polling
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/delay_ms
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/enable
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/batch_enable
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/flush
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/firmware_version
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/hall_sensor
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/sensor_hub_rdata
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/facedown_enabled
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/gesture_motion
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/mcu_wakeup
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/dbg_flag
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/edge_thd
+    chown system system /sys/android_edge/hw_version
+    chown system system /sys/android_edge/gadc
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/vbus_time
+    chown system system /sys/devices/virtual/htc_sensorhub/sensor_hub/vibrate_ms
+
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/ap_calibrator_data_acc_rl
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_acc
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_acc_rl
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_barometer
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_gyro
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_light
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_mag
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_data_proximity
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_en
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_status_acc
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_status_gyro
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/calibrator_status_mag
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/ps_canc
+    chmod 660 /sys/devices/virtual/htc_sensorhub/sensor_hub/ps_autok_thd
+    chmod 444 /sys/devices/virtual/htc_sensorhub/sensor_hub/ls_leveltolux
+    chmod 444 /sys/devices/virtual/htc_sensorhub/sensor_hub/ls_mechanism
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/data_barometer
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/data_light_kadc
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/data_light_polling
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/data_proximity
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/data_proximity_polling
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/delay_ms
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/enable
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/batch_enable
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/flush
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/firmware_version
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/hall_sensor
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/sensor_hub_rdata
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/facedown_enabled
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/gesture_motion
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/mcu_wakeup
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/dbg_flag
+    chmod 664 /sys/devices/virtual/htc_sensorhub/sensor_hub/edge_thd
+    chmod 664 /sys/android_edge/hw_version
+    chmod 664 /sys/android_edge/gadc
+    chmod 440 /sys/devices/virtual/htc_sensorhub/sensor_hub/vbus_time
+    chmod 660 /sys/devices/virtual/htc_sensorhub/sensor_hub/vibrate_ms
+
+    # G-Sensor Calibration USER
+    chown system system /sys/class/htc_g_sensor/g_sensor/g_sensor_user_offset
+    chmod 0220 /sys/class/htc_g_sensor/g_sensor/g_sensor_user_offset
+
+    # PL-sensor(CPU) \ Common Interface(MCU)
+    chown radio system /sys/class/optical_sensors/proximity/PhoneApp_status
+    chown system system /sys/class/optical_sensors/proximity/flush
+    chown system system /sys/class/optical_sensors/lightsensor/ls_flush
+    chown system system /sys/class/optical_sensors/proximity/p_status
+    chown system system /sys/class/optical_sensors/proximity/ps_info
+    chown system system /sys/class/optical_sensors/proximity/ps_pocket
+    chown radio radio /sys/class/optical_sensors/proximity/ps_adc
+    chmod 0660 /sys/class/optical_sensors/proximity/PhoneApp_status
+    chmod 0660 /sys/class/optical_sensors/proximity/flush
+    chmod 0660 /sys/class/optical_sensors/lightsensor/ls_flush
+    chmod 444 /sys/class/optical_sensors/proximity/p_status
+    chmod 444 /sys/class/optical_sensors/proximity/ps_info
+    chmod 220 /sys/class/optical_sensors/proximity/ps_pocket
+    chmod 444 /sys/class/optical_sensors/proximity/ps_adc
+    
+    # LED
+    chown system system /sys/class/leds/indicator/ModeRGB
+    chown system system /sys/class/leds/indicator/brightness
+    chown system system /sys/class/leds/indicator/device
+    chown system system /sys/class/leds/indicator/max_brightness
+    chown system system /sys/class/leds/indicator/power
+    chown system system /sys/class/leds/indicator/mode_and_lut_params
+
+    chown system system /sys/class/leds/green/brightness
+    chown system system /sys/class/leds/green/blink
+    chown system system /sys/class/leds/green/off_timer
+    chown system system /sys/class/leds/amber/brightness
+    chown system system /sys/class/leds/amber/blink
+    chown system system /sys/class/leds/amber/off_timer
+    chown system system /sys/class/leds/indicator/off_timer
+
+    # AOD/Subscreen
+    chown system graphics /sys/class/graphics/fb0/aod_ctrl
+    chown system system   /sys/class/leds/sub-backlight/brightness
+    chown system graphics /sys/class/leds/sub-backlight/bl_sync
+
+    # Flashlight
+    chown system system /sys/class/leds/flashlight/brightness
+    chown vte    vte    /dev/vte_flt
+    chmod 0660 /dev/vte_flt
+
+    # For Flashlight Restriction
+    chown system system /sys/camera_led_status/led_hotspot_status
+
+    # IIO
+    chown system system /dev/iio:device0
+    chown system system /dev/iio:device1
+    chmod 660 /dev/iio:device0
+    chmod 660 /dev/iio:device1
+
+    # Set touch permissions
+    chown system system /sys/android_touch/glove_setting
+
+    # Set cap permissions
+    chown system system /sys/android_cap/glove_setting
+
+on charger
+    # Enable UFS powersaving
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/${ro.boot.bootdevice}:ufs_variant/pm_qos_enable 1
+    write /sys/module/lpm_levels/parameters/sleep_disabled "N"
+
+    write /sys/devices/system/cpu/cpu1/online 0
+    write /sys/devices/system/cpu/cpu2/online 0
+    write /sys/devices/system/cpu/cpu3/online 0
+    write /sys/module/msm_thermal/core_control/cpus_offlined 14
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
+    write /sys/module/msm_thermal/parameters/enabled "N"
+    wait /dev/block/bootdevice/by-name/system
+    mount ext4 /dev/block/bootdevice/by-name/system /system ro barrier=1
+    start vendor.power_off_alarm
+    start vendor.hvdcp_opti
+    start thermal-engine
+
+on enable-low-power
+    # Disable thermal hotplug to switch governor
+    write /sys/module/msm_thermal/core_control/enabled 0
+
+    # Min/Max Freqs
+    chmod 755 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1593600
+    chmod 755 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 307200
+    chmod 755 /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2342400
+    chmod 755 /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 307200
+
+    # if EAS is present, switch to schedutil governor (no effect if not EAS)
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+
+    # Set sync wakee policy tunable
+    write /proc/sys/kernel/sched_prefer_sync_wakee_to_waker 1
+
+    # Configure governor settings for little cluster
+    chmod 755 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor schedutil
+    chmod 755 /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us
+    write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 10000
+    chmod 755 /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable
+    write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 0
+    chmod 755 /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us
+    write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 500
+
+    # Configure governor settings for big cluster
+    chmod 755 /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor schedutil
+    chmod 755 /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us
+    write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 5000
+    chmod 755 /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable
+    write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 0
+    chmod 755 /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us
+    write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 2000
+
+    # CPU Scheduler
+    chmod 755 /proc/sys/kernel/sched_boost
+    write /proc/sys/kernel/sched_boost 0
+
+    # Re-enable thermal and BCL hotplug
+    write /sys/module/msm_thermal/core_control/enabled 1
+
+    # Input boost configuration
+    write /sys/module/cpu_boost/parameters/input_boost_freq "0:1324800 2:1324800"
+    write /sys/module/cpu_boost/parameters/input_boost_ms 40
+
+    # Setting b.L scheduler parameters
+    write /proc/sys/kernel/sched_boost 0
+    write /proc/sys/kernel/sched_upmigrate 95
+    write /proc/sys/kernel/sched_downmigrate 90
+    write /proc/sys/kernel/sched_freq_inc_notify 400000
+    write /proc/sys/kernel/sched_freq_dec_notify 400000
+    write /proc/sys/kernel/sched_spill_nr_run 3
+    write /proc/sys/kernel/sched_init_task_load 100
+
+    # Enable bus-dcvs
+    write /sys/class/devfreq/soc:qcom,cpubw/governor "bw_hwmon"
+    write /sys/class/devfreq/soc:qcom,cpubw/polling_interval 50
+    write /sys/class/devfreq/soc:qcom,cpubw/min_freq 1525
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/mbps_zones "1525 5195 11863 13763"
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/sample_ms 4
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/io_percent 34
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/hist_memory 20
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/hyst_length 10
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/low_power_ceil_mbps 0
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/low_power_io_percent 34
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/low_power_delay 20
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/guard_band_mbps 0
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/up_scale 250
+    write /sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/idle_mbps 1600
+
+    write /sys/class/devfreq/soc:qcom,memlat-cpu0/governor "mem_latency"
+    write /sys/class/devfreq/soc:qcom,memlat-cpu0/polling_interval 10
+    write /sys/class/devfreq/soc:qcom,memlat-cpu2/governor "mem_latency"
+    write /sys/class/devfreq/soc:qcom,memlat-cpu2/polling_interval 10
+    write /sys/class/devfreq/soc:qcom,mincpubw/governor "cpufreq"
+
+    # Enable UFS powersaving
+    write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 1
+    write /sys/devices/soc/${ro.boot.bootdevice}/${ro.boot.bootdevice}:ufs_variant/pm_qos_enable 1
+
+    # Enable all LPMs by default
+    # This will enable C4, D4, D3, E4 and M3 LPMs
+    write /sys/module/lpm_levels/parameters/sleep_disabled "N"
+
+    # Enable Adaptive LMK
+    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
+    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 81250
+
+    # Set perfd properties
+    setprop sys.post_boot.parsed 1
+
+on property:init.svc.recovery=running
+    trigger enable-low-power
+
+on property:sys.boot_completed=1
+    trigger enable-low-power
+
+    # Set BFQ scheduler
+    setprop sys.io.scheduler "cfq"
+
+    # Update cpusets now that boot is complete and we want better load balancing
+    write /dev/cpuset/top-app/cpus 0-3
+    write /dev/cpuset/foreground/cpus 0-2
+    write /dev/cpuset/background/cpus 0
+    write /dev/cpuset/system-background/cpus 0-2
+    write /dev/cpuset/restricted/cpus 0-1
