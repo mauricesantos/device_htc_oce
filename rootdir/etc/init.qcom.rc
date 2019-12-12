@@ -603,11 +603,6 @@ service charger /system/bin/charger
     group system graphics input
     seclabel u:r:charger:s0
 
-service htcdcpd /system/bin/htcdcpd
-    class main
-    user root
-    group root
-
 service vendor.msm_irqbalance /vendor/bin/msm_irqbalance -f /vendor/etc/msm_irqbalance.conf
     class core
     user root
