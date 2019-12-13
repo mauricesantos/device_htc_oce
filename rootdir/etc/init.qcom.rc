@@ -246,9 +246,6 @@ on post-fs-data
     # Create directory for apps access via QTEEConnector
     mkdir /data/vendor/qtee 0770 system system
 
-    #Create folder of camera
-    mkdir /data/vendor/camera 0770 camera camera
-    
     # NFC local data and nfcee xml storage
     mkdir /data/nfc 0770 nfc nfc
     mkdir /data/nfc/param 0770 nfc nfc
@@ -258,7 +255,7 @@ on post-fs-data
     # NFC permissions
     chmod 0666 /dev/pn544
     chown nfc nfc /dev/pn544
-    
+
     symlink /persist/tee/00000000.authtokcont.backup /data/misc/mcRegistry/00000000.authtokcont.backup
     export MC_AUTH_TOKEN_PATH /data/misc/mcRegistry
     mkdir /data/usf 0700 system system
@@ -267,7 +264,7 @@ on post-fs-data
     mkdir /persist/data/tz 0700 system system
     mkdir /persist/tee 0700 system system
     mkdir /persist/qti_fp 0700 system system
-    
+
     # SSC/SLPI sensors
     mkdir /persist/sensors
     chown root system /persist/sensors
