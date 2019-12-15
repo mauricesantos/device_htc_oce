@@ -30,8 +30,6 @@ import android.preference.PreferenceManager;
 public class BootCompletedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent serviceIntent = new Intent(context, HtcGestureService.class);
-        context.startService(serviceIntent);
 
         setFpHomeState(context);
     }
