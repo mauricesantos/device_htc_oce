@@ -66,8 +66,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.camera.antibanding=50 \
     persist.camera.tuning_spec=htc \
     persist.ts.postmakeup=false \
-    persist.ts.rtmakeup=false \
-    vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.android.camera,org.lineageos.snap
+    persist.ts.rtmakeup=false
 
 # CNE
 PRODUCT_PROPERTY_OVERRIDES += \
