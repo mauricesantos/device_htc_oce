@@ -27,3 +27,4 @@ allow priv_app apex_mnt_dir:dir read;
 allow priv_app mnt_vendor_file:lnk_file getattr;
 allow priv_app proc_version:file open;
 allow priv_app sysfs:dir open;
+allow priv_app sysfs_android_usb:file open;

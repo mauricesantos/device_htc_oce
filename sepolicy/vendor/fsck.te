@@ -1,1 +1,5 @@
 allow fsck tmpfs:blk_file getattr;
+allow fsck block_device:blk_file ioctl;
+allow fsck cache_file:dir getattr;
+allow fsck modem_efs_partition_device:blk_file { open read };
+allow fsck unlabeled:dir getattr;

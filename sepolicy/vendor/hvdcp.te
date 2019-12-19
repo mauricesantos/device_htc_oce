@@ -1,2 +1,2 @@
-dontaudit hvdcp self:capability dac_override;
 allow hvdcp sysfs:{ file dir } { read open };
+allow hvdcp sysfs:file write;
