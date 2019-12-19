@@ -1,1 +1,1 @@
-allow adsprpcd vendor_file:dir read; 
+allow adsprpcd vendor_file:dir read;
