@@ -485,8 +485,8 @@ service irsc_util /system/vendor/bin/irsc_util "/system/vendor/etc/sec_config"
     
 service vendor.hvdcp_opti /system/vendor/bin/hvdcp_opti
     class main
-    user root
-    group root
+    user system
+    group system wakelock
     seclabel u:r:hvdcp:s0
 
 service vendor.ipacm /system/vendor/bin/ipacm
