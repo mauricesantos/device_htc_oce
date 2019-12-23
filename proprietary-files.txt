@@ -77,9 +77,9 @@ vendor/firmware/rampatch_tlv_2.1.tlv
 vendor/firmware/rampatch_tlv_3.0.tlv
 vendor/firmware/rampatch_tlv_3.2.tlv
 
-# Bluetooth - aptX - from Marlin QP1A.190711.020
-vendor/lib64/libaptX_encoder.so|df1c89d7af1bb35808d5fe3496b04ba066c10cbc
-vendor/lib64/libaptXHD_encoder.so|e13fa70c97caaa24d061678bdee608eb8850a69e
+# AptX - from crosshatch-user 10 QP1A.190711.020 5800535 release-keys
+product/lib64/libaptX_encoder.so|df1c89d7af1bb35808d5fe3496b04ba066c10cbc
+product/lib64/libaptXHD_encoder.so|e13fa70c97caaa24d061678bdee608eb8850a69e
 
 # Camera
 vendor/bin/mm-qcamera-daemon
