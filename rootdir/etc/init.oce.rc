@@ -437,6 +437,8 @@ on boot
     chown system system /sys/android_cap/glove_setting
 
 on charger
+    mount_all /system/vendor/etc/charger.fstab.qcom
+    wait /dev/block/platform/soc/${ro.boot.bootdevice}
     # Enable UFS powersaving
     write /sys/devices/soc/${ro.boot.bootdevice}/clkscale_enable 1
     write /sys/devices/soc/${ro.boot.bootdevice}/clkgate_enable 1
@@ -449,8 +451,6 @@ on charger
     write /sys/module/msm_thermal/core_control/cpus_offlined 14
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
     write /sys/module/msm_thermal/parameters/enabled "N"
-    wait /dev/block/bootdevice/by-name/system
-    mount ext4 /dev/block/bootdevice/by-name/system /system ro barrier=1
     start vendor.power_off_alarm
     start vendor.hvdcp_opti
     start thermal-engine
