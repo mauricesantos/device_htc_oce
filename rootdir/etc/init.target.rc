@@ -386,12 +386,8 @@ on post-fs-data
     rm /data/system/perfd/default_values
     chmod 2770 /data/system/perfd
 
-    # Create folder for mm-qcamera-daemon
-    mkdir /data/vendor/camera 0770 camera camera
-
     # Create directory for tombstone
     mkdir /data/tombstones 0771 system system
-    mkdir /data/vendor/tombstones 0771 system system
 
     symlink /persist/tee/00000000.authtokcont.backup /data/misc/mcRegistry/00000000.authtokcont.backup
     export MC_AUTH_TOKEN_PATH /data/misc/mcRegistry
