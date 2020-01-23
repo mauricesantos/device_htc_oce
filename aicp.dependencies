@@ -12,10 +12,6 @@
     "target_path": "packages/apps/FlipFlap"
   },
   {
-    "repository": "AICP/packages_resources_devicesettings",
-    "target_path": "packages/resources/devicesettings"
-  },
-  {
     "repository": "LineageOS/android_hardware_lineage_livedisplay",
     "target_path": "hardware/lineage/livedisplay",
     "branch":      "lineage-17.0"
