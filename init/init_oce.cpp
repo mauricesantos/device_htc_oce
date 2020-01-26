@@ -86,7 +86,7 @@ static void load_properties(const char *original_data)
     free(data);
 }
 
-void vendor_load_persist_properties()
+void vendor_load_properties()
 {
     std::string bootmid;
     std::string bootcid;
