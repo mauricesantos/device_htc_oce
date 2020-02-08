@@ -997,7 +997,6 @@ vendor/lib/lib-imsrcs.so|e5d66f60b8c4d3eae7fce3d57a004c774acd78ab
 vendor/lib64/lib-imsrcs.so|dc5ca0274b6e7eef47ac4979ef5774de22fe095e
 
 # Sensors
-vendor/bin/sensors.qcom
 vendor/etc/sensors/sensor_def_qcomdev.conf
 vendor/lib/hw/sensors.msm8996.so
 vendor/lib64/hw/sensors.msm8996.so
