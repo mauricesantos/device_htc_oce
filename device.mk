@@ -278,7 +278,6 @@ PRODUCT_PACKAGES += \
     init.common.nanohub.rc \
     init.msm.usb.configfs.rc \
     init.qcom.usb.sh \
-    init.qcom.sensors.sh \
     init.qcom.sh \
     init.htc.fp.sh \
     init.htc_oce.fp.rc \
