@@ -246,7 +246,9 @@ PRODUCT_PACKAGES += \
     libbatching \
     libcurl \
     libgeofencing \
-    libgnss
+    libsensorndkbridge \
+    libgnss \
+    libwifi-hal-bcm
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/etc/flp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/flp.conf \
