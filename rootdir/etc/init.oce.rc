@@ -96,6 +96,11 @@ on post-fs-data
     mkdir /data/fpc_images/verify 0770 system system
     mkdir /data/fpc_images/enroll 0770 system system
     mkdir /data/fpc 0770 system system
+    
+    # Create PERFD deamon related dirs
+    setprop ro.min_freq_0 307200
+    mkdir /data/vendor/misc/perfd 0755 root system
+    chmod 2755 /data/vendor/misc/perfd
 
     #Create folder of camera
     mkdir /data/misc/camera 0770 camera camera
