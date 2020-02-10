@@ -28,6 +28,7 @@
 #
 
 import /vendor/etc/init/hw/init.oce.rc
+import /vendor/etc/init/hw/init.qcom.power.rc
 import /vendor/etc/init/hw/init.htc_multisim.rc
 
 on fs
