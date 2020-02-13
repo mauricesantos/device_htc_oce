@@ -25,8 +25,6 @@ DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
-PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += \
-     $(LOCAL_PATH)/overlay/packages/apps/Snap/res/values
 
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
