@@ -70,6 +70,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.cne.feature=1
 
+# DPM
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.vendor.dpm.feature=9
+
 # Enable STM events
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.debug.coresight.config=stm-events
