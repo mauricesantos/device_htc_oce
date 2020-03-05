@@ -1,4 +1,4 @@
-#!/vendor/bin/sh
+#!/system/bin/sh
 mode=$(cat system/etc/fp_mode)
 
 if [ "$mode" == "fpc" ]

@@ -28,6 +28,7 @@
 import /vendor/etc/init/hw/init.qcom.power.rc
 import /vendor/etc/init/hw/init.qcom.usb.rc
 import /vendor/etc/init/hw/init.msm.usb.configfs.rc
+import /vendor/etc/init/hw/init.htc.usb.configfs.rc
 import /vendor/etc/init/hw/init.target.rc
 import /vendor/etc/init/hw/init.htc_multisim.rc
 import /vendor/etc/init/hw/init.common.nanohub.rc
@@ -67,7 +68,7 @@ on early-boot
     write /sys/kernel/boot_adsp/boot 1
     write /sys/kernel/boot_slpi/boot 1
     chown root audio /sys/kernel/boot_adsp/boot
-    exec u:r:qti_init_shell:s0 -- /system/vendor/bin/init.qcom.early_boot.sh
+    exec /vendor/bin/sh /vendor/bin/init.qcom.early_boot.sh
 
     # for backward compatibility
     chown system system /persist/sensors
@@ -89,12 +90,12 @@ on early-boot
     chown system system /mnt/vendor/persist/sensors/registry/config
     chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
 
-    exec u:r:qti_init_shell:s0 -- /system/vendor/bin/init.htc.fp.sh
+    exec /vendor/bin/sh /vendor/bin/init.htc.fp.sh
 
     # For MFG socket
     mkdir /data/fpc 0770 system system
     mkdir /data/idex 0770 system system
-    
+
 on boot
     enable qcom-usb-sh
     chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
@@ -565,6 +566,12 @@ service qcom-usb-sh /system/vendor/bin/init.qcom.usb.sh
     user root
     oneshot
     disabled
+
+service qcom-sh /vendor/bin/init.qcom.sh
+    class late_start
+    user root
+    group root system radio
+    oneshot
 
 service time_daemon /system/vendor/bin/time_daemon
     class main
