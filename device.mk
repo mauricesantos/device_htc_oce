@@ -454,9 +454,6 @@ PRODUCT_PACKAGES += \
     
 PRODUCT_PACKAGES += \
     nanoapp_cmd
-    
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/etc/init.common.nanohub.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.nanohub.rc
 
 # Tethering
 PRODUCT_PROPERTY_OVERRIDES += \
