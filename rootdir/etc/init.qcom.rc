@@ -46,6 +46,8 @@ on early-init
     # Load WIGIG platform driver
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules msm_11ad_proxy
 
+    symlink /dev/pn544 /dev/pn54x
+
 on init
     # Create cgroup mount point for memory
     mkdir /sys/fs/cgroup/memory/bg 0750 root system
@@ -56,6 +58,25 @@ on init
 
 on post-fs
     chmod 0755 /sys/kernel/debug/tracing
+
+    chmod 0664 /sys/devices/virtual/graphics/fb0/idle_time
+    chown system graphics /sys/devices/virtual/graphics/fb0/idle_time
+    write /sys/devices/virtual/graphics/fb0/idle_time 100
+
+    write /dev/ipa 1
+
+    chown root root /devlog
+    chmod 0700 /devlog
+    chown root root /fataldevlog
+    chmod 0700 /fataldevlog
+    chown system oem_5011 /carrier
+    chmod 0770 /carrier
+    restorecon_recursive /carrier
+    chown root oem_5001 /cota
+    chmod 0771 /cota
+    restorecon_recursive /cota
+    chown system system /preload
+    chmod 0771 /preload
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -100,6 +121,8 @@ on boot
     chown bluetooth net_bt /sys/class/rfkill/rfkill0/type
     chown bluetooth net_bt /sys/class/rfkill/rfkill0/state
     chown bluetooth bluetooth /proc/bluetooth/sleep/proto
+    chown bluetooth bluetooth /proc/bluetooth/sleep/lpm
+    chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
     chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_lpm
     chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_btwrite
     chown system system /sys/module/sco/parameters/disable_esco
@@ -114,6 +137,7 @@ on boot
     chmod 0660 /sys/module/hci_smd/parameters/hcismd_set
     chmod 0660 /sys/module/radio_iris_transport/parameters/fmsmd_set
     chmod 0660 /sys/class/rfkill/rfkill0/state
+    chmod 0660 /sys/class/rfkill/rfkill0/type
     chmod 0660 /proc/bluetooth/sleep/proto
     chown bluetooth net_bt /dev/ttyHS0
     chmod 0660 /sys/module/hci_uart/parameters/ath_lpm
@@ -128,22 +152,19 @@ on boot
     chown bluetooth net_bt /sys/class/rfkill/rfkill0/device/extldo
     chmod 0660 /sys/class/rfkill/rfkill0/device/extldo
 
-    # This location is used by QCRIL to host UNIX domain
-    # socket files used for internal IPC within QCRIL
-    # modules
-    mkdir /dev/socket/qmux_radio 0770 radio radio
-    chmod 2770 /dev/socket/qmux_radio
-    
+    # Create QMUX daemon socket area
     mkdir /dev/socket/qmux_audio 0770 media audio
-    chmod 2770 /dev/socket/qmux_audio
     mkdir /dev/socket/qmux_bluetooth 0770 bluetooth bluetooth
-    chmod 2770 /dev/socket/qmux_bluetooth
     mkdir /dev/socket/qmux_gps 0770 gps gps
-    chmod 2770 /dev/socket/qmux_gps
+    mkdir /dev/socket/qmux_nfc 0770 nfc nfc
+    mkdir /dev/socket/qmux_radio 0770 radio radio
 
-    mkdir /persist/drm 0770 system system
+    # Create NETMGR daemon socket area
+    mkdir /dev/socket/netmgr 0750 radio radio
+
+    mkdir /mnt/vendor/persist/drm 0770 system system
     mkdir /mnt/vendor/persist/bluetooth 0770 bluetooth bluetooth
-    mkdir /persist/misc 0770 system system
+    mkdir /mnt/vendor/persist/misc 0770 system system
     mkdir /mnt/vendor/persist/alarm 0770 system system
     mkdir /mnt/vendor/persist/time 0770 system system
     mkdir /mnt/vendor/persist/secnvm 0770 system system
@@ -154,6 +175,12 @@ on boot
     mkdir /dev/socket/wigig 0770 wifi wifi
     setprop wifi.interface wlan0
 
+    setprop ro.product.ram ${ro.boot.ddrsize}
+
+#   Define TCP buffer sizes for various networks
+#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    setprop net.tcp.buffersize.wifi    524288,2097152,4194304,262144,524288,1048576
+
     setprop ro.telephony.call_ring.multiple false
 
 
@@ -163,7 +190,25 @@ on boot
 
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
+#   Define TCP buffer sizes for various networks
+#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    setprop net.tcp.buffersize.default 4096,87380,524288,4096,16384,110208
+    setprop net.tcp.buffersize.lte     2097152,4194304,8388608,262144,524288,1048576
+    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.hspa    4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsupa   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsdpa   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hspap   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
+    setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.evdo    4094,87380,524288,4096,16384,262144
+
     setprop net.tcp.2g_init_rwnd 10
+
+#   Assign TCP buffer thresholds to be ceiling value of technology maximums
+#   Increased technology maximums should be reflected here.
+    write /proc/sys/net/core/rmem_max  8388608
+    write /proc/sys/net/core/wmem_max  8388608
 
     # To prevent out of order acknowledgements from making
     # connection tracking to treat them as not belonging to
@@ -209,8 +254,6 @@ on boot
     chown system system /sys/class/sensors/apds9930-proximity/poll_delay
 
     # Create directory used for display
-    # for backward compatibility
-    mkdir /persist/display 0770 system graphics
     mkdir /mnt/vendor/persist/display 0770 system graphics
 
     # Create vpp directory
@@ -233,6 +276,7 @@ on post-fs-data
 
     # Create directory used by display clients
     mkdir /data/vendor/display 0770 system graphics
+    mkdir /data/misc/display 0770 system graphics
 
     # Change lm related dirs
     mkdir /data/vendor/lm 0700 root root
@@ -256,30 +300,31 @@ on post-fs-data
     chmod 0666 /dev/pn544
     chown nfc nfc /dev/pn544
 
-    symlink /persist/tee/00000000.authtokcont.backup /data/misc/mcRegistry/00000000.authtokcont.backup
+    symlink /mnt/vendor/persist/tee/00000000.authtokcont.backup /data/misc/mcRegistry/00000000.authtokcont.backup
     export MC_AUTH_TOKEN_PATH /data/misc/mcRegistry
     mkdir /data/usf 0700 system system
 
-    mkdir /persist/data/sfs 0700 system system
-    mkdir /persist/data/tz 0700 system system
-    mkdir /persist/tee 0700 system system
-    mkdir /persist/qti_fp 0700 system system
+    mkdir /mnt/vendor/persist/data/sfs 0700 system system
+    mkdir /mnt/vendor/persist/data/tz 0700 system system
+    mkdir /mnt/vendor/persist/tee 0700 system system
+    mkdir /mnt/vendor/persist/qti_fp 0700 system system
 
     # SSC/SLPI sensors
-    mkdir /persist/sensors
-    mkdir /persist/sensors/registry/registry
-    chown system system /persist/sensors
-    chmod 0775 /persist/sensors
-    chown system system /persist/sensors/sensors_settings
-    chmod 0664 /persist/sensors/sensors_settings
-    chown system system /persist/sensors/sns.reg
-    chmod 0664 /persist/sensors/sns.reg
+    mkdir /mnt/vendor/persist/sensors
+    mkdir /mnt/vendor/persist/sensors/registry/registry
+    chown system system /mnt/vendor/persist/sensors
+    chmod 0775 /mnt/vendor/persist/sensors
+    chown system system /mnt/vendor/persist/sensors/sensors_settings
+    chmod 0664 /mnt/vendor/persist/sensors/sensors_settings
+    chown system system /mnt/vendor/persist/sensors/sns.reg
+    chmod 0664 /mnt/vendor/persist/sensors/sns.reg
 
     #Create directory for tftp
     mkdir /data/vendor/tombstones 0771 system system
     mkdir /data/vendor/tombstones/rfs 0771 system system
 
     mkdir /data/vendor/ramdump 0771 root system
+    mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
     mkdir /data/vendor/bluetooth 0770 bluetooth bluetooth
     mkdir /data/vendor/ramdump/bluetooth 0770 bluetooth bluetooth
 
@@ -292,24 +337,48 @@ on post-fs-data
     mkdir /data/vendor/wifi/wigig_hostapd 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
+    mkdir /data/misc/dhcp 0777 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
+    # HTC_WIFI_START
+    # Create the directory to save host/fw/pkt log
+    mkdir /data/wifi_log 0777 wifi wifi
+    # HTC_WIFI_END
 
+    #create port-bridge log dir
+    mkdir /data/vendor/port_bridge 0770 radio radio
+    chmod 0770 /data/vendor/port_bridge
+
+    #create netmgr log dir
+    mkdir /data/vendor/netmgr 0770 radio radio
+    chmod 0770 /data/vendor/netmgr
     # Create the directories used by WiGig Sensing
     mkdir /data/vendor/sensing 0770 system wifi
 
     #create ipacm log dir
     mkdir /data/vendor/ipa 0770 radio radio
     chmod 0770 /data/vendor/ipa
+    mkdir /data/misc/ipa 0700 net_admin net_admin
 
     # Create the directories used by CnE subsystem
     mkdir /data/vendor/connectivity 0771 radio radio
     chown radio radio /data/vendor/connectivity
+    mkdir /data/connectivity 0771 system system
+    chown system system /data/connectivity
 
     # Create directory used by audio subsystem
     mkdir /data/vendor/audio 0770 audio audio
+    mkdir /data/vendor/misc/audio 0770 audio audio
 
     # Create directory for audio delta files
     mkdir /data/vendor/audio/acdbdata 0770 media audio
     mkdir /data/vendor/audio/acdbdata/delta 0770 media audio
+
+    #Create FM dir for patchdownloader
+    mkdir /data/misc/fm 0770 system system
+    chmod 0770 /data/misc/fm
 
     # Create directory for radio
     mkdir /data/vendor/radio 0770 system radio
@@ -376,6 +445,12 @@ on post-fs-data
     mkdir /data/vendor/location-partner/ppe 0770 gps gps
     mkdir /dev/socket/location 0770 gps gps
     mkdir /dev/socket/location/ehub 0770 gps gps
+    mkdir /data/misc/location 0770 gps gps
+    mkdir /data/misc/location/mq 0770 gps gps
+    mkdir /data/misc/location/xtwifi 0770 gps gps
+    mkdir /data/misc/location/gpsone_d 0770 system gps
+    mkdir /data/misc/location/quipc 0770 gps system
+    mkdir /data/misc/location/gsiff 0770 gps gps
 
     #Create directories for wifihal services
     mkdir /dev/socket/wifihal 0770 wifi wifi
@@ -391,6 +466,14 @@ on post-fs-data
 
     # Create /data/time folder for time-services
     mkdir /data/vendor/time/ 0700 system system
+    mkdir /data/time/ 0700 system system
+
+    #Create SWAP related dirs
+    mkdir /data/system/swap 0770 root system
+    chmod 2770 /data/system/swap
+
+    # WAPI
+    mkdir /data/misc/wapi_certificate 0770 system wifi
 
     setprop vold.post_fs_data_done 1
 
@@ -443,6 +526,17 @@ on post-fs-data
     # Create vpp directory
     mkdir /data/vendor/vpp 0770 media media
 
+    #Create FTM_AP dir for factory test
+    mkdir /data/FTM_AP 0775 system system
+
+    mkdir /data/vendor/sensor
+    chown root system /data/vendor/sensor
+    chmod 0770 /data/vendor/sensor
+
+    mkdir /data/system/nanohub_lock/
+    chown system system /data/system/nanohub_lock/
+    restorecon /data/system/nanohub_lock
+
     #Create dir for TUI
     mkdir /data/vendor/tui 0700 system drmrpc
 
@@ -456,6 +550,21 @@ service vendor.ssr_diag /vendor/bin/ssr_diag
 service vendor.ssr_setup /vendor/bin/ssr_setup
     oneshot
     disabled
+
+on property:persist.sys.ssr.enable_debug=*
+    write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
+
+on property:persist.sys.mba_boot_timeout=*
+    write /sys/module/pil_msa/parameters/pbl_mba_boot_timeout_ms ${persist.sys.mba_boot_timeout}
+
+on property:persist.sys.modem_auth_timeout=*
+    write /sys/module/pil_msa/parameters/modem_auth_timeout_ms ${persist.sys.modem_auth_timeout}
+
+on property:persist.sys.pil_proxy_timeout=*
+    write /sys/module/peripheral_loader/parameters/proxy_timeout_ms ${persist.sys.pil_proxy_timeout}
+
+on property:persist.sys.ssr.restart_level=*
+    start vendor.ssr_setup
 
 on property:sys.boot_completed=1
     write /dev/kmsg "Boot completed "
@@ -471,6 +580,11 @@ on property:sys.boot_completed=1
     chown media audio /sys/kernel/wdsp0/boot
     chown media audio /sys/kernel/wcd_cpe0/fw_name
 
+# corefile limit
+on property:persist.debug.trace=1
+    mkdir /data/core 0777 root root
+    write /proc/sys/kernel/core_pattern "/data/core/%E.%p.%e"
+
 on property:vold.decrypt=trigger_restart_framework
     start wcnss-service
     restart vendor.camera-provider-2-4
@@ -479,6 +593,17 @@ service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class core
     user root
     oneshot
+
+service vendor.cnd /vendor/bin/cnd
+    class main
+    user system
+    group system wifi inet radio wakelock net_admin
+    writepid /dev/cpuset/system-background/tasks
+
+service vendor.dpmQmiMgr /vendor/bin/dpmQmiMgr
+    class main
+    user system
+    group radio system
 
 service perfd /vendor/bin/perfd
     class main
@@ -560,21 +685,45 @@ service vendor.atfwd /vendor/bin/ATFWD-daemon
     group system radio
     writepid /dev/cpuset/system-background/tasks
 
-on property:ro.data.large_tcp_window_size=true
-    # Adjust socket buffer to enlarge TCP receive window for high bandwidth (e.g. DO-RevB)
-    write /proc/sys/net/ipv4/tcp_adv_win_scale  2
-
 service charger /system/bin/charger
     class charger
     user system
     group system graphics input
     seclabel u:r:charger:s0
 
+service vendor.cnss-daemon /vendor/bin/cnss-daemon -n -l
+    class late_start
+    user system
+    group system inet net_admin wifi
+    capabilities NET_ADMIN
+    writepid /dev/cpuset/system-background/tasks
+
+on property:sys.shutdown.requested=*
+    stop vendor.cnss-daemon
+
 service vendor.msm_irqbalance /vendor/bin/msm_irqbalance -f /vendor/etc/msm_irqbalance.conf
     class core
     user root
     group root
     disabled
+
+service vendor.netmgrd /vendor/bin/netmgrd
+    class main
+    user root
+    group root wifi wakelock radio inet
+    writepid /dev/cpuset/system-background/tasks
+
+on property:ro.use_data_netmgrd=false
+    # netmgr not supported on specific target
+    stop vendor.netmgrd
+
+service vendor.port-bridge /vendor/bin/port-bridge
+    class main
+    user radio
+    group radio system inet
+    disabled
+    oneshot
+    writepid /dev/cpuset/system-background/tasks
 
 on charger
     setprop persist.sys.usb.config mass_storage

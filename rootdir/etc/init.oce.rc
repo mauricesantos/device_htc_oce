@@ -42,11 +42,8 @@ on fs
     # HTC feature: Support multiple firmware image mount points
     write /sys/module/firmware_class/parameters/fw_path /firmware/image,/firmware/adsp,/firmware/radio,/firmware/venus,/firmware/wsd,/vendor/firmware
 
-    chown root system /mnt/vendor/persist
-    chmod 0771 /mnt/vendor/persist
-    mkdir /mnt/vendor/persist/data 0700 system system
-    mkdir /mnt/vendor/persist/bms 0700 root system
-    restorecon_recursive /mnt/vendor/persist
+# maintain the list of processes name for kernel monitoring usage
+    chown system /sys/process/task_comm_list
 
 on property:sys.boot_completed=1
     # Enable ZRAM on boot_complete
@@ -86,6 +83,14 @@ on init
     mkdir /dev/socket/pdx/system/vr/pose 0775 system system
     mkdir /dev/socket/pdx/system/vr/sensors 0775 system system
 
+    # Support legacy path
+    symlink /sdcard /storage/sdcard0
+
+on late-init
+# HTC USB ++
+    setprop sys.usb.configfs 1
+# HTC USB --
+
 on late-fs
     # boot time fs tune
     write /sys/block/sda/queue/iostats 0
@@ -107,14 +112,47 @@ on post-fs-data
     mkdir /data/fpc_images/verify 0770 system system
     mkdir /data/fpc_images/enroll 0770 system system
     mkdir /data/fpc 0770 system system
-    
+
+    #Create directories for Fingerprint
+    mkdir /data/vendor/misc/qti_fp 0770 system system
+    mkdir /data/vendor/misc/qti_fp/bg_estimation 0770 system system
+    mkdir /data/vendor/misc/qti_fp/calib_test 0770 system system
+    mkdir /data/vendor/misc/qti_fp/database 0770 system system
+
+    # create QDMA dropbox
+    mkdir /data/vendor/qdmastats 0700 system system
+    mkdir /data/vendor/qdma 0770 system system
+
     # Create PERFD deamon related dirs
     setprop ro.min_freq_0 307200
     mkdir /data/vendor/misc/perfd 0755 root system
     chmod 2755 /data/vendor/misc/perfd
+    mkdir /data/misc/perfd 2755 root system
+    mkdir /data/system/perfd 2770 root system
 
     #Create folder of camera
+    mkdir /data/camera 0770 media camera
     mkdir /data/misc/camera 0770 camera camera
+
+    # Create directory for dts
+    mkdir /data/misc/dts 0770 media audio
+
+    # Create directory for DASH
+    mkdir /data/misc/dash 0770 media audio
+
+    # Create directory for DPM
+    mkdir /data/dpm 0771 system system
+    mkdir /data/dpm/fdMgr 0771 system system
+    mkdir /data/dpm/nsrm 0771 system system
+
+    # Create directory for hostapd
+    mkdir /data/hostapd 0770 system wifi
+
+    # Create directory for TZ
+    mkdir /data/misc/qsee 0770 system system
+
+    # Create directory for voiceprint
+    mkdir /data/misc/qvop 0771 system system
 
 on early-boot
     exec u:r:qti_init_shell:s0 -- /vendor/bin/init.htc.fp.sh
@@ -127,7 +165,18 @@ on early-boot
     chown camera camera /sys/class/htc_laser/laser/enable_ps_sensor
 
     # Permission for vibrator amplitude
+    chown system system /sys/devices/virtual/timed_output/vibrator/voltage_level
+    chmod 0664 /sys/devices/virtual/timed_output/vibrator/voltage_level
     chown system system /sys/class/timed_output/vibrator/voltage_level
+    chmod 0664 /sys/class/timed_output/vibrator/voltage_level
+
+    # fastcharge
+    chown system system /sys/kernel/fast_charge/force_fast_charge
+    chmod 0666 /sys/kernel/fast_charge/force_fast_charge
+
+    # headphone gain
+    chown system system /sys/kernel/sound_control/headphone_gain
+    chmod 0666 /sys/kernel/sound_control/headphone_gain
 
     # vendor.health-hal needs to be able to RW
     chown system system /sys/devices/soc/qpnp-fg-17/cycle_counts_bins
@@ -252,6 +301,7 @@ on boot
     chown system graphics /sys/class/graphics/fb1/cec/wr_msg
     chown system graphics /sys/class/graphics/fb1/hdcp/tp
     symlink /sys/dev/graphics/fb1 /sys/devices/virtual/switch/hdmi
+    symlink /dev/graphics/fb1 /dev/graphics/hdmi
 
     # HTC SSD Battery
     chown system system /sys/class/power_supply/battery/full_level_dis_batt_chg
@@ -576,6 +626,8 @@ on boot
     chmod 0660 /sys/class/htc_cir/cir/enable_cir
     chown system system /sys/class/htc_cir/cir/enable_learn
     chmod 0660 /sys/class/htc_cir/cir/enable_learn
+    chown system system /sys/class/htc_cir/cir/enable_uart
+    chmod 0660 /sys/class/htc_cir/cir/enable_uart
 
     # For Flashlight Restriction
     chown system system /sys/camera_led_status/led_hotspot_status
@@ -587,6 +639,7 @@ on boot
     chmod 660 /dev/iio:device1
 
     # Set touch permissions
+    chown system system /sys/android_touch/unlock
     chown system system /sys/android_touch/glove_setting
 
     # Set cap permissions
@@ -594,3 +647,39 @@ on boot
 
     #volume key wake up attribute file permission
     chown media media /sys/keyboard/vol_wakeup
+
+# RIL - BEGIN
+# log level control
+on property:persist.sys.htcdebugflag=1
+    setprop persist.log.tag.QC-NETMGR-LIB V
+    setprop persist.log.tag.RILQ V
+    setprop persist.log.tag.RILJ V
+    setprop persist.log.tag.Diag_Lib V
+
+on property:persist.sys.htcdebugflag=0
+    setprop persist.log.tag.QC-NETMGR-LIB W
+    setprop persist.log.tag.RILQ W
+    setprop persist.log.tag.RILJ W
+    setprop persist.log.tag.Diag_Lib W
+# RIL - END
+
+# log level control
+on property:persist.sys.htcdebugflag=1
+    setprop persist.log.tag.dnsmasq V
+    setprop persist.log.tag.Netd V
+    setprop persist.log.tag.NetdConnector V
+    setprop persist.log.tag.IptablesRestoreController V
+    setprop persist.log.tag.BandwidthController V
+    setprop persist.log.tag.NetUtilsWrapper V
+    setprop persist.log.tag.iptables V
+    setprop persist.log.tag.ip6tables V
+
+on property:persist.sys.htcdebugflag=0
+    setprop persist.log.tag.dnsmasq W
+    setprop persist.log.tag.Netd W
+    setprop persist.log.tag.NetdConnector W
+    setprop persist.log.tag.IptablesRestoreController W
+    setprop persist.log.tag.BandwidthController W
+    setprop persist.log.tag.NetUtilsWrapper W
+    setprop persist.log.tag.iptables W
+    setprop persist.log.tag.ip6tables W
