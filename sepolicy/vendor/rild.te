@@ -1,6 +1,6 @@
-allow rild radio_data_file:dir { rw_dir_perms create_dir_perms };
-allow rild radio_data_file:file { rw_file_perms create_file_perms };
-allow rild vendor_carrier_file:file { ioctl lock };
-
-dontaudit rild unlabeled:dir { search open read remove_name add_name write };
-dontaudit rild unlabeled:file { unlink create getattr ioctl lock open read write };
+allow rild carrier_file:file { getattr lock open read write create unlink };
+allow rild carrier_file:dir { search add_name open read remove_name write };
+allow rild vendor_file:file ioctl;
+allow rild radio_data_file:dir { add_name write };
+allow rild radio_data_file:file { create getattr open read write };
+allow rild proc_qtaguid_stat:file { getattr open read };

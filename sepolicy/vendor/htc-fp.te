@@ -1,0 +1,12 @@
+# HTC fingerprint sensor check service
+type htc-fp, domain;
+type htc-fp_exec, exec_type, file_type, vendor_file_type;
+# Started by init
+init_daemon_domain(htc-fp)
+
+allow htc-fp property_socket:sock_file write;
+allow htc-fp sysfs_fpc:dir search;
+allow htc-fp sysfs_fpc:file { open read };
+allow htc-fp vendor_default_prop:property_service set;
+allow htc-fp vendor_toolbox_exec:file execute_no_trans;
+allow htc-fp init:unix_stream_socket connectto;

@@ -1,4 +1,1 @@
-allow cnd sysfs:file r_file_perms; 
-allow cnd radio:binder { transfer call };
-allow cnd wpa_data_file:dir rw_dir_perms;
-allow cnd wpa_data_file:sock_file { create rw_file_perms setattr unlink };
+allow cnd sysfs:file { open read };

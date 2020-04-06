@@ -1,2 +1,0 @@
-allow surfaceflinger sf_lcd_density_prop:file { getattr open read };
-allow surfaceflinger sysfs_kgsl:lnk_file read;

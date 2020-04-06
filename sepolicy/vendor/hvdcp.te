@@ -1,2 +1,1 @@
-allow hvdcp sysfs:{ file dir } { read open };
-allow hvdcp sysfs:file write;
+allow hvdcp sysfs:file { open read };

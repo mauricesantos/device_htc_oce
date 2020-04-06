@@ -1,1 +1,1 @@
-allow qti sysfs:file r_file_perms; 
+allow qti sysfs:file { open read };

@@ -1,0 +1,2 @@
+allow vendor_pd_mapper sysfs:file { open read };
+allow vendor_pd_mapper vendor_file:dir { open read };

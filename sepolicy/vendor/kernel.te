@@ -1,5 +1,5 @@
-allow kernel sysfs:file rw_file_perms; 
-allow kernel vfat:dir r_dir_perms;
-allow kernel vfat:file r_file_perms;
-
-#allow kernel self:capability dac_override;
+# Allow access to sysfs
+allow kernel init:process noatsecure;
+allow kernel sysfs:file { open read write getattr };
+allow kernel vfat:dir search;
+allow kernel vfat:file open;

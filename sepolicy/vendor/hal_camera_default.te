@@ -1,3 +1,8 @@
-allow hal_camera_default sensors_prop:property_service set; 
-allow hal_camera_default sysfs:file r_file_perms;
-allow hal_camera_default proc_version:file r_file_perms;
+allow hal_camera_default sysfs:file { getattr open read };
+allow hal_camera_default sensors_prop:property_service set;
+allow hal_camera_default proc_version:file { getattr open read };
+allow hal_camera_default apexd_prop:file { getattr open read };
+allow hal_camera_default bg_boot_complete_prop:file { getattr open read };
+allow hal_camera_default device_config_activity_manager_native_boot_prop:file { getattr open read };
+allow hal_camera_default device_config_boot_count_prop:file { getattr open read };
+allow hal_camera_default device_config_input_native_boot_prop:file { getattr open read };
