@@ -3,3 +3,6 @@ allow system_app sysfs_sensors:file { getattr open read write };
 allow system_app sysfs_vibrator:dir search;
 allow system_app sysfs_vibrator:file { getattr open read write };
 allow system_app persist_camera_prop:file { getattr open read };
+allow system_app sysfs_vibeamp:file rw_file_perms;
+allow system_app sysfs_fastcharger:file rw_file_perms;
+allow system_app sysfs_headphone_gain:file rw_file_perms;

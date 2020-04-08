@@ -1,5 +1,4 @@
 /*
-* Copyright (C) 2016 The OmniROM Project
 * Copyright (C) 2020 The Android Ice Cold Project
 *
 * This program is free software: you can redistribute it and/or modify
@@ -32,31 +31,26 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
 
-public class VibratorStrengthPreference extends Preference implements
+public class HeadphoneGainPreference extends Preference implements
         SeekBar.OnSeekBarChangeListener {
 
     private SeekBar mSeekBar;
     private int mOldStrength;
     private int mMinValue;
     private int mMaxValue;
-    private Vibrator mVibrator;
 
     private static final boolean DEBUG = false;
-    private static final String TAG = "VibratorStrengthPreference";
-    private static final String FILE_LEVEL = "/sys/devices/virtual/timed_output/vibrator/voltage_level";
-    private static final long testVibrationPattern[] = {0,250};
-    public static final String SETTINGS_KEY = DeviceSettings.KEY_SETTINGS_PREFIX + DeviceSettings.KEY_VIBSTRENGTH;
-    public static final String DEFAULT_VALUE = "2008";
+    private static final String TAG = "HeadphoneGainPreference";
+    private static final String FILE_LEVEL = "/sys/kernel/sound_control/headphone_gain";
+    public static final String SETTINGS_KEY = DeviceSettings.KEY_SETTINGS_PREFIX + DeviceSettings.KEY_HEADPHONE_GAIN;
+    public static final String DEFAULT_VALUE = "0";
 
-    public VibratorStrengthPreference(Context context, AttributeSet attrs) {
+    public HeadphoneGainPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // from drivers/platform/msm/qpnp-haptic.c
-        // #define QPNP_HAP_VMAX_MIN_MV		116
-        // #define QPNP_HAP_VMAX_MAX_MV		7308
-        mMinValue = 1200;
-        mMaxValue = 3200;
+        // from sound/soc/codecs/wcd9330.c
+        mMinValue = -60;
+        mMaxValue = 20;
 
-        mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         setLayoutResource(R.layout.preference_seek_bar);
     }
 
@@ -77,16 +71,13 @@ public class VibratorStrengthPreference extends Preference implements
 
     public static String getValue(Context context) {
         Log.i(TAG,"reading sysfs file: "+FILE_LEVEL);
-        String val = Utils.getFileValueVibrator(FILE_LEVEL, DEFAULT_VALUE);
+        String val = Utils.getFileValueDual(FILE_LEVEL, DEFAULT_VALUE);
         return val;
     }
 
-    private void setValue(String newValue, boolean withFeedback) {
-        Utils.writeValue(FILE_LEVEL, newValue);
+    private void setValue(String newValue) {
+        Utils.writeValueDual(FILE_LEVEL, newValue);
         Settings.System.putString(getContext().getContentResolver(), SETTINGS_KEY, newValue);
-        if (withFeedback) {
-            mVibrator.vibrate(testVibrationPattern, -1);
-        }
     }
 
     public static void restore(Context context) {
@@ -94,17 +85,17 @@ public class VibratorStrengthPreference extends Preference implements
             return;
         }
         String storedValue = Settings.System.getString(context.getContentResolver(), SETTINGS_KEY);
-	if (DEBUG) Log.d(TAG,"restore value:"+storedValue);
+        if (DEBUG) Log.d(TAG,"restore value:"+storedValue);
         if (storedValue == null) {
             storedValue = DEFAULT_VALUE;
         }
-	if (DEBUG) Log.d(TAG,"restore file:"+FILE_LEVEL);
-        Utils.writeValue(FILE_LEVEL, storedValue);
+        if (DEBUG) Log.d(TAG,"restore file:"+FILE_LEVEL);
+        Utils.writeValueDual(FILE_LEVEL, storedValue);
     }
 
     public void onProgressChanged(SeekBar seekBar, int progress,
             boolean fromTouch) {
-        setValue(String.valueOf(progress + mMinValue), true);
+        setValue(String.valueOf(progress + mMinValue));
     }
 
     public void onStartTrackingTouch(SeekBar seekBar) {

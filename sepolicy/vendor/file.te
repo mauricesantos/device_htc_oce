@@ -3,3 +3,6 @@ type carrier_file, fs_type;
 type sysfs_rmtfs, sysfs_type, fs_type;
 type sysfs_kcal, sysfs_type, fs_type;
 type crashdata_data_file, file_type;
+type sysfs_fastcharger, sysfs_type, fs_type;
+type sysfs_headphone_gain, sysfs_type, fs_type;
+type sysfs_vibeamp, fs_type, sysfs_type;
