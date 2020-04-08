@@ -36,3 +36,4 @@ allow init ion_device:chr_file { open read write ioctl };
 allow init sysfs_fpc:file { open read write };
 allow init firmware_file:filesystem getattr;
 allow init system_server:binder call;
+allow init sysfs_class_leds:lnk_file r_file_perms;

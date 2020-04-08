@@ -2,3 +2,4 @@ allow hal_power_default sysfs_sensors:dir search;
 allow hal_power_default sysfs_sensors:file { open write };
 allow hal_power_default debugfs:file getattr;
 allow hal_power_default qti_debugfs:file { getattr open read };
+allow hal_power_default sysfs_gesture:file rw_file_perms;

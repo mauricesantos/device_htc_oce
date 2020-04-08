@@ -5,3 +5,6 @@ allow priv_app proc_interrupts:file open;
 allow priv_app proc_modules:file { getattr open };
 allow priv_app sysfs_android_usb:file open;
 allow priv_app sysfs:dir open;
+allow priv_app sys_virtual_rmnet:file r_file_perms;
+allow priv_app sys_virtual_net:file r_file_perms;
+allow priv_app sys_virtual_wifi:file r_file_perms;

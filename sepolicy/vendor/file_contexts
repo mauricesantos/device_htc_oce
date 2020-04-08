@@ -5,8 +5,8 @@
 /dev/htc-acoustic                                                                               u:object_r:audio_device:s0
 
 # Block Devices
-/dev/block/platform/soc/624000\.ufshc/by-name/persist                        u:object_r:persist_block_device:s0
-/dev/block/bootdevice/by-name/persist                                         u:object_r:persist_block_device:s0
+/dev/block/platform/soc/624000\.ufshc/by-name/frp                        u:object_r:frp_block_device:s0
+/dev/block/bootdevice/by-name/frp                                         u:object_r:frp_block_device:s0
 
 /dev/block/platform/soc/624000\.ufshc/by-name/carrier                        u:object_r:carrier_block_device:s0
 /dev/block/bootdevice/by-name/carrier                                         u:object_r:carrier_block_device:s0
@@ -14,12 +14,27 @@
 /dev/block/platform/soc/624000\.ufshc/by-name/dsp                        u:object_r:dsp_block_device:s0
 /dev/block/bootdevice/by-name/dsp                                         u:object_r:dsp_block_device:s0
 
+/dev/block/platform/soc/624000\.ufshc/by-name/extra                        u:object_r:metadata_block_device:s0
+/dev/block/bootdevice/by-name/extra                                         u:object_r:metadata_block_device:s0
+
+# Camera
+/sys/android_camera_awb_cal(/.*)?           u:object_r:sysfs_camera_awb_cal:s0
+/sys/android_camera/sensor                  u:object_r:sysfs_camera_sensor:s0
+/sys/android_camera2/sensor                 u:object_r:sysfs_camera_sensor:s0
+
 # Carrier
 /carrier(/.*)? u:object_r:carrier_file:s0
 
 # Debug
 /sys/kernel/debug/rmt_storage(/.*)?                                           u:object_r:qti_debugfs:s0
 /sys/kernel/debug/system_stats(/.*)?   u:object_r:qti_debugfs:s0
+/d/rpm_stats(/.*)?                           u:object_r:qti_debugfs:s0
+
+# Diag
+/dev/htcdiag                                u:object_r:diag_device:s0
+
+# Encryption
+/cache/recovery/uncrypt_file        u:object_r:cache_recovery_file:s0
 
 # Fastcharge
 /sys/kernel/fast_charge/force_fast_charge   u:object_r:sysfs_fastcharger:s0
@@ -38,8 +53,12 @@
 /data/system/users/[0-9]*/fpdata(/.*)?                u:object_r:fingerprintd_data_file:s0
 /system/bin/fp_img_encrypt                      u:object_r:fingerprintd_exec:s0
 
+# Gesture
+/sys/devices/virtual/htc_sensorhub/sensor_hub/gesture_motion    u:object_r:sysfs_gesture:s0
+
 # Hal
 /(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.1-service\.oce    u:object_r:hal_fingerprint_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android.hardware.configstore@1\.1-service       u:object_r:hal_configstore_default_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.light@2\.0-service\.oce    u:object_r:hal_light_default_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.power@1\.2-service\.oce          u:object_r:hal_power_default_exec:s0
 /(vendor|system/vendor)/bin/hw/android\.hardware\.drm@1\.1-service\.clearkey                    u:object_r:hal_drm_clearkey_exec:s0
@@ -48,14 +67,28 @@
 # Headphone Gain
 /sys/kernel/sound_control/headphone_gain u:object_r:sysfs_headphone_gain:s0
 
+# Heaps
+/sys/kernel/debug/ion/heaps/system                             u:object_r:debugfs_heaps_system:s0
+
 # Init
 /(vendor|system/vendor)/bin/init\.htc\.fp\.sh   u:object_r:htc-fp_exec:s0
 /(vendor|system/vendor)/bin/init\.foreground\.sh   u:object_r:foreground_sh_exec:s0
+
+# LEDs
+/sys/class/leds(/.*)?                       u:object_r:sysfs_class_leds:s0
 
 # Nanohub
 /(vendor|system/vendor)/bin/nanoapp_cmd u:object_r:nanoapp_cmd_exec:s0
 /dev/nanohub                                     u:object_r:sensors_device:s0
 /dev/nanohub_comms                               u:object_r:sensors_device:s0
+
+# Net
+/sys/devices/virtual/net/rmnet_ipa[0-9](/.*)?                       u:object_r:sys_virtual_rmnet:s0
+/sys/devices/virtual/net/rmnet_data[0-9](/.*)?                      u:object_r:sys_virtual_rmnet:s0
+/sys/devices/virtual/net/r_rmnet_data[0-9](/.*)?                    u:object_r:sys_virtual_rmnet:s0
+/sys/devices/virtual/net/sit[0-9](/.*)?                             u:object_r:sys_virtual_net:s0
+/sys/devices/virtual/net/lo(/.*)?                                   u:object_r:sys_virtual_net:s0
+/sys/devices/virtual/net/dummy[0-9](/.*)?                           u:object_r:sys_virtual_net:s0
 
 # RIL
 /dev/radio(/.*)?                            u:object_r:radio_data_file:s0
@@ -63,8 +96,15 @@
 /dev/block/bootdevice/by-name/rfg_[0-9]+                                                        u:object_r:modem_efs_partition_device:s0
 /dev/block/platform/soc/624000.ufshc/by-name/rfg_[0-9]+                                                        u:object_r:modem_efs_partition_device:s0
 
+# Sensors
+/sys/bus/iio/devices(/.*)?                                          u:object_r:sysfs_sensors:s0
+/sys/devices/soc/757a000.spi/spi_master/spi6/spi6.0/iio:device0(/.*)?    u:object_r:sysfs_sensors:s0
+
 # Vibrator control
 /sys/devices/virtual/timed_output/vibrator/voltage_level            u:object_r:sysfs_vibeamp:s0
+
+# Wifi
+/sys/devices/virtual/net/wlan0(/.*)?   u:object_r:sys_virtual_wifi:s0
 
 # ZRAM
 /dev/block/zram[0-9]+                                                                           u:object_r:swap_block_device:s0

@@ -1,6 +1,6 @@
 allow rild carrier_file:file { getattr lock open read write create unlink };
 allow rild carrier_file:dir { search add_name open read remove_name write };
 allow rild vendor_file:file ioctl;
-allow rild radio_data_file:dir { add_name write };
+allow rild radio_data_file:dir { open read search add_name write };
 allow rild radio_data_file:file { create getattr open read write };
 allow rild proc_qtaguid_stat:file { getattr open read };
