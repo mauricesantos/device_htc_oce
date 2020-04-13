@@ -2,6 +2,7 @@ allow hal_fingerprint_default sysfs_fpc:dir { open read search };
 allow hal_fingerprint_default sysfs_fpc:file { open read write };
 allow hal_fingerprint_default tee_device:chr_file { ioctl open read write };
 allow hal_fingerprint_default fingerprintd_data_file:dir { search add_name remove_name write };
+allow hal_fingerprint_default fingerprintd_data_file:file { create read write };
 allow hal_fingerprint_default fingerprintd_data_file:sock_file { create unlink };
 allow hal_fingerprint_default input_device:chr_file { ioctl open read write };
 allow hal_fingerprint_default input_device:dir { search open read };

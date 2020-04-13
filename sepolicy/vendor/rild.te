@@ -4,3 +4,5 @@ allow rild vendor_file:file ioctl;
 allow rild radio_data_file:dir { open read search add_name write };
 allow rild radio_data_file:file { create getattr open read write };
 allow rild proc_qtaguid_stat:file { getattr open read };
+allow rild vendor_carrier_file:file { ioctl getattr lock open read };
+allow rild vendor_carrier_file:dir { search add_name open read remove_name };
